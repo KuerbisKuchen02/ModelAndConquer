@@ -12,18 +12,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
@@ -33,13 +23,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  * @generated
  */
 public class GameItemProvider 
-	extends ItemProviderAdapter
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+	extends GenericGameElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -78,6 +62,8 @@ public class GameItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(ModelAndConquerPackage.Literals.GAME__PLAYER);
+			childrenFeatures.add(ModelAndConquerPackage.Literals.GAME__START_AREA);
+			childrenFeatures.add(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS);
 		}
 		return childrenFeatures;
 	}
@@ -114,7 +100,10 @@ public class GameItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_Game_type");
+		String label = ((Game)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Game_type") :
+			getString("_UI_Game_type") + " " + label;
 	}
 
 
@@ -131,6 +120,8 @@ public class GameItemProvider
 
 		switch (notification.getFeatureID(Game.class)) {
 			case ModelAndConquerPackage.GAME__PLAYER:
+			case ModelAndConquerPackage.GAME__START_AREA:
+			case ModelAndConquerPackage.GAME__GAME_ELEMENTS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -152,17 +143,75 @@ public class GameItemProvider
 			(createChildParameter
 				(ModelAndConquerPackage.Literals.GAME__PLAYER,
 				 ModelAndConquerFactory.eINSTANCE.createPlayer()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__START_AREA,
+				 ModelAndConquerFactory.eINSTANCE.createArea()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createGame()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createPlayer()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createMonster()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createArea()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createConnection()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createItem()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createEffect()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createDamageType()));
 	}
 
 	/**
-	 * Return the resource locator for this item provider's resources.
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public ResourceLocator getResourceLocator() {
-		return ModelAndConquerEditPlugin.INSTANCE;
+	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify =
+			childFeature == ModelAndConquerPackage.Literals.GAME__PLAYER ||
+			childFeature == ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS ||
+			childFeature == ModelAndConquerPackage.Literals.GAME__START_AREA;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 }

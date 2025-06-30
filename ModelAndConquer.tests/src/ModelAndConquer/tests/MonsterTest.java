@@ -2,17 +2,18 @@
  */
 package ModelAndConquer.tests;
 
-import ModelAndConquer.Game;
 import ModelAndConquer.ModelAndConquerFactory;
+import ModelAndConquer.Monster;
+
 import junit.textui.TestRunner;
 
 /**
  * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Game</b></em>'.
+ * A test case for the model object '<em><b>Monster</b></em>'.
  * <!-- end-user-doc -->
  * @generated
  */
-public class GameTest extends GenericGameElementTest {
+public class MonsterTest extends EntityTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -20,28 +21,28 @@ public class GameTest extends GenericGameElementTest {
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(GameTest.class);
+		TestRunner.run(MonsterTest.class);
 	}
 
 	/**
-	 * Constructs a new Game test case with the given name.
+	 * Constructs a new Monster test case with the given name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public GameTest(String name) {
+	public MonsterTest(String name) {
 		super(name);
 	}
 
 	/**
-	 * Returns the fixture for this Game test case.
+	 * Returns the fixture for this Monster test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	protected Game getFixture() {
-		return (Game)fixture;
+	protected Monster getFixture() {
+		return (Monster)fixture;
 	}
 
 	/**
@@ -52,7 +53,7 @@ public class GameTest extends GenericGameElementTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(ModelAndConquerFactory.eINSTANCE.createGame());
+		setFixture(ModelAndConquerFactory.eINSTANCE.createMonster());
 	}
 
 	/**
@@ -66,4 +67,4 @@ public class GameTest extends GenericGameElementTest {
 		setFixture(null);
 	}
 
-} //GameTest
+} //MonsterTest

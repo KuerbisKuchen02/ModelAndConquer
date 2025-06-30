@@ -3,29 +3,30 @@
 package ModelAndConquer.provider;
 
 
-import ModelAndConquer.Player;
+import ModelAndConquer.DamageType;
+
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 
 /**
- * This is the item provider adapter for a {@link ModelAndConquer.Player} object.
+ * This is the item provider adapter for a {@link ModelAndConquer.DamageType} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class PlayerItemProvider 
-	extends EntityItemProvider {
+public class DamageTypeItemProvider extends GenericGameElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PlayerItemProvider(AdapterFactory adapterFactory) {
+	public DamageTypeItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -45,14 +46,14 @@ public class PlayerItemProvider
 	}
 
 	/**
-	 * This returns Player.gif.
+	 * This returns DamageType.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Player"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/DamageType"));
 	}
 
 	/**
@@ -63,10 +64,10 @@ public class PlayerItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Player)object).getName();
+		String label = ((DamageType)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Player_type") :
-			getString("_UI_Player_type") + " " + label;
+			getString("_UI_DamageType_type") :
+			getString("_UI_DamageType_type") + " " + label;
 	}
 
 

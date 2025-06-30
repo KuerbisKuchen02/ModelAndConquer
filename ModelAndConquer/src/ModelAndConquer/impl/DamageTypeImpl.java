@@ -2,25 +2,25 @@
  */
 package ModelAndConquer.impl;
 
+import ModelAndConquer.DamageType;
 import ModelAndConquer.ModelAndConquerPackage;
-import ModelAndConquer.Player;
 
 import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Player</b></em>'.
+ * An implementation of the model object '<em><b>Damage Type</b></em>'.
  * <!-- end-user-doc -->
  *
  * @generated
  */
-public class PlayerImpl extends EntityImpl implements Player {
+public class DamageTypeImpl extends GenericGameElementImpl implements DamageType {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PlayerImpl() {
+	protected DamageTypeImpl() {
 		super();
 	}
 
@@ -31,7 +31,7 @@ public class PlayerImpl extends EntityImpl implements Player {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ModelAndConquerPackage.Literals.PLAYER;
+		return ModelAndConquerPackage.Literals.DAMAGE_TYPE;
 	}
 
-} //PlayerImpl
+} //DamageTypeImpl

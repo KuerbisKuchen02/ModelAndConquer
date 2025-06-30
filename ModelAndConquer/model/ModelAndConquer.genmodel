@@ -6,9 +6,62 @@
     operationReflection="true" importOrganizing="true">
   <foreignModel>ModelAndConquer.ecore</foreignModel>
   <genPackages prefix="ModelAndConquer" disposableProviderFactory="true" ecorePackage="ModelAndConquer.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ModelAndConquer.ecore#//Directions">
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//Directions/NORTH"/>
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//Directions/EAST"/>
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//Directions/SOUTH"/>
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//Directions/WEST"/>
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//Directions/UP"/>
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//Directions/DOWN"/>
+    </genEnums>
     <genClasses ecoreClass="ModelAndConquer.ecore#//Game">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Game/player"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Game/startArea"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Game/gameElements"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//GenericGameElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//GenericGameElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//GenericGameElement/description"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//Entity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Entity/currHealth"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Entity/maxHealth"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Entity/inventory"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Entity/effects"/>
     </genClasses>
     <genClasses ecoreClass="ModelAndConquer.ecore#//Player"/>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//Monster">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/weakness"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/resistance"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/onKillEffect"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/onSpawnEffect"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/onHitEffect"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/onDamageEffect"/>
+    </genClasses>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//Area">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Area/connections"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Area/monster"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Area/items"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Area/onEnterEffect"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Area/asciiArt"/>
+    </genClasses>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//Connection">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Connection/onTraverseEffect"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Connection/unlockedWith"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Connection/isLocked"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Connection/areas"/>
+    </genClasses>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//Item">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Item/damage"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Item/damageType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Item/consumable"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Item/onDropEffect"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Item/onPickupEffect"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Item/onUseEffect"/>
+    </genClasses>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//Effect">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Effect/duration"/>
+    </genClasses>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//DamageType"/>
   </genPackages>
 </genmodel:GenModel>

@@ -1,9 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ModelAndConquer" nsURI="http://zdh.thm.de/modelandconquer" nsPrefix="conquer">
-  <eClassifiers xsi:type="ecore:EClass" name="Game">
+  <eClassifiers xsi:type="ecore:EClass" name="Game" eSuperTypes="#//GenericGameElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="player" eType="#//Player"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startArea" lowerBound="1"
+        eType="#//Area" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gameElements" lowerBound="1"
+        upperBound="-1" eType="#//GenericGameElement" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Player"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericGameElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" abstract="true" eSuperTypes="#//GenericGameElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currHealth" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxHealth" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inventory" upperBound="-1"
+        eType="#//Item"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="effects" upperBound="-1"
+        eType="#//Effect"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Player" eSuperTypes="#//Entity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Monster" eSuperTypes="#//Entity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="weakness" upperBound="-1"
+        eType="#//DamageType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resistance" upperBound="-1"
+        eType="#//DamageType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onKillEffect" upperBound="-1"
+        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onSpawnEffect" upperBound="-1"
+        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onHitEffect" upperBound="-1"
+        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onDamageEffect" upperBound="-1"
+        eType="#//Effect"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Area" eSuperTypes="#//GenericGameElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="6"
+        eType="#//Connection" eOpposite="#//Connection/areas"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="monster" upperBound="-1"
+        eType="#//Monster"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
+        eType="#//Item"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onEnterEffect" upperBound="-1"
+        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="asciiArt" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connection" eSuperTypes="#//GenericGameElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onTraverseEffect" upperBound="-1"
+        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unlockedWith" upperBound="-1"
+        eType="#//Item"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isLocked" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="areas" lowerBound="2" upperBound="-1"
+        eType="#//Area" eOpposite="#//Area/connections"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Item" eSuperTypes="#//GenericGameElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="damage" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="damageType" lowerBound="1"
+        upperBound="-1" eType="#//DamageType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="consumable" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onDropEffect" upperBound="-1"
+        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onPickupEffect" upperBound="-1"
+        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onUseEffect" upperBound="-1"
+        eType="#//Effect"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Effect" eSuperTypes="#//GenericGameElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DamageType" eSuperTypes="#//GenericGameElement"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="Directions">
+    <eLiterals name="NORTH"/>
+    <eLiterals name="EAST" value="1"/>
+    <eLiterals name="SOUTH" value="2"/>
+    <eLiterals name="WEST" value="3"/>
+    <eLiterals name="UP" value="4"/>
+    <eLiterals name="DOWN" value="5"/>
+  </eClassifiers>
 </ecore:EPackage>

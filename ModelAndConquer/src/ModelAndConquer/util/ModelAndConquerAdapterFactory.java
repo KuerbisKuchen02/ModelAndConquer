@@ -72,8 +72,40 @@ public class ModelAndConquerAdapterFactory extends AdapterFactoryImpl {
 				return createGameAdapter();
 			}
 			@Override
+			public Adapter caseGenericGameElement(GenericGameElement object) {
+				return createGenericGameElementAdapter();
+			}
+			@Override
+			public Adapter caseEntity(Entity object) {
+				return createEntityAdapter();
+			}
+			@Override
 			public Adapter casePlayer(Player object) {
 				return createPlayerAdapter();
+			}
+			@Override
+			public Adapter caseMonster(Monster object) {
+				return createMonsterAdapter();
+			}
+			@Override
+			public Adapter caseArea(Area object) {
+				return createAreaAdapter();
+			}
+			@Override
+			public Adapter caseConnection(Connection object) {
+				return createConnectionAdapter();
+			}
+			@Override
+			public Adapter caseItem(Item object) {
+				return createItemAdapter();
+			}
+			@Override
+			public Adapter caseEffect(Effect object) {
+				return createEffectAdapter();
+			}
+			@Override
+			public Adapter caseDamageType(DamageType object) {
+				return createDamageTypeAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -110,6 +142,34 @@ public class ModelAndConquerAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link ModelAndConquer.GenericGameElement <em>Generic Game Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ModelAndConquer.GenericGameElement
+	 * @generated
+	 */
+	public Adapter createGenericGameElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ModelAndConquer.Entity <em>Entity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ModelAndConquer.Entity
+	 * @generated
+	 */
+	public Adapter createEntityAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link ModelAndConquer.Player <em>Player</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -120,6 +180,90 @@ public class ModelAndConquerAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPlayerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ModelAndConquer.Monster <em>Monster</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ModelAndConquer.Monster
+	 * @generated
+	 */
+	public Adapter createMonsterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ModelAndConquer.Area <em>Area</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ModelAndConquer.Area
+	 * @generated
+	 */
+	public Adapter createAreaAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ModelAndConquer.Connection <em>Connection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ModelAndConquer.Connection
+	 * @generated
+	 */
+	public Adapter createConnectionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ModelAndConquer.Item <em>Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ModelAndConquer.Item
+	 * @generated
+	 */
+	public Adapter createItemAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ModelAndConquer.Effect <em>Effect</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ModelAndConquer.Effect
+	 * @generated
+	 */
+	public Adapter createEffectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ModelAndConquer.DamageType <em>Damage Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ModelAndConquer.DamageType
+	 * @generated
+	 */
+	public Adapter createDamageTypeAdapter() {
 		return null;
 	}
 

@@ -3,29 +3,34 @@
 package ModelAndConquer.provider;
 
 
-import ModelAndConquer.Player;
+import ModelAndConquer.Effect;
+import ModelAndConquer.ModelAndConquerPackage;
+
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link ModelAndConquer.Player} object.
+ * This is the item provider adapter for a {@link ModelAndConquer.Effect} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class PlayerItemProvider 
-	extends EntityItemProvider {
+public class EffectItemProvider extends GenericGameElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PlayerItemProvider(AdapterFactory adapterFactory) {
+	public EffectItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -40,19 +45,42 @@ public class PlayerItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addDurationPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This returns Player.gif.
+	 * This adds a property descriptor for the Duration feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDurationPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Effect_duration_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Effect_duration_feature", "_UI_Effect_type"),
+				 ModelAndConquerPackage.Literals.EFFECT__DURATION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns Effect.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Player"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Effect"));
 	}
 
 	/**
@@ -63,10 +91,10 @@ public class PlayerItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Player)object).getName();
+		String label = ((Effect)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Player_type") :
-			getString("_UI_Player_type") + " " + label;
+			getString("_UI_Effect_type") :
+			getString("_UI_Effect_type") + " " + label;
 	}
 
 
@@ -80,6 +108,12 @@ public class PlayerItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(Effect.class)) {
+			case ModelAndConquerPackage.EFFECT__DURATION:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 

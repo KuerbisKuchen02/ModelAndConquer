@@ -118,6 +118,144 @@ public class ModelAndConquerItemProviderAdapterFactory extends ModelAndConquerAd
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.Monster} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MonsterItemProvider monsterItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.Monster}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMonsterAdapter() {
+		if (monsterItemProvider == null) {
+			monsterItemProvider = new MonsterItemProvider(this);
+		}
+
+		return monsterItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.Area} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected AreaItemProvider areaItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.Area}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createAreaAdapter() {
+		if (areaItemProvider == null) {
+			areaItemProvider = new AreaItemProvider(this);
+		}
+
+		return areaItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.Connection} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ConnectionItemProvider connectionItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.Connection}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createConnectionAdapter() {
+		if (connectionItemProvider == null) {
+			connectionItemProvider = new ConnectionItemProvider(this);
+		}
+
+		return connectionItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.Item} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ItemItemProvider itemItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.Item}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createItemAdapter() {
+		if (itemItemProvider == null) {
+			itemItemProvider = new ItemItemProvider(this);
+		}
+
+		return itemItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.Effect} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EffectItemProvider effectItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.Effect}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createEffectAdapter() {
+		if (effectItemProvider == null) {
+			effectItemProvider = new EffectItemProvider(this);
+		}
+
+		return effectItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.DamageType} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected DamageTypeItemProvider damageTypeItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.DamageType}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createDamageTypeAdapter() {
+		if (damageTypeItemProvider == null) {
+			damageTypeItemProvider = new DamageTypeItemProvider(this);
+		}
+
+		return damageTypeItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -224,6 +362,12 @@ public class ModelAndConquerItemProviderAdapterFactory extends ModelAndConquerAd
 	public void dispose() {
 		if (gameItemProvider != null) gameItemProvider.dispose();
 		if (playerItemProvider != null) playerItemProvider.dispose();
+		if (monsterItemProvider != null) monsterItemProvider.dispose();
+		if (areaItemProvider != null) areaItemProvider.dispose();
+		if (connectionItemProvider != null) connectionItemProvider.dispose();
+		if (itemItemProvider != null) itemItemProvider.dispose();
+		if (effectItemProvider != null) effectItemProvider.dispose();
+		if (damageTypeItemProvider != null) damageTypeItemProvider.dispose();
 	}
 
 }
