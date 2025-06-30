@@ -1,0 +1,4 @@
+/.metadata/
+.DS_Store
+ModelAndConquer*/bin
+ModelAndConquer.editor/xtend-gen/commands/.*
