@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated ModelAndConquer -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="ModelAndConquer.presentation.ModelAndConquerModelWizardID"
+            name="%_UI_ModelAndConquerModelWizard_label"
+            class="ModelAndConquer.presentation.ModelAndConquerModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ModelAndConquerModelFile.gif">
+         <description>%_UI_ModelAndConquerModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated ModelAndConquer -->
+      <editor
+            id="ModelAndConquer.presentation.ModelAndConquerEditorID"
+            name="%_UI_ModelAndConquerEditor_label"
+            icon="icons/full/obj16/ModelAndConquerModelFile.gif"
+            extensions="modelandconquer"
+            class="ModelAndConquer.presentation.ModelAndConquerEditor"
+            contributorClass="ModelAndConquer.presentation.ModelAndConquerActionBarContributor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:ModelAndConquer.presentation.ModelAndConquerEditorID?before=additions">
+         <command
+               commandId="ModelAndConquer.editor.GeneratorStarterID"
+               label="Start Generator"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="commands.GeneratorHandler"
+            commandId="ModelAndConquer.editor.GeneratorStarterID">
+         <enabledWhen>
+            <iterate
+                  ifEmpty="false">
+               <instanceof
+                     value="ModelAndConquer.Game">
+               </instanceof>
+            </iterate>
+         </enabledWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="ModelAndConquer.editor.GeneratorStarterID"
+            name="GeneratorStarter">
+      </command>
+   </extension>
+</plugin>
