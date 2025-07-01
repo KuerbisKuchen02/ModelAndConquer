@@ -4,6 +4,7 @@ package ModelAndConquer.tests;
 
 import ModelAndConquer.ModelAndConquerFactory;
 import ModelAndConquer.Player;
+
 import junit.textui.TestRunner;
 
 /**

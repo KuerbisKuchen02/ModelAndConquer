@@ -10,7 +10,7 @@ import ModelAndConquer.Entity;
  * <!-- end-user-doc -->
  * @generated
  */
-public abstract class EntityTest extends GenericGameElementTest {
+public abstract class EntityTest extends GenericElementTest {
 
 	/**
 	 * Constructs a new Entity test case with the given name.

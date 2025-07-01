@@ -3,7 +3,7 @@
 package ModelAndConquer.provider;
 
 
-import ModelAndConquer.Connection;
+import ModelAndConquer.HealthEffect;
 import ModelAndConquer.ModelAndConquerPackage;
 
 import java.util.Collection;
@@ -18,19 +18,19 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link ModelAndConquer.Connection} object.
+ * This is the item provider adapter for a {@link ModelAndConquer.HealthEffect} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ConnectionItemProvider extends GenericElementItemProvider {
+public class HealthEffectItemProvider extends EffectItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ConnectionItemProvider(AdapterFactory adapterFactory) {
+	public HealthEffectItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -45,111 +45,65 @@ public class ConnectionItemProvider extends GenericElementItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addOnTraverseEffectPropertyDescriptor(object);
-			addUnlockedWithPropertyDescriptor(object);
-			addIsLockedPropertyDescriptor(object);
-			addAreasPropertyDescriptor(object);
+			addAmountPropertyDescriptor(object);
+			addDurationPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the On Traverse Effect feature.
+	 * This adds a property descriptor for the Amount feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addOnTraverseEffectPropertyDescriptor(Object object) {
+	protected void addAmountPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Connection_onTraverseEffect_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Connection_onTraverseEffect_feature", "_UI_Connection_type"),
-				 ModelAndConquerPackage.Literals.CONNECTION__ON_TRAVERSE_EFFECT,
+				 getString("_UI_HealthEffect_amount_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_HealthEffect_amount_feature", "_UI_HealthEffect_type"),
+				 ModelAndConquerPackage.Literals.HEALTH_EFFECT__AMOUNT,
 				 true,
 				 false,
-				 true,
-				 null,
+				 false,
+				 ItemPropertyDescriptor.REAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Unlocked With feature.
+	 * This adds a property descriptor for the Duration feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addUnlockedWithPropertyDescriptor(Object object) {
+	protected void addDurationPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Connection_unlockedWith_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Connection_unlockedWith_feature", "_UI_Connection_type"),
-				 ModelAndConquerPackage.Literals.CONNECTION__UNLOCKED_WITH,
+				 getString("_UI_HealthEffect_duration_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_HealthEffect_duration_feature", "_UI_HealthEffect_type"),
+				 ModelAndConquerPackage.Literals.HEALTH_EFFECT__DURATION,
 				 true,
 				 false,
-				 true,
-				 null,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Is Locked feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addIsLockedPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Connection_isLocked_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Connection_isLocked_feature", "_UI_Connection_type"),
-				 ModelAndConquerPackage.Literals.CONNECTION__IS_LOCKED,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Areas feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addAreasPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Connection_areas_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Connection_areas_feature", "_UI_Connection_type"),
-				 ModelAndConquerPackage.Literals.CONNECTION__AREAS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns Connection.gif.
+	 * This returns HealthEffect.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Connection"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/HealthEffect"));
 	}
 
 	/**
@@ -160,10 +114,10 @@ public class ConnectionItemProvider extends GenericElementItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Connection)object).getName();
+		String label = ((HealthEffect)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Connection_type") :
-			getString("_UI_Connection_type") + " " + label;
+			getString("_UI_HealthEffect_type") :
+			getString("_UI_HealthEffect_type") + " " + label;
 	}
 
 
@@ -178,8 +132,9 @@ public class ConnectionItemProvider extends GenericElementItemProvider {
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Connection.class)) {
-			case ModelAndConquerPackage.CONNECTION__IS_LOCKED:
+		switch (notification.getFeatureID(HealthEffect.class)) {
+			case ModelAndConquerPackage.HEALTH_EFFECT__AMOUNT:
+			case ModelAndConquerPackage.HEALTH_EFFECT__DURATION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

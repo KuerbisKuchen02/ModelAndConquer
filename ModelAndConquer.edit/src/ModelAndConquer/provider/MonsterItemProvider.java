@@ -43,58 +43,13 @@ public class MonsterItemProvider extends EntityItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addWeaknessPropertyDescriptor(object);
-			addResistancePropertyDescriptor(object);
 			addOnKillEffectPropertyDescriptor(object);
 			addOnSpawnEffectPropertyDescriptor(object);
 			addOnHitEffectPropertyDescriptor(object);
 			addOnDamageEffectPropertyDescriptor(object);
+			addDamageTypePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Weakness feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addWeaknessPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Monster_weakness_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Monster_weakness_feature", "_UI_Monster_type"),
-				 ModelAndConquerPackage.Literals.MONSTER__WEAKNESS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Resistance feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addResistancePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Monster_resistance_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Monster_resistance_feature", "_UI_Monster_type"),
-				 ModelAndConquerPackage.Literals.MONSTER__RESISTANCE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
 	}
 
 	/**
@@ -177,6 +132,28 @@ public class MonsterItemProvider extends EntityItemProvider {
 				 getString("_UI_Monster_onDamageEffect_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Monster_onDamageEffect_feature", "_UI_Monster_type"),
 				 ModelAndConquerPackage.Literals.MONSTER__ON_DAMAGE_EFFECT,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Damage Type feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDamageTypePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Monster_damageType_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Monster_damageType_feature", "_UI_Monster_type"),
+				 ModelAndConquerPackage.Literals.MONSTER__DAMAGE_TYPE,
 				 true,
 				 false,
 				 true,

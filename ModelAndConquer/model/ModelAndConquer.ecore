@@ -74,10 +74,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="onUseEffect" upperBound="-1"
         eType="#//Effect"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Effect" eSuperTypes="#//GenericElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Effect" eSuperTypes="#//GenericElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="DamageType" eSuperTypes="#//GenericElement"/>
   <eClassifiers xsi:type="ecore:EEnum" name="Directions">
     <eLiterals name="NORTH"/>
@@ -102,7 +99,8 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DamageModificatorEffect" eSuperTypes="#//Effect">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="damageModificator" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="damageModificator" lowerBound="1"
+        eType="#//DamageModificator"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SpawnEffect" eSuperTypes="#//Effect">
     <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" eType="#//Area"/>

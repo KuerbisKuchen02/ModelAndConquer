@@ -12,7 +12,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
@@ -22,8 +24,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  * <!-- end-user-doc -->
  * @generated
  */
-public class GameItemProvider 
-	extends GenericGameElementItemProvider {
+public class GameItemProvider extends GenericElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -188,6 +189,31 @@ public class GameItemProvider
 			(createChildParameter
 				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
 				 ModelAndConquerFactory.eINSTANCE.createDamageType()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createDamageModificator()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createEndGameEffect()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createHealthEffect()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createDamageModificatorEffect()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ModelAndConquerPackage.Literals.GAME__GAME_ELEMENTS,
+				 ModelAndConquerFactory.eINSTANCE.createSpawnEffect()));
 	}
 
 	/**

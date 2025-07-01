@@ -3,7 +3,8 @@
 package ModelAndConquer.provider;
 
 
-import ModelAndConquer.Effect;
+import ModelAndConquer.ModelAndConquerPackage;
+import ModelAndConquer.SpawnEffect;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,22 +12,23 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 
 /**
- * This is the item provider adapter for a {@link ModelAndConquer.Effect} object.
+ * This is the item provider adapter for a {@link ModelAndConquer.SpawnEffect} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class EffectItemProvider extends GenericElementItemProvider {
+public class SpawnEffectItemProvider extends EffectItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EffectItemProvider(AdapterFactory adapterFactory) {
+	public SpawnEffectItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -41,19 +43,65 @@ public class EffectItemProvider extends GenericElementItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addAreaPropertyDescriptor(object);
+			addMonsterPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This returns Effect.gif.
+	 * This adds a property descriptor for the Area feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addAreaPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SpawnEffect_area_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SpawnEffect_area_feature", "_UI_SpawnEffect_type"),
+				 ModelAndConquerPackage.Literals.SPAWN_EFFECT__AREA,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Monster feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMonsterPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SpawnEffect_monster_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SpawnEffect_monster_feature", "_UI_SpawnEffect_type"),
+				 ModelAndConquerPackage.Literals.SPAWN_EFFECT__MONSTER,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns SpawnEffect.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Effect"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/SpawnEffect"));
 	}
 
 	/**
@@ -64,10 +112,10 @@ public class EffectItemProvider extends GenericElementItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Effect)object).getName();
+		String label = ((SpawnEffect)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Effect_type") :
-			getString("_UI_Effect_type") + " " + label;
+			getString("_UI_SpawnEffect_type") :
+			getString("_UI_SpawnEffect_type") + " " + label;
 	}
 
 

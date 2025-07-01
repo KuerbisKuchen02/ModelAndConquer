@@ -13,7 +13,7 @@ import junit.textui.TestRunner;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ItemTest extends GenericGameElementTest {
+public class ItemTest extends GenericElementTest {
 
 	/**
 	 * <!-- begin-user-doc -->

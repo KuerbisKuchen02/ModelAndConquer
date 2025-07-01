@@ -256,6 +256,144 @@ public class ModelAndConquerItemProviderAdapterFactory extends ModelAndConquerAd
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.EntityEffect} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EntityEffectItemProvider entityEffectItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.EntityEffect}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createEntityEffectAdapter() {
+		if (entityEffectItemProvider == null) {
+			entityEffectItemProvider = new EntityEffectItemProvider(this);
+		}
+
+		return entityEffectItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.DamageModificator} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected DamageModificatorItemProvider damageModificatorItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.DamageModificator}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createDamageModificatorAdapter() {
+		if (damageModificatorItemProvider == null) {
+			damageModificatorItemProvider = new DamageModificatorItemProvider(this);
+		}
+
+		return damageModificatorItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.EndGameEffect} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EndGameEffectItemProvider endGameEffectItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.EndGameEffect}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createEndGameEffectAdapter() {
+		if (endGameEffectItemProvider == null) {
+			endGameEffectItemProvider = new EndGameEffectItemProvider(this);
+		}
+
+		return endGameEffectItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.HealthEffect} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected HealthEffectItemProvider healthEffectItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.HealthEffect}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createHealthEffectAdapter() {
+		if (healthEffectItemProvider == null) {
+			healthEffectItemProvider = new HealthEffectItemProvider(this);
+		}
+
+		return healthEffectItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.DamageModificatorEffect} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected DamageModificatorEffectItemProvider damageModificatorEffectItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.DamageModificatorEffect}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createDamageModificatorEffectAdapter() {
+		if (damageModificatorEffectItemProvider == null) {
+			damageModificatorEffectItemProvider = new DamageModificatorEffectItemProvider(this);
+		}
+
+		return damageModificatorEffectItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link ModelAndConquer.SpawnEffect} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SpawnEffectItemProvider spawnEffectItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link ModelAndConquer.SpawnEffect}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createSpawnEffectAdapter() {
+		if (spawnEffectItemProvider == null) {
+			spawnEffectItemProvider = new SpawnEffectItemProvider(this);
+		}
+
+		return spawnEffectItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -368,6 +506,12 @@ public class ModelAndConquerItemProviderAdapterFactory extends ModelAndConquerAd
 		if (itemItemProvider != null) itemItemProvider.dispose();
 		if (effectItemProvider != null) effectItemProvider.dispose();
 		if (damageTypeItemProvider != null) damageTypeItemProvider.dispose();
+		if (entityEffectItemProvider != null) entityEffectItemProvider.dispose();
+		if (damageModificatorItemProvider != null) damageModificatorItemProvider.dispose();
+		if (endGameEffectItemProvider != null) endGameEffectItemProvider.dispose();
+		if (healthEffectItemProvider != null) healthEffectItemProvider.dispose();
+		if (damageModificatorEffectItemProvider != null) damageModificatorEffectItemProvider.dispose();
+		if (spawnEffectItemProvider != null) spawnEffectItemProvider.dispose();
 	}
 
 }

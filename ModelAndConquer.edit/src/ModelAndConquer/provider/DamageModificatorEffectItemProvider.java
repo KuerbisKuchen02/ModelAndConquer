@@ -3,7 +3,8 @@
 package ModelAndConquer.provider;
 
 
-import ModelAndConquer.Effect;
+import ModelAndConquer.DamageModificatorEffect;
+import ModelAndConquer.ModelAndConquerPackage;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,22 +12,23 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 
 /**
- * This is the item provider adapter for a {@link ModelAndConquer.Effect} object.
+ * This is the item provider adapter for a {@link ModelAndConquer.DamageModificatorEffect} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class EffectItemProvider extends GenericElementItemProvider {
+public class DamageModificatorEffectItemProvider extends EffectItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EffectItemProvider(AdapterFactory adapterFactory) {
+	public DamageModificatorEffectItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -41,19 +43,42 @@ public class EffectItemProvider extends GenericElementItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addDamageModificatorPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This returns Effect.gif.
+	 * This adds a property descriptor for the Damage Modificator feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDamageModificatorPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_DamageModificatorEffect_damageModificator_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_DamageModificatorEffect_damageModificator_feature", "_UI_DamageModificatorEffect_type"),
+				 ModelAndConquerPackage.Literals.DAMAGE_MODIFICATOR_EFFECT__DAMAGE_MODIFICATOR,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns DamageModificatorEffect.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Effect"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/DamageModificatorEffect"));
 	}
 
 	/**
@@ -64,10 +89,10 @@ public class EffectItemProvider extends GenericElementItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Effect)object).getName();
+		String label = ((DamageModificatorEffect)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Effect_type") :
-			getString("_UI_Effect_type") + " " + label;
+			getString("_UI_DamageModificatorEffect_type") :
+			getString("_UI_DamageModificatorEffect_type") + " " + label;
 	}
 
 

@@ -2,18 +2,18 @@
  */
 package ModelAndConquer.tests;
 
-import ModelAndConquer.DamageType;
+import ModelAndConquer.DamageModificatorEffect;
 import ModelAndConquer.ModelAndConquerFactory;
 
 import junit.textui.TestRunner;
 
 /**
  * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Damage Type</b></em>'.
+ * A test case for the model object '<em><b>Damage Modificator Effect</b></em>'.
  * <!-- end-user-doc -->
  * @generated
  */
-public class DamageTypeTest extends GenericElementTest {
+public class DamageModificatorEffectTest extends EffectTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -21,28 +21,28 @@ public class DamageTypeTest extends GenericElementTest {
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(DamageTypeTest.class);
+		TestRunner.run(DamageModificatorEffectTest.class);
 	}
 
 	/**
-	 * Constructs a new Damage Type test case with the given name.
+	 * Constructs a new Damage Modificator Effect test case with the given name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public DamageTypeTest(String name) {
+	public DamageModificatorEffectTest(String name) {
 		super(name);
 	}
 
 	/**
-	 * Returns the fixture for this Damage Type test case.
+	 * Returns the fixture for this Damage Modificator Effect test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	protected DamageType getFixture() {
-		return (DamageType)fixture;
+	protected DamageModificatorEffect getFixture() {
+		return (DamageModificatorEffect)fixture;
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class DamageTypeTest extends GenericElementTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(ModelAndConquerFactory.eINSTANCE.createDamageType());
+		setFixture(ModelAndConquerFactory.eINSTANCE.createDamageModificatorEffect());
 	}
 
 	/**
@@ -67,4 +67,4 @@ public class DamageTypeTest extends GenericElementTest {
 		setFixture(null);
 	}
 
-} //DamageTypeTest
+} //DamageModificatorEffectTest

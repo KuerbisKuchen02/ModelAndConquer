@@ -4,6 +4,7 @@ package ModelAndConquer.tests;
 
 import ModelAndConquer.Game;
 import ModelAndConquer.ModelAndConquerFactory;
+
 import junit.textui.TestRunner;
 
 /**
@@ -12,7 +13,7 @@ import junit.textui.TestRunner;
  * <!-- end-user-doc -->
  * @generated
  */
-public class GameTest extends GenericGameElementTest {
+public class GameTest extends GenericElementTest {
 
 	/**
 	 * <!-- begin-user-doc -->

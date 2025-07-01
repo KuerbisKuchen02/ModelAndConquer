@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  * <!-- end-user-doc -->
  * @generated
  */
-public class EntityItemProvider extends GenericGameElementItemProvider {
+public class EntityItemProvider extends GenericElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -49,6 +49,7 @@ public class EntityItemProvider extends GenericGameElementItemProvider {
 			addMaxHealthPropertyDescriptor(object);
 			addInventoryPropertyDescriptor(object);
 			addEffectsPropertyDescriptor(object);
+			addDamageModificatorsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -133,6 +134,28 @@ public class EntityItemProvider extends GenericGameElementItemProvider {
 				 getString("_UI_Entity_effects_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Entity_effects_feature", "_UI_Entity_type"),
 				 ModelAndConquerPackage.Literals.ENTITY__EFFECTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Damage Modificators feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDamageModificatorsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Entity_damageModificators_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Entity_damageModificators_feature", "_UI_Entity_type"),
+				 ModelAndConquerPackage.Literals.ENTITY__DAMAGE_MODIFICATORS,
 				 true,
 				 false,
 				 true,

@@ -19,24 +19,24 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Game/startArea"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Game/gameElements"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//GenericGameElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//GenericGameElement/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//GenericGameElement/description"/>
+    <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//GenericElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//GenericElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//GenericElement/description"/>
     </genClasses>
     <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//Entity">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Entity/currHealth"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Entity/maxHealth"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Entity/inventory"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Entity/effects"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Entity/damageModificators"/>
     </genClasses>
     <genClasses ecoreClass="ModelAndConquer.ecore#//Player"/>
     <genClasses ecoreClass="ModelAndConquer.ecore#//Monster">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/weakness"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/resistance"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/onKillEffect"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/onSpawnEffect"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/onHitEffect"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/onDamageEffect"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/damageType"/>
     </genClasses>
     <genClasses ecoreClass="ModelAndConquer.ecore#//Area">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Area/connections"/>
@@ -59,9 +59,24 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Item/onPickupEffect"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Item/onUseEffect"/>
     </genClasses>
-    <genClasses ecoreClass="ModelAndConquer.ecore#//Effect">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Effect/duration"/>
-    </genClasses>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//Effect"/>
     <genClasses ecoreClass="ModelAndConquer.ecore#//DamageType"/>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//EntityEffect"/>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//DamageModificator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//DamageModificator/multiplikator"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//DamageModificator/damageType"/>
+    </genClasses>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//EndGameEffect"/>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//HealthEffect">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//HealthEffect/amount"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//HealthEffect/duration"/>
+    </genClasses>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//DamageModificatorEffect">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//DamageModificatorEffect/damageModificator"/>
+    </genClasses>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//SpawnEffect">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//SpawnEffect/area"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//SpawnEffect/monster"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

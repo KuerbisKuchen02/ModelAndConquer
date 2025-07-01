@@ -3,7 +3,7 @@
 package ModelAndConquer.provider;
 
 
-import ModelAndConquer.Effect;
+import ModelAndConquer.EndGameEffect;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,19 +14,19 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 
 /**
- * This is the item provider adapter for a {@link ModelAndConquer.Effect} object.
+ * This is the item provider adapter for a {@link ModelAndConquer.EndGameEffect} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class EffectItemProvider extends GenericElementItemProvider {
+public class EndGameEffectItemProvider extends EffectItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EffectItemProvider(AdapterFactory adapterFactory) {
+	public EndGameEffectItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -46,14 +46,14 @@ public class EffectItemProvider extends GenericElementItemProvider {
 	}
 
 	/**
-	 * This returns Effect.gif.
+	 * This returns EndGameEffect.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Effect"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/EndGameEffect"));
 	}
 
 	/**
@@ -64,10 +64,10 @@ public class EffectItemProvider extends GenericElementItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Effect)object).getName();
+		String label = ((EndGameEffect)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Effect_type") :
-			getString("_UI_Effect_type") + " " + label;
+			getString("_UI_EndGameEffect_type") :
+			getString("_UI_EndGameEffect_type") + " " + label;
 	}
 
 
