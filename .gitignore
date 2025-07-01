@@ -3,4 +3,4 @@
 ModelAndConquer*/bin
 ModelAndConquer*/src
 ModelAndConquer.editor/xtend-gen/commands/.*
-
+!ModelAndConquer.editor/src
