@@ -2,7 +2,7 @@ package models._static;
 
 import java.util.ArrayList;
 
-public class Player extends Entity {
+public class Player extends Entity implements Healable {
     private Area position;
     private static Player player;
 
@@ -23,6 +23,11 @@ public class Player extends Entity {
     @Override
     public String toString() {
         return super.toString() + "You are in the area: " + position.getName();
+    }
+
+    public void heal(double amount){
+        this.health += amount;
+        if(this.health > this.maxHealth) this.health = this.maxHealth;
     }
 
 }

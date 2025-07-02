@@ -4,7 +4,7 @@ import models.generated.DamageType;
 
 import java.util.ArrayList;
 
-public class Monster extends Entity {
+public class Monster extends Entity implements Healable, NonPlayEntity{
     private DamageType damageType;
     private Item[] dropItems;
     private Effect onSpawn;
@@ -48,6 +48,11 @@ public class Monster extends Entity {
         this.onHit = onHit;
         this.onDamage = onDamage;
         this.onKill = onKill;
+    }
+
+    public void heal(double amount){
+        this.health += amount;
+        if(this.health > this.maxHealth) this.health = this.maxHealth;
     }
 
 }
