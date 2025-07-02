@@ -1,12 +1,12 @@
 package models._static;
 
-import models.generated.DamageType;
+import models.generated.EDamageType;
 
 import java.util.ArrayList;
 
 public class Entity extends GenericElement {
-    private double health;
-    private double maxHealth;
+    protected double health;
+    protected double maxHealth;
     private ArrayList<Item> inventory;
     private Effect[] Effects;
     private ArrayList<DamageModificator> damageModificators;
@@ -32,7 +32,7 @@ public class Entity extends GenericElement {
      * @param damage base amount of damage
      * @param damageType type of the dealt damage
      */
-    public void takeDamage(double damage, DamageType damageType) {
+    public void takeDamage(double damage, EDamageType damageType) {
         double endDamage = damage;
 
         // Calculate damage modifications

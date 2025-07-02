@@ -1,6 +1,6 @@
 package models._static;
 
-public enum Direction {
+public enum EDirection {
     NORTH(0),
     EAST(1),
     SOUTH(2),
@@ -10,7 +10,7 @@ public enum Direction {
 
     private final int value;
 
-    Direction(int value) {
+    EDirection(int value) {
         this.value = value;
     }
 

@@ -1,4 +1,6 @@
-public class DestroyableObject implements NonPlayerEntity{
+package models._static;
+
+public class DestroyableObject implements INonPlayerEntity{
 
 
 }

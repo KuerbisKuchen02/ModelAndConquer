@@ -1,11 +1,11 @@
 package models._static;
 
-import models.generated.DamageType;
+import models.generated.EDamageType;
 
 import java.util.ArrayList;
 
-public class Monster extends Entity implements Healable, NonPlayEntity{
-    private DamageType damageType;
+public class Monster extends Entity implements IHealable, INonPlayerEntity{
+    private EDamageType damageType;
     private Item[] dropItems;
     private Effect onSpawn;
     private Effect onHit;
@@ -13,7 +13,7 @@ public class Monster extends Entity implements Healable, NonPlayEntity{
     private Effect onKill;
 
     // Getter
-    public DamageType getDamageType() {
+    public EDamageType getDamageType() {
         return this.damageType;
     }
 
@@ -39,7 +39,7 @@ public class Monster extends Entity implements Healable, NonPlayEntity{
 
     public Monster(String name, String description, double health, double maxHealth, ArrayList<Item> inventory,
                    Effect[] Effects, ArrayList<DamageModificator> damageModificators, Item[] dropItems,
-                   DamageType damageType, Effect onSpawn, Effect onHit, Effect onDamage, Effect onKill) {
+                   EDamageType damageType, Effect onSpawn, Effect onHit, Effect onDamage, Effect onKill) {
         super(name, description, health, maxHealth, inventory, Effects, damageModificators);
 
         this.damageType = damageType;

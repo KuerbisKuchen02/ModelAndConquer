@@ -1,12 +1,12 @@
 package models._static;
 
-import models.generated.DamageType;
+import models.generated.EDamageType;
 
 public class DamageModificator extends GenericElement {
-    private final DamageType damageType;
+    private final EDamageType damageType;
     private double multiplicator;
 
-    public DamageModificator(String name, String description,  DamageType damageType, double multiplicator) {
+    public DamageModificator(String name, String description, EDamageType damageType, double multiplicator) {
         super(name, description);
 
         this.damageType = damageType;
@@ -19,6 +19,6 @@ public class DamageModificator extends GenericElement {
         }
     }
 
-    public DamageType getDamageType() { return this.damageType; }
+    public EDamageType getDamageType() { return this.damageType; }
     public double getMultiplicator() { return this.multiplicator; }
 }

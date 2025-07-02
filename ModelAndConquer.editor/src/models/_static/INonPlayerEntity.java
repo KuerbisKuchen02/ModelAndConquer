@@ -1,3 +1,5 @@
-public interface NonPlayerEntity{
+package models._static;
+
+public interface INonPlayerEntity{
 
 }

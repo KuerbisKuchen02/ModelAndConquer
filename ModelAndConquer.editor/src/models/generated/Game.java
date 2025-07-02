@@ -44,7 +44,7 @@ public class Game extends GenericElement {
      * Tries moving the player to a given direction.
      * @param direction The direction to move to.
      */
-    public void move(Direction direction) {
+    public void move(EDirection direction) {
         Connection[] curConnections = player.getPosition().getConnections();
         curConnections[direction.getValue()].tryTraverse();
     }

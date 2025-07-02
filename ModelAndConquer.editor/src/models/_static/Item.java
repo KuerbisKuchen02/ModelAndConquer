@@ -1,6 +1,6 @@
 package models._static;
 
-import models.generated.DamageType;
+import models.generated.EDamageType;
 
 import java.util.Objects;
 
@@ -10,9 +10,9 @@ public class Item extends GenericElement {
     private final Effect onDrop;
     private final Effect onUse;
     private final Effect onPickup;
-    private final DamageType damageType;
+    private final EDamageType damageType;
 
-    public Item(String name, String description, double damage,  boolean isConsumable, Effect onDrop, Effect onUse, Effect onPickup,  DamageType damageType) {
+    public Item(String name, String description, double damage,  boolean isConsumable, Effect onDrop, Effect onUse, Effect onPickup,  EDamageType damageType) {
         super(name, description);
 
         this.damage = damage;
@@ -27,7 +27,7 @@ public class Item extends GenericElement {
     public Effect getOnDrop() { return this.onDrop; }
     public Effect getOnUse() { return this.onUse; }
     public Effect getOnPickup() { return this.onPickup; }
-    public DamageType getDamageType() { return this.damageType; }
+    public EDamageType getDamageType() { return this.damageType; }
 
     public boolean isConsumable() { return this.isConsumable; }
 

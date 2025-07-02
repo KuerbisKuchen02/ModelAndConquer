@@ -2,7 +2,7 @@ package models._static;
 
 import java.util.ArrayList;
 
-public class Player extends Entity implements Healable {
+public class Player extends Entity implements IHealable {
     private Area position;
     private static Player player;
 
@@ -26,7 +26,7 @@ public class Player extends Entity implements Healable {
     }
 
     public void heal(double amount){
-        this.health += amount;
+        this.health+= amount;
         if(this.health > this.maxHealth) this.health = this.maxHealth;
     }
 

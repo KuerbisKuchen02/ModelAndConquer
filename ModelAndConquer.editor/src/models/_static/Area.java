@@ -107,7 +107,7 @@ public class Area extends GenericElement {
 
             for (Area area : connections[i].getAreas()) {
                 if (area != this) {
-                    adjacentAreas.append(Direction.getValueString(i)).append(area.shortToString()).append("\n");
+                    adjacentAreas.append(EDirection.getValueString(i)).append(area.shortToString()).append("\n");
                     break;
                 }
             }
