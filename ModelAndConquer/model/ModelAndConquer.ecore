@@ -99,7 +99,8 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Healable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="onSelf" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DamageModificatorEffect" eSuperTypes="#//Effect">
     <eStructuralFeatures xsi:type="ecore:EReference" name="damageModificator" lowerBound="1"
@@ -108,7 +109,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="SpawnEffect" eSuperTypes="#//Effect">
     <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" eType="#//Area"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="monster" lowerBound="1"
-        eType="#//Monster" containment="true"/>
+        upperBound="-1" eType="#//Monster" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Directions">
     <eLiterals name="NORTH"/>
