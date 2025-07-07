@@ -38,6 +38,21 @@ public class Item extends GenericElement {
     }
 
     @Override
+    public String toString() {
+        String ret = super.toString();
+        if(isConsumable) ret += " This item is consumable";
+        ret += "\nDamage: " + damage;
+        ret += "\nDamage type: " + damageType;
+
+
+        return ret;
+    }
+
+    public String toShortString(){
+        return super.toString();
+
+
+    @Override
     public int hashCode() {
         return Objects.hash(damage, isConsumable, onDrop, onUse, onPickup, damageType);
     }

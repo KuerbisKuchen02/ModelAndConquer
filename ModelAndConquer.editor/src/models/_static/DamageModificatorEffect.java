@@ -1,6 +1,6 @@
 package models._static;
 
-public class DamageModificatorEffect extends GenericElement implements Effect {
+public class DamageModificatorEffect extends Effect {
     private final DamageModificatorEffect damageModificator;
 
     public DamageModificatorEffect(String name, String description, DamageModificatorEffect damageModificator) {
@@ -11,5 +11,10 @@ public class DamageModificatorEffect extends GenericElement implements Effect {
 
     public DamageModificatorEffect getDamageModificator() {
         return damageModificator;
+    }
+
+    @Override
+    public void apply() {
+        // TODO
     }
 }

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class Monster extends Entity implements IHealable, INonPlayerEntity{
     private EDamageType damageType;
-    private Item[] dropItems;
     private Effect onSpawn;
     private Effect onHit;
     private Effect onDamage;
@@ -15,10 +14,6 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity{
     // Getter
     public EDamageType getDamageType() {
         return this.damageType;
-    }
-
-    public Item[] getDropItems() {
-        return this.dropItems;
     }
 
     public Effect getOnSpawn() {
@@ -38,12 +33,11 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity{
     }
 
     public Monster(String name, String description, double health, double maxHealth, ArrayList<Item> inventory,
-                   Effect[] Effects, ArrayList<DamageModificator> damageModificators, Item[] dropItems,
-                   EDamageType damageType, Effect onSpawn, Effect onHit, Effect onDamage, Effect onKill) {
+                   Effect[] Effects, ArrayList<DamageModificator> damageModificators,EDamageType damageType,
+                   Effect onSpawn, Effect onHit, Effect onDamage, Effect onKill) {
         super(name, description, health, maxHealth, inventory, Effects, damageModificators);
 
         this.damageType = damageType;
-        this.dropItems = dropItems;
         this.onSpawn = onSpawn;
         this.onHit = onHit;
         this.onDamage = onDamage;

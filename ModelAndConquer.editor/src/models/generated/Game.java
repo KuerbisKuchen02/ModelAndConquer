@@ -37,6 +37,8 @@ public class Game extends GenericElement {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
+
+            // TODO add applying of effects
         }
     }
 
@@ -60,15 +62,14 @@ public class Game extends GenericElement {
             entity.takeDamage(item.getDamage(), item.getDamageType());
 
             // Apply Effects if entity is a monster
-            if (entity instanceof Monster) {
-                // TODO
-                // applyEffect(monster.getOnHit(), );
+            if (entity instanceof Monster monster) {
+                applyEffect(monster.getOnHit(), player, monster);
             }
 
             if (!entity.hasHealthLeft()) {
                 // Apply OnDeathEffect if entity is a monster
                 if (entity instanceof Monster) {
-                // TODO
+                    applyEffect(((Monster) entity).getOnKill(), player, entity);
                 }
             }
         }
@@ -133,8 +134,26 @@ public class Game extends GenericElement {
         // TODO:
     }
 
-    private void applyEffect(Effect effect, GenericElement element) {
-        // TODO:
+    private void applyEffect(Effect effect, GenericElement self, GenericElement other) throws RuntimeException {
+        switch (effect) {
+            case SpawnEffect spawnEffect -> {
+                // TODO
+            }
+            case HealthEffect healthEffect -> {
+                healthEffect.set
+                // TODO
+            }
+            case DamageModificatorEffect damageModificatorEffect -> {
+                // TODO
+            }
+            case EndGameEffect endGameEffect -> {
+                isRunning = false;
+                return;
+            }
+            case null, default -> throw new RuntimeException("How did we get here??");
+        }
+
+        effect.apply();
     }
 
 

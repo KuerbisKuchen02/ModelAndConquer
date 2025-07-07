@@ -60,7 +60,7 @@ public class Entity extends GenericElement {
 
     /**
      * Whether the entity is destroyed / dead.
-     * @return
+     * @return boolean whether entity is alive
      */
     public boolean hasHealthLeft() {
         return health > 0;
@@ -102,5 +102,11 @@ public class Entity extends GenericElement {
         }
 
         return super.toString() + entityDescription;
+    }
+
+    public void dropItems(Area area){
+        for(Item item : inventory){
+            area.addItem(item);
+        }
     }
 }

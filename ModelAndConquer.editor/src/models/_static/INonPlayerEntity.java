@@ -1,5 +1,5 @@
 package models._static;
 
-public interface INonPlayerEntity{
+public interface INonPlayerEntity {
 
 }

@@ -1,17 +1,24 @@
 package models._static;
 
-public class SpawnEffect extends GenericElement implements Effect {
-    private final Monster monster;
+import java.util.List;
+
+public class SpawnEffect extends Effect {
+    private final List<Monster> monster;
     private final Area area;
 
-    public SpawnEffect(String name, String description, Monster monster, Area area) {
+    public SpawnEffect(String name, String description, List<Monster> monster, Area area) {
         super(name, description);
 
         this.monster = monster;
         this.area = area;
     }
 
-    public Monster getMonster() {
+    @Override
+    public void apply() {
+        // TODO
+    }
+
+    public List<Monster> getMonster() {
         return monster;
     }
 
