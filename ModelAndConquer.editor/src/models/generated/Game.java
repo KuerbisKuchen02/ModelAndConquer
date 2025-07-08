@@ -1,14 +1,15 @@
 package models.generated;
 
-import compiler.GameLexer;
 import compiler.GameParser;
 import models._static.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Game extends GenericElement {
     private static final String TAG = Game.class.getSimpleName();
-    private final Player player;
+    public final Player player;
     private boolean isRunning = true;
     private Area[] areas;
     private Connection[] connections;
@@ -229,7 +230,7 @@ public class Game extends GenericElement {
         System.out.println((genericElement));
     }
 
-    private void applyEffect(Effect effect, GenericElement self, GenericElement other) throws RuntimeException {
+    public void applyEffect(Effect effect, GenericElement self, GenericElement other) throws RuntimeException {
         switch (effect) {
             case HealthEffect healthEffect -> {
                 GenericElement target = healthEffect.isOnSelf() ? self : other;

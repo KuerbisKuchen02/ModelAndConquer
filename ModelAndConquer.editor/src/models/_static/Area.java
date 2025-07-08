@@ -13,9 +13,8 @@ public class Area extends GenericElement {
 
     public Area(String name, String description, ArrayList<INonPlayerEntity> entities, ArrayList<Item> items, Effect onEnter) {
         super(name, description);
-
-        setEntities(entities);
-        setItems(items);
+        setEntities((entities != null) ? entities : new ArrayList<>());
+        setItems((items != null) ? items : new ArrayList<>());
         setOnEnter(onEnter);
     }
 
