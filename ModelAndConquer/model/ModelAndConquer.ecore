@@ -17,9 +17,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//GenericElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currHealth" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" abstract="true" eSuperTypes="#//GenericElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxHealth" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="effects" upperBound="-1"
@@ -44,11 +42,11 @@
         eType="#//Effect"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="damageType" lowerBound="1"
         eType="#//DamageType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="damage" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DestroyableObjects" eSuperTypes="#//Entity #//NonPlayerEntity"/>
   <eClassifiers xsi:type="ecore:EClass" name="Area" eSuperTypes="#//GenericElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="6"
-        eType="#//Connection" eOpposite="#//Connection/areas"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
         eType="#//NonPlayerEntity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
@@ -57,16 +55,20 @@
         eType="#//Effect"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="asciiArt" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionNorth" eType="#//Connection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionEast" eType="#//Connection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionSouth" eType="#//Connection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionWest" eType="#//Connection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionUp" eType="#//Connection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionDown" eType="#//Connection"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Connection" eSuperTypes="#//GenericElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="areas" lowerBound="2" upperBound="2"
-        eType="#//Area" eOpposite="#//Area/connections"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="onTraverseEffect" upperBound="-1"
         eType="#//Effect"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unlockedWith" upperBound="-1"
         eType="#//Item"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isLocked" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="areaA" lowerBound="1" eType="#//Area"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="areaB" lowerBound="1" eType="#//Area"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Item" eSuperTypes="#//GenericElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="damage" lowerBound="1"
@@ -105,6 +107,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="DamageModificatorEffect" eSuperTypes="#//Effect">
     <eStructuralFeatures xsi:type="ecore:EReference" name="damageModificator" lowerBound="1"
         eType="#//DamageModificator" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="onSelf" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SpawnEffect" eSuperTypes="#//Effect">
     <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" eType="#//Area"/>
