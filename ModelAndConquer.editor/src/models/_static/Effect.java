@@ -5,7 +5,5 @@ public abstract class Effect extends GenericElement {
         super(name, description);
     }
 
-    abstract void apply(
-
-    );
+    abstract public void apply();
 }

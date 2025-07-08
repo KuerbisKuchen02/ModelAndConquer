@@ -4,23 +4,22 @@ import models.generated.EDamageType;
 
 import java.util.ArrayList;
 
-public class Entity extends GenericElement {
+public abstract class Entity extends GenericElement {
     protected double health;
     protected double maxHealth;
     private ArrayList<Item> inventory;
-    private Effect[] Effects;
+    private Effect[] effects;
     private ArrayList<DamageModificator> damageModificators;
 
-    public Entity (String name, String description, double health, double maxHealth,  ArrayList<Item> inventory, Effect[] Effects,  ArrayList<DamageModificator> damageModificators) {
+    public Entity (String name, String description, double maxHealth,  ArrayList<Item> inventory, Effect[] Effects,  ArrayList<DamageModificator> damageModificators) {
         super(name, description);
 
-        this.health = health;
+        this.health = maxHealth;
         this.maxHealth = maxHealth;
         this.inventory = inventory;
-        this.Effects = Effects;
+        this.effects = Effects;
         this.damageModificators = damageModificators;
     }
-
 
     public void setMaxHealth(double maxHealth) {
         this.maxHealth = maxHealth;
@@ -48,17 +47,6 @@ public class Entity extends GenericElement {
     }
 
     /**
-     * Heals the entity by the given amount.
-     * @param amount healing amount
-     */
-    public void heal(double amount) {
-        health += amount;
-        if (health > maxHealth) {
-            health = maxHealth;
-        }
-    }
-
-    /**
      * Whether the entity is destroyed / dead.
      * @return boolean whether entity is alive
      */
@@ -70,7 +58,7 @@ public class Entity extends GenericElement {
     public double getHealth() { return this.health; }
     public double getMaxHealth() { return this.maxHealth; }
     public ArrayList<Item> getInventory() { return this.inventory; }
-    public Effect[] getEffects() { return this.Effects; }
+    public Effect[] getEffects() { return this.effects; }
     public ArrayList<DamageModificator> getDamageModificator() { return this.damageModificators; }
 
     public boolean isInInventory(Item item) {
@@ -97,8 +85,8 @@ public class Entity extends GenericElement {
                     "against" + dm.getDamageType() + "\n";
         }
         entityDescription += "Current Effects:\n";
-        for(Effect e : Effects){
-            // TODO append effects
+        for(Effect e : effects){
+            entityDescription += "\t" + e.toString() + "\n";
         }
 
         return super.toString() + entityDescription;

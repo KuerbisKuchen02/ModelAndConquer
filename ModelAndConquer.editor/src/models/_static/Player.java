@@ -14,15 +14,15 @@ public class Player extends Entity implements IHealable {
         position = pos;
     }
 
-    public Player(String name, String description, double health, double maxHealth,  ArrayList<Item> inventory,
+    public Player(String name, String description, double maxHealth,  ArrayList<Item> inventory,
                    Effect[] Effects,  ArrayList<DamageModificator> damageModificators) {
-        super(name, description, health, maxHealth, inventory, Effects, damageModificators);
+        super(name, description, maxHealth, inventory, Effects, damageModificators);
         Player.player = this;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "You are in the area: " + position.getName();
+        return super.toString() + "\n\nYou are in the area: " + position.getName();
     }
 
     public void heal(double amount){

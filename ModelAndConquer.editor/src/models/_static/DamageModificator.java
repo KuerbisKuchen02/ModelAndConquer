@@ -14,7 +14,7 @@ public class DamageModificator extends GenericElement {
     }
 
     private void setMultiplicator(double multiplicator) {
-        if(multiplicator != 1.0){
+        if(multiplicator != 1.0 && multiplicator > 0){
             this.multiplicator = multiplicator;
         }
     }

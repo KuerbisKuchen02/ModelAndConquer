@@ -30,9 +30,7 @@ public class Connection extends GenericElement {
             System.out.println("You have to unlock this connection with " + unlockedWith.toShortString());
         }
         else{
-            if(onTraverse != null) {
-                // TODO apply effect
-            }
+            if (onTraverse != null) onTraverse.apply();
         }
     }
 

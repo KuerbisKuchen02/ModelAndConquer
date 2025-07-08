@@ -7,6 +7,6 @@ public class EndGameEffect extends Effect {
 
     @Override
     public void apply() {
-        // TODO
+        return;
     }
 }

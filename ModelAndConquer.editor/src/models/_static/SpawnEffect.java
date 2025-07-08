@@ -3,23 +3,25 @@ package models._static;
 import java.util.List;
 
 public class SpawnEffect extends Effect {
-    private final List<Monster> monster;
+    private final List<INonPlayerEntity> nonPlayerEntities;
     private final Area area;
 
-    public SpawnEffect(String name, String description, List<Monster> monster, Area area) {
+    public SpawnEffect(String name, String description, List<INonPlayerEntity> entities, Area area) {
         super(name, description);
 
-        this.monster = monster;
+        this.nonPlayerEntities = entities;
         this.area = area;
     }
 
     @Override
     public void apply() {
-        // TODO
+        for (INonPlayerEntity entity : nonPlayerEntities) {
+            area.addEntity(entity);
+        }
     }
 
-    public List<Monster> getMonster() {
-        return monster;
+    public List<INonPlayerEntity> getEntities() {
+        return nonPlayerEntities;
     }
 
     public Area getArea() {

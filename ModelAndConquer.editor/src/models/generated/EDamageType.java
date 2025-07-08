@@ -1,5 +1,7 @@
 package models.generated;
 
-public enum EDamageType {
+public enum EDamageType
+
+{
 
 }

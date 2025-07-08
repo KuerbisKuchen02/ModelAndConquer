@@ -4,7 +4,7 @@ import models.generated.EDamageType;
 
 import java.util.ArrayList;
 
-public class Monster extends Entity implements IHealable, INonPlayerEntity{
+public class Monster extends Entity implements IHealable, INonPlayerEntity {
     private EDamageType damageType;
     private Effect onSpawn;
     private Effect onHit;
@@ -32,10 +32,10 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity{
         return this.onKill;
     }
 
-    public Monster(String name, String description, double health, double maxHealth, ArrayList<Item> inventory,
+    public Monster(String name, String description, double maxHealth, ArrayList<Item> inventory,
                    Effect[] Effects, ArrayList<DamageModificator> damageModificators,EDamageType damageType,
                    Effect onSpawn, Effect onHit, Effect onDamage, Effect onKill) {
-        super(name, description, health, maxHealth, inventory, Effects, damageModificators);
+        super(name, description, maxHealth, inventory, Effects, damageModificators);
 
         this.damageType = damageType;
         this.onSpawn = onSpawn;

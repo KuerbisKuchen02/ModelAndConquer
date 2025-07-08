@@ -48,9 +48,9 @@ public class Item extends GenericElement {
         return ret;
     }
 
-    public String toShortString(){
+    public String toShortString() {
         return super.toString();
-
+    }
 
     @Override
     public int hashCode() {
