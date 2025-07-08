@@ -57,7 +57,7 @@ class GeneratorHandler extends AbstractHandler {
 		public static String getValueString(int value) {
 			return switch (value) {
 				«FOR int i: 0..damageTypes.size-1»
-				case «i» -> «damageTypes.get(i).name»
+				case «i» -> "«damageTypes.get(i).name»"
 				«ENDFOR»
 				default -> "Not an valid DamageType!"
 			}

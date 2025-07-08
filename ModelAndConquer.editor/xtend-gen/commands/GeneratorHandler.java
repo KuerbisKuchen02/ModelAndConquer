@@ -98,9 +98,10 @@ public class GeneratorHandler extends AbstractHandler {
         _builder.append("\t\t\t");
         _builder.append("case ");
         _builder.append(i_1, "\t\t\t");
-        _builder.append(" -> ");
+        _builder.append(" -> \"");
         String _name = damageTypes.get(i_1).getName();
         _builder.append(_name, "\t\t\t");
+        _builder.append("\"");
         _builder.newLineIfNotEmpty();
       }
     }
