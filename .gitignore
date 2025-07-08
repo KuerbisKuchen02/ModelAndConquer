@@ -6,3 +6,4 @@ ModelAndConquer.editor/xtend-gen/commands/.*
 !ModelAndConquer.editor/src
 .idea
 .idea/*
+ModelAndConquer.editor.iml
