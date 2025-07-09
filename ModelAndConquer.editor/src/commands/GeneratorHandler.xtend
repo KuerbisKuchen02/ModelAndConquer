@@ -36,13 +36,19 @@ class GeneratorHandler extends AbstractHandler {
 		
 		var Game game = ts.firstElement as Game;		
 		
+		createFileWithContent(project, "models.generated", "Game.java", generateGame(game));
 		
 		// Generate all EDamageTypes
-		createFileWithContent(project, "models", "EDamageType.java", generateEDamageTypes(game.damageTypes));
+		createFileWithContent(project, "models.generated", "EDamageType.java", generateEDamageTypes(game.damageTypes));
 		
 		return void
 	}
 	
+	def generateGame(Game game)'''
+	public class Game {
+		
+	}
+	'''
 	
 	def generateEDamageTypes(EList<DamageType> damageTypes) '''
 	public enum EDamageType {

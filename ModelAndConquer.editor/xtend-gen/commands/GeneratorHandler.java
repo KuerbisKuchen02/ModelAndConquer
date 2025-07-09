@@ -36,8 +36,20 @@ public class GeneratorHandler extends AbstractHandler {
     TreeSelection ts = ((TreeSelection) _selection);
     Object _firstElement = ts.getFirstElement();
     Game game = ((Game) _firstElement);
-    this.createFileWithContent(project, "models", "EDamageType.java", this.generateEDamageTypes(game.getDamageTypes()));
+    this.createFileWithContent(project, "models.generated", "Game.java", this.generateGame(game));
+    this.createFileWithContent(project, "models.generated", "EDamageType.java", this.generateEDamageTypes(game.getDamageTypes()));
     return void.class;
+  }
+
+  public CharSequence generateGame(final Game game) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("public class Game {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
   }
 
   public CharSequence generateEDamageTypes(final EList<DamageType> damageTypes) {
