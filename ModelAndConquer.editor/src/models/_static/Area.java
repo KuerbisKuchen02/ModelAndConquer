@@ -11,8 +11,9 @@ public class Area extends GenericElement {
     private boolean visited = false;
 
 
-    public Area(String name, String description, ArrayList<INonPlayerEntity> entities, ArrayList<Item> items, Effect onEnter) {
+    public Area(String name, String description, Connection[] connections, ArrayList<INonPlayerEntity> entities, ArrayList<Item> items, Effect onEnter) {
         super(name, description);
+        setConnections((connections != null && connections.length == 6) ? connections: new Connection[6]);
         setEntities((entities != null) ? entities : new ArrayList<>());
         setItems((items != null) ? items : new ArrayList<>());
         setOnEnter(onEnter);

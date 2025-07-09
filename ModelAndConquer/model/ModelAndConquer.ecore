@@ -27,11 +27,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="inventory" upperBound="-1"
         eType="#//Item" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Player" eSuperTypes="#//Entity #//Healable">
+  <eClassifiers xsi:type="ecore:EClass" name="Player" eSuperTypes="#//Entity #//IHealable">
     <eStructuralFeatures xsi:type="ecore:EReference" name="spawnpoint" lowerBound="1"
         eType="#//Area"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Monster" eSuperTypes="#//Entity #//NonPlayerEntity #//Healable">
+  <eClassifiers xsi:type="ecore:EClass" name="Monster" eSuperTypes="#//Entity #//INonPlayerEntity #//IHealable">
     <eStructuralFeatures xsi:type="ecore:EReference" name="onKillEffect" upperBound="-1"
         eType="#//Effect"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="onSpawnEffect" upperBound="-1"
@@ -45,10 +45,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="damage" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DestroyableObjects" eSuperTypes="#//Entity #//NonPlayerEntity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DestroyableObject" eSuperTypes="#//Entity #//INonPlayerEntity"/>
   <eClassifiers xsi:type="ecore:EClass" name="Area" eSuperTypes="#//GenericElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
-        eType="#//NonPlayerEntity" containment="true"/>
+        eType="#//INonPlayerEntity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
         eType="#//Item" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="onEnterEffect" upperBound="-1"
@@ -123,6 +123,6 @@
     <eLiterals name="UP" value="4"/>
     <eLiterals name="DOWN" value="5"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Healable" abstract="true" interface="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="NonPlayerEntity" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IHealable" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="INonPlayerEntity" abstract="true" interface="true"/>
 </ecore:EPackage>

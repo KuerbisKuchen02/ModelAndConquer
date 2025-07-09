@@ -43,7 +43,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Monster/damageType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Monster/damage"/>
     </genClasses>
-    <genClasses ecoreClass="ModelAndConquer.ecore#//DestroyableObjects"/>
+    <genClasses ecoreClass="ModelAndConquer.ecore#//DestroyableObject"/>
     <genClasses ecoreClass="ModelAndConquer.ecore#//Area">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Area/entities"/>
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Area/items"/>
@@ -92,7 +92,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//SpawnEffect/area"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//SpawnEffect/monster"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//Healable"/>
-    <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//NonPlayerEntity"/>
+    <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//IHealable"/>
+    <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//INonPlayerEntity"/>
   </genPackages>
 </genmodel:GenModel>

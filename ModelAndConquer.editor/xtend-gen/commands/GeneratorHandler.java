@@ -1,7 +1,19 @@
 package commands;
 
+import ModelAndConquer.Area;
+import ModelAndConquer.Connection;
+import ModelAndConquer.DamageModificatorEffect;
 import ModelAndConquer.DamageType;
+import ModelAndConquer.DestroyableObject;
+import ModelAndConquer.Effect;
+import ModelAndConquer.EndGameEffect;
 import ModelAndConquer.Game;
+import ModelAndConquer.HealthEffect;
+import ModelAndConquer.INonPlayerEntity;
+import ModelAndConquer.Item;
+import ModelAndConquer.Monster;
+import ModelAndConquer.Player;
+import ModelAndConquer.SpawnEffect;
 import ModelAndConquer.presentation.ModelAndConquerEditor;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -43,11 +55,286 @@ public class GeneratorHandler extends AbstractHandler {
 
   public CharSequence generateGame(final Game game) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("public class Game {");
+    _builder.append("public class Game extends GenericElement {");
     _builder.newLine();
     _builder.append("\t");
     _builder.newLine();
+    _builder.append("\t");
+    _builder.append("public Game(String name, String description) {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("super(name, description);");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("this.area = new Area[");
+    int _size = game.getAreas().size();
+    _builder.append(_size, "\t\t");
+    _builder.append("];");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
     _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("public void init() {");
+    _builder.newLine();
+    _builder.append("\t\t");
+    CharSequence _generatePlayer = this.generatePlayer(game.getPlayer());
+    _builder.append(_generatePlayer, "\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    CharSequence _generateAreas = this.generateAreas(game.getAreas());
+    _builder.append(_generateAreas, "\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    CharSequence _generateConnections = this.generateConnections(game.getConnections());
+    _builder.append(_generateConnections, "\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    CharSequence _generateEffects = this.generateEffects(game.getEffects());
+    _builder.append(_generateEffects, "\t\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+
+  public CharSequence generatePlayer(final Player player) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("this.player = new Player(\"");
+    String _name = player.getName();
+    _builder.append(_name);
+    _builder.append("\", \"");
+    String _description = player.getDescription();
+    _builder.append(_description);
+    _builder.append("\", ");
+    double _maxHealth = player.getMaxHealth();
+    _builder.append(_maxHealth);
+    _builder.append(", null, null, null);");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+
+  public CharSequence generateAreas(final EList<Area> areas) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("// Generate Areas");
+    _builder.newLine();
+    {
+      for(final Area area : areas) {
+        _builder.append("// Generate Non Player Entities of the Area");
+        _builder.newLine();
+        _builder.append("ArrayList<INonPlayerEntity> entities = new ArrayList<INonPlayerEntity>();");
+        _builder.newLine();
+        {
+          EList<INonPlayerEntity> _entities = area.getEntities();
+          for(final INonPlayerEntity entity : _entities) {
+            {
+              if ((entity instanceof Monster)) {
+                _builder.newLine();
+                _builder.append("// Generate Inventory of Monster");
+                _builder.newLine();
+                _builder.append("ArrayList<Item> inventory = new ArrayList<Item>();");
+                _builder.newLine();
+                {
+                  EList<Item> _inventory = ((Monster)entity).getInventory();
+                  for(final Item item : _inventory) {
+                    _builder.append("inventory.add(new Item(\"");
+                    String _name = item.getName();
+                    _builder.append(_name);
+                    _builder.append("\", \"");
+                    String _description = item.getDescription();
+                    _builder.append(_description);
+                    _builder.append("\", ");
+                    double _damage = item.getDamage();
+                    _builder.append(_damage);
+                    _builder.append(", ");
+                    boolean _isConsumable = item.isConsumable();
+                    _builder.append(_isConsumable);
+                    _builder.append(", null, null, null, null);");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+                _builder.append("Entity entity = new Monster(\"");
+                String _name_1 = ((Monster)entity).getName();
+                _builder.append(_name_1);
+                _builder.append("\", \"");
+                String _description_1 = ((Monster)entity).getDescription();
+                _builder.append(_description_1);
+                _builder.append("\", ");
+                double _maxHealth = ((Monster)entity).getMaxHealth();
+                _builder.append(_maxHealth);
+                _builder.append(", null, null, null, null, null, null, null, null)");
+                _builder.newLineIfNotEmpty();
+              }
+            }
+            {
+              if ((entity instanceof DestroyableObject)) {
+                _builder.append("Entity entity = new DestroyableObject(\"");
+                String _name_2 = ((DestroyableObject)entity).getName();
+                _builder.append(_name_2);
+                _builder.append("\", \"");
+                String _description_2 = ((DestroyableObject)entity).getDescription();
+                _builder.append(_description_2);
+                _builder.append("\", ");
+                double _maxHealth_1 = ((DestroyableObject)entity).getMaxHealth();
+                _builder.append(_maxHealth_1);
+                _builder.append(",  ");
+              }
+            }
+            _builder.newLineIfNotEmpty();
+            _builder.append("entities.add(entity);");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        _builder.append("// Generate items of Area");
+        _builder.newLine();
+        _builder.append("ArrayList<Item> items = new ArrayList<Item>();");
+        _builder.newLine();
+        {
+          EList<Item> _items = area.getItems();
+          for(final Item item_1 : _items) {
+            _builder.append("items.add(new Item(\"");
+            String _name_3 = item_1.getName();
+            _builder.append(_name_3);
+            _builder.append("\", \"");
+            String _description_3 = item_1.getDescription();
+            _builder.append(_description_3);
+            _builder.append("\", ");
+            double _damage_1 = item_1.getDamage();
+            _builder.append(_damage_1);
+            _builder.append(", ");
+            boolean _isConsumable_1 = item_1.isConsumable();
+            _builder.append(_isConsumable_1);
+            _builder.append(", null, null, null, null);");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.newLine();
+        _builder.append("// Add Area object");
+        _builder.newLine();
+        _builder.append("this.areas.add(new Area(\"");
+        String _name_4 = area.getName();
+        _builder.append(_name_4);
+        _builder.append("\", \"");
+        String _description_4 = area.getDescription();
+        _builder.append(_description_4);
+        _builder.append("\", null, entities, items, null));");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    return _builder;
+  }
+
+  public CharSequence generateConnections(final EList<Connection> connections) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("// Generate Connections");
+    _builder.newLine();
+    {
+      for(final Connection connection : connections) {
+        _builder.append("this.connections.add(new Connection(\"");
+        String _name = connection.getName();
+        _builder.append(_name);
+        _builder.append("\", \"");
+        String _description = connection.getDescription();
+        _builder.append(_description);
+        _builder.append("\", null, null, null));");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    return _builder;
+  }
+
+  public CharSequence generateEffects(final EList<Effect> effects) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("// Generate Effects");
+    _builder.newLine();
+    {
+      for(final Effect effect : effects) {
+        _builder.append("this.effects.add( ");
+        _builder.newLine();
+        {
+          if ((effect instanceof HealthEffect)) {
+            _builder.append("new HealthEffect(\"");
+            String _name = ((HealthEffect)effect).getName();
+            _builder.append(_name);
+            _builder.append("\", \"");
+            String _description = ((HealthEffect)effect).getDescription();
+            _builder.append(_description);
+            _builder.append("\", ");
+            int _duration = ((HealthEffect)effect).getDuration();
+            _builder.append(_duration);
+            _builder.append(", ");
+            double _amount = ((HealthEffect)effect).getAmount();
+            _builder.append(_amount);
+            _builder.append(", ");
+            boolean _isOnSelf = ((HealthEffect)effect).isOnSelf();
+            _builder.append(_isOnSelf);
+            _builder.append(", null)");
+          }
+        }
+        _builder.newLineIfNotEmpty();
+        {
+          if ((effect instanceof SpawnEffect)) {
+            _builder.append("new SpawnEffect(\"");
+            String _name_1 = ((SpawnEffect)effect).getName();
+            _builder.append(_name_1);
+            _builder.append("\", \"");
+            String _description_1 = ((SpawnEffect)effect).getDescription();
+            _builder.append(_description_1);
+            _builder.append("\", null, null)");
+          }
+        }
+        _builder.newLineIfNotEmpty();
+        {
+          if ((effect instanceof DamageModificatorEffect)) {
+            _builder.append("new DamageModificatorEffect(\"");
+            String _name_2 = ((DamageModificatorEffect)effect).getName();
+            _builder.append(_name_2);
+            _builder.append("\", \"");
+            String _description_2 = ((DamageModificatorEffect)effect).getDescription();
+            _builder.append(_description_2);
+            _builder.append("\", null, ");
+            boolean _isOnSelf_1 = ((DamageModificatorEffect)effect).isOnSelf();
+            _builder.append(_isOnSelf_1);
+            _builder.append(")");
+          }
+        }
+        _builder.newLineIfNotEmpty();
+        {
+          if ((effect instanceof EndGameEffect)) {
+            _builder.append("new EndGameEffect(\"");
+            String _name_3 = ((EndGameEffect)effect).getName();
+            _builder.append(_name_3);
+            _builder.append("\", \"");
+            String _description_3 = ((EndGameEffect)effect).getDescription();
+            _builder.append(_description_3);
+            _builder.append("\")");
+          }
+        }
+        _builder.newLineIfNotEmpty();
+        _builder.append(");");
+        _builder.newLine();
+      }
+    }
+    return _builder;
+  }
+
+  public CharSequence generateINonPlayerEntities(final EList<INonPlayerEntity> entities) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("\t");
     _builder.newLine();
     return _builder;
   }

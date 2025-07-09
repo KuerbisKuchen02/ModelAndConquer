@@ -16,6 +16,18 @@ import org.eclipse.jface.viewers.TreeSelection
 import org.eclipse.ui.IFileEditorInput
 import org.eclipse.ui.IWorkbenchPart
 import org.eclipse.ui.handlers.HandlerUtil
+import ModelAndConquer.Area
+import ModelAndConquer.Connection
+import ModelAndConquer.Effect
+import ModelAndConquer.HealthEffect
+import ModelAndConquer.SpawnEffect
+import ModelAndConquer.DamageModificatorEffect
+import ModelAndConquer.EndGameEffect
+import ModelAndConquer.INonPlayerEntity
+import ModelAndConquer.Monster
+import ModelAndConquer.DestroyableObject
+import ModelAndConquer.Item
+import ModelAndConquer.Player
 
 class GeneratorHandler extends AbstractHandler {
 	
@@ -45,9 +57,81 @@ class GeneratorHandler extends AbstractHandler {
 	}
 	
 	def generateGame(Game game)'''
-	public class Game {
+	public class Game extends GenericElement {
 		
+		public Game(String name, String description) {
+			super(name, description);
+			this.area = new Area[«game.areas.size»];
+		}
+		
+		public void init() {
+			«generatePlayer(game.player)»
+			
+			«generateAreas(game.areas)»
+			
+			«generateConnections(game.connections)»
+			
+			«generateEffects(game.effects)»
+			
+		}
 	}
+	'''
+	
+	def generatePlayer(Player player)'''
+		this.player = new Player("«player.name»", "«player.description»", «player.maxHealth», null, null, null);
+	'''
+	
+	def generateAreas(EList<Area> areas)'''
+	// Generate Areas
+	«FOR Area area: areas»
+	// Generate Non Player Entities of the Area
+	ArrayList<INonPlayerEntity> entities = new ArrayList<INonPlayerEntity>();
+	«FOR INonPlayerEntity entity: area.entities»
+	«IF entity instanceof Monster»
+	
+	// Generate Inventory of Monster
+	ArrayList<Item> inventory = new ArrayList<Item>();
+	«FOR Item item: entity.inventory»
+	inventory.add(new Item("«item.name»", "«item.description»", «item.damage», «item.consumable», null, null, null, null);
+	«ENDFOR»
+	Entity entity = new Monster("«entity.name»", "«entity.description»", «entity.maxHealth», null, null, null, null, null, null, null, null)
+	«ENDIF»
+	«IF entity instanceof DestroyableObject»Entity entity = new DestroyableObject("«entity.name»", "«entity.description»", «entity.maxHealth»,  «ENDIF»
+	entities.add(entity);
+	«ENDFOR»
+	
+	// Generate items of Area
+	ArrayList<Item> items = new ArrayList<Item>();
+	«FOR Item item: area.items»
+	items.add(new Item("«item.name»", "«item.description»", «item.damage», «item.consumable», null, null, null, null);
+	«ENDFOR»
+	
+	// Add Area object
+	this.areas.add(new Area("«area.name»", "«area.description»", null, entities, items, null));
+	«ENDFOR»
+	'''
+
+	def generateConnections(EList<Connection> connections)'''
+	// Generate Connections
+	«FOR Connection connection: connections»
+	this.connections.add(new Connection("«connection.name»", "«connection.description»", null, null, null));
+	«ENDFOR»
+	'''
+	
+	def generateEffects(EList<Effect> effects)'''
+	// Generate Effects
+	«FOR Effect effect: effects»
+	this.effects.add( 
+	«IF effect instanceof HealthEffect»new HealthEffect("«effect.name»", "«effect.description»", «effect.duration», «effect.amount», «effect.onSelf», null)«ENDIF»
+	«IF effect instanceof SpawnEffect»new SpawnEffect("«effect.name»", "«effect.description»", null, null)«ENDIF»
+	«IF effect instanceof DamageModificatorEffect»new DamageModificatorEffect("«effect.name»", "«effect.description»", null, «effect.onSelf»)«ENDIF»
+	«IF effect instanceof EndGameEffect»new EndGameEffect("«effect.name»", "«effect.description»")«ENDIF»
+	);
+	«ENDFOR»
+	'''
+	
+	def generateINonPlayerEntities(EList<INonPlayerEntity> entities)'''
+	
 	'''
 	
 	def generateEDamageTypes(EList<DamageType> damageTypes) '''

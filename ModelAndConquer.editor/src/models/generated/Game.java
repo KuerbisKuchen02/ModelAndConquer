@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Game extends GenericElement {
     private static final String TAG = Game.class.getSimpleName();
-    public final Player player;
+    private Player player;
     private boolean isRunning = true;
     private Area[] areas;
     private Connection[] connections;
