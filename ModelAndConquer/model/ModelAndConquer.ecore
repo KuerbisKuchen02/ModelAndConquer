@@ -55,20 +55,18 @@
         eType="#//Effect"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="asciiArt" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionNorth" eType="#//Connection"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionEast" eType="#//Connection"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionSouth" eType="#//Connection"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionWest" eType="#//Connection"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionUp" eType="#//Connection"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connectionDown" eType="#//Connection"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Connection" eSuperTypes="#//GenericElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="onTraverseEffect" upperBound="-1"
         eType="#//Effect"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unlockedWith" upperBound="-1"
         eType="#//Item"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="areaA" lowerBound="1" eType="#//Area"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="areaB" lowerBound="1" eType="#//Area"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="areaFrom" lowerBound="1"
+        eType="#//Area"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="areaTo" lowerBound="1"
+        eType="#//Area"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" lowerBound="1"
+        eType="#//EDirections"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Item" eSuperTypes="#//GenericElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="damage" lowerBound="1"
@@ -115,13 +113,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="monster" lowerBound="1"
         upperBound="-1" eType="#//Monster" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="Directions">
-    <eLiterals name="NORTH"/>
-    <eLiterals name="EAST" value="1"/>
-    <eLiterals name="SOUTH" value="2"/>
-    <eLiterals name="WEST" value="3"/>
-    <eLiterals name="UP" value="4"/>
-    <eLiterals name="DOWN" value="5"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="EDirections">
+    <eLiterals name="NORTHTOSOUTH"/>
+    <eLiterals name="EASTTOWEST" value="1"/>
+    <eLiterals name="SOUTHTONORTH" value="2"/>
+    <eLiterals name="WESTTOEAST" value="3"/>
+    <eLiterals name="UPTODOWN" value="4"/>
+    <eLiterals name="DOWNTOUP" value="5"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IHealable" abstract="true" interface="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="INonPlayerEntity" abstract="true" interface="true"/>

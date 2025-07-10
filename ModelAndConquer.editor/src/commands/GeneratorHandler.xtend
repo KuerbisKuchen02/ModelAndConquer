@@ -114,7 +114,7 @@ class GeneratorHandler extends AbstractHandler {
 	def generateConnections(EList<Connection> connections)'''
 	// Generate Connections
 	«FOR Connection connection: connections»
-	this.connections.add(new Connection("«connection.name»", "«connection.description»", null, null, null));
+	this.connections.add(new Connection("«connection.name»", "«connection.description»", «connection.direction», null, null, null));
 	«ENDFOR»
 	'''
 	

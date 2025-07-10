@@ -5,6 +5,7 @@ import ModelAndConquer.Connection;
 import ModelAndConquer.DamageModificatorEffect;
 import ModelAndConquer.DamageType;
 import ModelAndConquer.DestroyableObject;
+import ModelAndConquer.EDirections;
 import ModelAndConquer.Effect;
 import ModelAndConquer.EndGameEffect;
 import ModelAndConquer.Game;
@@ -250,7 +251,10 @@ public class GeneratorHandler extends AbstractHandler {
         _builder.append("\", \"");
         String _description = connection.getDescription();
         _builder.append(_description);
-        _builder.append("\", null, null, null));");
+        _builder.append("\", ");
+        EDirections _direction = connection.getDirection();
+        _builder.append(_direction);
+        _builder.append(", null, null, null));");
         _builder.newLineIfNotEmpty();
       }
     }

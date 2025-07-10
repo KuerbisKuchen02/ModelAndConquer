@@ -2,7 +2,9 @@ package models._static;
 
 public class Connection extends GenericElement {
     private boolean isLocked;
-    private Area[] areas = new Area[2];
+    private Area areaFrom;
+    private Area areaTo;
+    private EDirection direction;
     private Effect onTraverse;
     private Item unlockedWith;
 
@@ -10,21 +12,32 @@ public class Connection extends GenericElement {
         super(name, description);
     }
 
-    public Connection(String name, String description, Area[] areas, Effect onTraverse, Item unlockedWith) {
+    public Connection(String name, String description, EDirection direction, Area areaFrom, Area areaTo, Effect onTraverse, Item unlockedWith) {
         super(name, description);
-        this.areas = areas;
+        this.direction = direction;
+        this.areaFrom = areaFrom;
+        this.areaTo = areaTo;        
         this.onTraverse = onTraverse;
         setLocked(unlockedWith);
     }
 
-    public Area[] getAreas() {
-        return areas;
+    public Area getAreaFrom() {
+        return areaFrom;
     }
 
-    public void setAreas(Area[] areas) {
-        this.areas = areas;
+    
+    public Area getAreaTo() {
+    	return areaTo;
+    }
+    
+    public void setAreaFrom(Area area) {
+        this.areaFrom = area;
     }
 
+    public void setAreaTo(Area area) {
+        this.areaTo = area;
+    }
+    
     public void tryTraverse() {
         if (isLocked) {
             System.out.println("You have to unlock this connection with " + unlockedWith.toShortString());
