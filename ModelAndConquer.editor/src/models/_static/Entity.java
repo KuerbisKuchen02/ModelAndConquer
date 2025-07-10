@@ -8,17 +8,18 @@ public abstract class Entity extends GenericElement {
     protected double health;
     protected double maxHealth;
     private ArrayList<Item> inventory;
-    private Effect[] effects;
+    private ArrayList<Effect> effects;
     private ArrayList<DamageModificator> damageModificators;
 
-    public Entity (String name, String description, double maxHealth,  ArrayList<Item> inventory, Effect[] Effects,  ArrayList<DamageModificator> damageModificators) {
+    public Entity (String name, String description, double maxHealth, ArrayList<Item> inventory,
+                   ArrayList<Effect> effects, ArrayList<DamageModificator> damageModificators) {
         super(name, description);
 
         this.health = maxHealth;
         this.maxHealth = maxHealth;
-        this.inventory = inventory;
-        this.effects = Effects;
-        this.damageModificators = damageModificators;
+        this.inventory = (inventory == null) ? new ArrayList<>() : inventory;
+        this.effects = (effects == null) ? new ArrayList<>() : effects;
+        this.damageModificators = (damageModificators == null) ? new ArrayList<>() : damageModificators;
     }
 
     public void setMaxHealth(double maxHealth) {
@@ -58,7 +59,7 @@ public abstract class Entity extends GenericElement {
     public double getHealth() { return this.health; }
     public double getMaxHealth() { return this.maxHealth; }
     public ArrayList<Item> getInventory() { return this.inventory; }
-    public Effect[] getEffects() { return this.effects; }
+    public ArrayList<Effect> getEffects() { return this.effects; }
     public ArrayList<DamageModificator> getDamageModificator() { return this.damageModificators; }
 
     public boolean isInInventory(Item item) {

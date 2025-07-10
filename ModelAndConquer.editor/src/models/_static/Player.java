@@ -15,8 +15,8 @@ public class Player extends Entity implements IHealable {
     }
 
     public Player(String name, String description, double maxHealth,  ArrayList<Item> inventory,
-                   Effect[] Effects,  ArrayList<DamageModificator> damageModificators) {
-        super(name, description, maxHealth, inventory, Effects, damageModificators);
+                   ArrayList<Effect> effects,  ArrayList<DamageModificator> damageModificators) {
+        super(name, description, maxHealth, inventory, effects, damageModificators);
         Player.player = this;
     }
 

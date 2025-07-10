@@ -33,9 +33,9 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity {
     }
 
     public Monster(String name, String description, double maxHealth, ArrayList<Item> inventory,
-                   Effect[] Effects, ArrayList<DamageModificator> damageModificators,EDamageType damageType,
+                   ArrayList<Effect> effects, ArrayList<DamageModificator> damageModificators,EDamageType damageType,
                    Effect onSpawn, Effect onHit, Effect onDamage, Effect onKill) {
-        super(name, description, maxHealth, inventory, Effects, damageModificators);
+        super(name, description, maxHealth, inventory, effects, damageModificators);
 
         this.damageType = damageType;
         this.onSpawn = onSpawn;
