@@ -155,10 +155,25 @@ public class Game extends GenericElement {
     }
 
     /**
-     * Prints a help message describing the game.
+     * Prints a help message describing the game and all available actions.
      */
     public void help() {
-        System.out.println("Welcome Player to " + getName() + "!\n" + getDescription() + "\n");
+        System.out.println(STR."""
+        ==========================================================
+        Hello! Welcome to: \{getName()}!
+        \{getDescription()}
+        ==========================================================
+        You are able to do the following actions:
+        walk | go | walk (north | south | west | east | up | down)
+        hit | attack <Monster> [with <Item>]
+        use <Item> [on <Monster | Connection>]
+        take <Item>
+        drop <Item>
+        inspect, look area | player | item
+        unlock <Connection> with <Item>
+        ==========================================================
+        If you need help, type: help"""
+        );
     }
 
     /**
