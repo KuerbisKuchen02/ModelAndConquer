@@ -38,7 +38,7 @@ public class Connection extends GenericElement {
     
     public void tryTraverse() {
         if (isLocked) {
-            System.out.println("You have to unlock this connection with " + unlockedWith.toShortString());
+            System.out.println("You have to unlock this passage with: " + unlockedWith.toShortString());
         }
         else{
             if (onTraverse != null) onTraverse.apply();

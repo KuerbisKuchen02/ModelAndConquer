@@ -40,6 +40,7 @@ public class GameParser {
             case "unlock" -> unlock(rest);
             case "help"  -> help();
             case "Schokokuchen" -> schokoKuchen();
+            default -> System.out.println("This command does not exist!");
         }
     }
 

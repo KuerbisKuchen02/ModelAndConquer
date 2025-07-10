@@ -46,7 +46,6 @@ public class Game extends GenericElement {
      * */
     public void gameLoop() {
         help();  // Initially print help messages
-
         while (isRunning){
             try {
                 System.out.print("> ");
@@ -192,6 +191,7 @@ public class Game extends GenericElement {
         if (!player.isInInventory(item)) {
             player.getInventory().add(item);
             player.getPosition().removeItem(item);
+            System.out.println("Picked up " + itemString + ".");
         } else {
             throw new IllegalArgumentException("The Player already has this item");
         }
@@ -223,26 +223,28 @@ public class Game extends GenericElement {
      * @param element The element to inspect.
      */
     public void inspect(String element) {
-
         switch (element) {
             case "area":
-                System.out.println(player.getPosition().toString());
+                System.out.println(player.getPosition());
                 return;
             case "player":
                 System.out.println(player.toString());
                 return;
         }
+
         for (Item item : player.getInventory()) {
             if (item.getName().equals(element)) {
-                System.out.println(item.toString());
+                System.out.println(item);
                 return;
             }
         }
-        // Was ist denn mit Carsten los?...
-        // ***** Boom *****
-        // ...Das sieht gar nicht gut aus
+
         GenericElement genericElement = getGenericElementInArea(element);
-        System.out.println((genericElement));
+        if (genericElement != null) {
+            System.out.println((genericElement));
+        } else {
+            System.out.println("There is nothing to inspect which has this name.");
+        }
     }
 
     public void applyEffect(Effect effect, GenericElement self, GenericElement other) throws RuntimeException {
