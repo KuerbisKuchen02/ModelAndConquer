@@ -11,7 +11,7 @@ public abstract class GenericElement {
 
     @Override
     public String toString(){
-        return name + "\n" + description;
+        return name + " - " + description;
     }
 
     public String getName() {

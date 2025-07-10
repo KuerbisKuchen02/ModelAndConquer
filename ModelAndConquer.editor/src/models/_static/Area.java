@@ -81,7 +81,7 @@ public class Area extends GenericElement {
     public String presentItems(){
         StringBuilder itemsString = new StringBuilder();
         for (Item item : items){
-            itemsString.append(item.toShortString()).append("\n");
+            itemsString.append("\t").append(item.toShortString()).append("\n");
         }
         return itemsString.toString();
     }
@@ -129,10 +129,10 @@ public class Area extends GenericElement {
             if(connections[i] == null) continue;
 
             if (connections[i].getAreaFrom() != this) {
-            	adjacentAreas.append(EDirection.getValueString(i)).append(connections[i].getAreaFrom().shortToString()).append("\n");
+            	adjacentAreas.append("\t").append(EDirection.getValueString(i)).append(" - ").append(connections[i].getAreaFrom().shortToString()).append("\n");
                 break;
             } else if (connections[i].getAreaTo() != this) {
-            	adjacentAreas.append(EDirection.getValueString(i)).append(connections[i].getAreaTo().shortToString()).append("\n");
+            	adjacentAreas.append("\t").append(EDirection.getValueString(i)).append(" - ").append(connections[i].getAreaTo().shortToString()).append("\n");
                 break;
             }
 
@@ -164,21 +164,22 @@ public class Area extends GenericElement {
     @Override
     public String toString(){
         if (visited) {
-            String roomSpecification = "";
+            String roomSpecification    = "==========================================================\n"
+                                        + "> This Area is: " + getName() + "\n";
 
             if (!entities.isEmpty()) {
-                roomSpecification += presentMonsters();
+                roomSpecification       += "> There are Monsters in the Area:\n" + presentMonsters();
             }
 
             if (!items.isEmpty()) {
-                roomSpecification += presentItems();
+                roomSpecification       += "> There are items in the Area:\n" + presentItems();
             }
 
-            roomSpecification += "Adjacent Areas: \n" + presentAdjacentAreas();
-
-            return super.toString() + "\n"  + roomSpecification;
+            roomSpecification += "> Adjacent Areas: \n" + presentAdjacentAreas();
+            roomSpecification += "==========================================================";
+            return roomSpecification;
         } else {
-            return "There is an unknown area.";
+            return "You have not visited this Area.";
         }
     }
 }

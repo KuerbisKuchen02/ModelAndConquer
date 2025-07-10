@@ -72,24 +72,32 @@ public abstract class Entity extends GenericElement {
 
     @Override
     public String toString(){
-        String entityDescription = "";
-        entityDescription += "\nHealth" + getHealth() + "/" + getMaxHealth() + "\n";
-        entityDescription += "Items in inventory:\n";
-        for(Item item : inventory){
-            entityDescription += "\t" + item.getName() + " - " + item.getDescription() + "\n";
-        }
-        entityDescription += "Damage multiplier:\n";
-        for(DamageModificator dm : damageModificators){
-            // TODO dm.getDamageType() returns Type DamageType not String
-            entityDescription += "\t" + ((dm.getMultiplicator() > 1.0) ? "weak" : "resistant") +
-                    "against" + dm.getDamageType() + "\n";
-        }
-        entityDescription += "Current Effects:\n";
-        for(Effect e : effects){
-            entityDescription += "\t" + e.toString() + "\n";
+        String entityDescription    = "==========================================================\n"
+                                    + "> Health: " + getHealth() + " / " + getMaxHealth() + "\n";
+
+        if (!inventory.isEmpty()) {
+            entityDescription += "> Items in inventory:\n";
+            for(Item item : inventory){
+                entityDescription += "\t" + item.getName() + " - " + item.getDescription() + "\n";
+            }
         }
 
-        return super.toString() + entityDescription;
+        if (!damageModificators.isEmpty()) {
+            entityDescription += "> Damage multipliers:\n";
+            for(DamageModificator dm : damageModificators){
+                // TODO dm.getDamageType() returns Type DamageType not String
+                entityDescription += "\t" + ((dm.getMultiplicator() > 1.0) ? "weak" : "resistant") +
+                        "against" + dm.getDamageType() + "\n";
+            }
+        }
+
+        if (!effects.isEmpty()) {
+            entityDescription += "> Current Effects:\n";
+            for(Effect e : effects) entityDescription += "\t" + e.toString() + "\n";
+        }
+
+        entityDescription += "==========================================================";
+        return entityDescription;
     }
 
     public void dropItems(Area area){

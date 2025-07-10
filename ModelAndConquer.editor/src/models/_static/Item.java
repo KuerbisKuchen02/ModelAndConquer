@@ -39,13 +39,13 @@ public class Item extends GenericElement {
 
     @Override
     public String toString() {
-        String ret = super.toString();
-        if(isConsumable) ret += " This item is consumable";
-        ret += "\nDamage: " + damage;
-        ret += "\nDamage type: " + damageType;
-
-
-        return ret;
+        String returnString     = "==========================================================\n"
+                                + "> " + super.toString() + "\n";
+        returnString            += isConsumable ? "> This item is consumable\n" : ""
+                                + "> Damage: " + damage + "\n";
+        returnString            += damageType != null ? damageType + "\n" : ""
+                                + "==========================================================";
+        return returnString;
     }
 
     public String toShortString() {

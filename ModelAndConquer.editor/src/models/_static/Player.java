@@ -22,7 +22,7 @@ public class Player extends Entity implements IHealable {
 
     @Override
     public String toString() {
-        return super.toString() + "\n\nYou are in the area: " + position.getName();
+        return super.toString() + "\n> You are in the area: " + position.getName() + "\n==========================================================";
     }
 
     public void heal(double amount){
