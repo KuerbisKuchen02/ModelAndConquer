@@ -2,10 +2,10 @@ package commands;
 
 import ModelAndConquer.Area;
 import ModelAndConquer.Connection;
+import ModelAndConquer.DamageModificator;
 import ModelAndConquer.DamageModificatorEffect;
 import ModelAndConquer.DamageType;
 import ModelAndConquer.DestroyableObject;
-import ModelAndConquer.EDirections;
 import ModelAndConquer.Effect;
 import ModelAndConquer.EndGameEffect;
 import ModelAndConquer.Game;
@@ -134,104 +134,34 @@ public class GeneratorHandler extends AbstractHandler {
     _builder.newLine();
     {
       for(final Area area : areas) {
-        _builder.append("// Generate Non Player Entities of the Area");
+        _builder.append("// Generate Area ");
+        String _name = area.getName();
+        _builder.append(_name);
+        _builder.newLineIfNotEmpty();
+        _builder.append("// Generate INonPlayerEntities for ");
+        String _name_1 = area.getName();
+        _builder.append(_name_1);
+        _builder.newLineIfNotEmpty();
+        CharSequence _generateINonPlayerEntities = this.generateINonPlayerEntities(area.getEntities());
+        _builder.append(_generateINonPlayerEntities);
+        _builder.newLineIfNotEmpty();
         _builder.newLine();
-        _builder.append("ArrayList<INonPlayerEntity> entities = new ArrayList<INonPlayerEntity>();");
-        _builder.newLine();
-        {
-          EList<INonPlayerEntity> _entities = area.getEntities();
-          for(final INonPlayerEntity entity : _entities) {
-            {
-              if ((entity instanceof Monster)) {
-                _builder.newLine();
-                _builder.append("// Generate Inventory of Monster");
-                _builder.newLine();
-                _builder.append("ArrayList<Item> inventory = new ArrayList<Item>();");
-                _builder.newLine();
-                {
-                  EList<Item> _inventory = ((Monster)entity).getInventory();
-                  for(final Item item : _inventory) {
-                    _builder.append("inventory.add(new Item(\"");
-                    String _name = item.getName();
-                    _builder.append(_name);
-                    _builder.append("\", \"");
-                    String _description = item.getDescription();
-                    _builder.append(_description);
-                    _builder.append("\", ");
-                    double _damage = item.getDamage();
-                    _builder.append(_damage);
-                    _builder.append(", ");
-                    boolean _isConsumable = item.isConsumable();
-                    _builder.append(_isConsumable);
-                    _builder.append(", null, null, null, null);");
-                    _builder.newLineIfNotEmpty();
-                  }
-                }
-                _builder.append("Entity entity = new Monster(\"");
-                String _name_1 = ((Monster)entity).getName();
-                _builder.append(_name_1);
-                _builder.append("\", \"");
-                String _description_1 = ((Monster)entity).getDescription();
-                _builder.append(_description_1);
-                _builder.append("\", ");
-                double _maxHealth = ((Monster)entity).getMaxHealth();
-                _builder.append(_maxHealth);
-                _builder.append(", null, null, null, null, null, null, null, null)");
-                _builder.newLineIfNotEmpty();
-              }
-            }
-            {
-              if ((entity instanceof DestroyableObject)) {
-                _builder.append("Entity entity = new DestroyableObject(\"");
-                String _name_2 = ((DestroyableObject)entity).getName();
-                _builder.append(_name_2);
-                _builder.append("\", \"");
-                String _description_2 = ((DestroyableObject)entity).getDescription();
-                _builder.append(_description_2);
-                _builder.append("\", ");
-                double _maxHealth_1 = ((DestroyableObject)entity).getMaxHealth();
-                _builder.append(_maxHealth_1);
-                _builder.append(",  ");
-              }
-            }
-            _builder.newLineIfNotEmpty();
-            _builder.append("entities.add(entity);");
-            _builder.newLine();
-          }
-        }
-        _builder.newLine();
-        _builder.append("// Generate items of Area");
-        _builder.newLine();
-        _builder.append("ArrayList<Item> items = new ArrayList<Item>();");
-        _builder.newLine();
-        {
-          EList<Item> _items = area.getItems();
-          for(final Item item_1 : _items) {
-            _builder.append("items.add(new Item(\"");
-            String _name_3 = item_1.getName();
-            _builder.append(_name_3);
-            _builder.append("\", \"");
-            String _description_3 = item_1.getDescription();
-            _builder.append(_description_3);
-            _builder.append("\", ");
-            double _damage_1 = item_1.getDamage();
-            _builder.append(_damage_1);
-            _builder.append(", ");
-            boolean _isConsumable_1 = item_1.isConsumable();
-            _builder.append(_isConsumable_1);
-            _builder.append(", null, null, null, null);");
-            _builder.newLineIfNotEmpty();
-          }
-        }
+        _builder.append("// Generate Items for ");
+        String _name_2 = area.getName();
+        _builder.append(_name_2);
+        _builder.newLineIfNotEmpty();
+        CharSequence _generateItems = this.generateItems(area.getItems());
+        _builder.append(_generateItems);
+        _builder.newLineIfNotEmpty();
         _builder.newLine();
         _builder.append("// Add Area object");
         _builder.newLine();
         _builder.append("this.areas.add(new Area(\"");
-        String _name_4 = area.getName();
-        _builder.append(_name_4);
+        String _name_3 = area.getName();
+        _builder.append(_name_3);
         _builder.append("\", \"");
-        String _description_4 = area.getDescription();
-        _builder.append(_description_4);
+        String _description = area.getDescription();
+        _builder.append(_description);
         _builder.append("\", null, entities, items, null));");
         _builder.newLineIfNotEmpty();
       }
@@ -251,10 +181,7 @@ public class GeneratorHandler extends AbstractHandler {
         _builder.append("\", \"");
         String _description = connection.getDescription();
         _builder.append(_description);
-        _builder.append("\", ");
-        EDirections _direction = connection.getDirection();
-        _builder.append(_direction);
-        _builder.append(", null, null, null));");
+        _builder.append("\", null, null, null, null);");
         _builder.newLineIfNotEmpty();
       }
     }
@@ -338,7 +265,127 @@ public class GeneratorHandler extends AbstractHandler {
 
   public CharSequence generateINonPlayerEntities(final EList<INonPlayerEntity> entities) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("\t");
+    _builder.append("// Generate Non Player Entities");
+    _builder.newLine();
+    _builder.append("ArrayList<INonPlayerEntity> entities = new ArrayList<INonPlayerEntity>();");
+    _builder.newLine();
+    {
+      for(final INonPlayerEntity entity : entities) {
+        {
+          if ((entity instanceof Monster)) {
+            _builder.append("// Generate Inventory of Monster ");
+            String _name = ((Monster)entity).getName();
+            _builder.append(_name);
+            _builder.newLineIfNotEmpty();
+            CharSequence _generateItems = this.generateItems(((Monster)entity).getInventory());
+            _builder.append(_generateItems);
+            _builder.newLineIfNotEmpty();
+            _builder.append("// Generate DamageModificators of Monster ");
+            String _name_1 = ((Monster)entity).getName();
+            _builder.append(_name_1);
+            _builder.newLineIfNotEmpty();
+            CharSequence _generateDamageModificator = this.generateDamageModificator(((Monster)entity).getDamageModificators());
+            _builder.append(_generateDamageModificator);
+            _builder.newLineIfNotEmpty();
+            _builder.append("Entity entity = new Monster(\"");
+            String _name_2 = ((Monster)entity).getName();
+            _builder.append(_name_2);
+            _builder.append("\", \"");
+            String _description = ((Monster)entity).getDescription();
+            _builder.append(_description);
+            _builder.append("\", ");
+            double _maxHealth = ((Monster)entity).getMaxHealth();
+            _builder.append(_maxHealth);
+            _builder.append(", items, null, null, null, null, null, null, null)");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        {
+          if ((entity instanceof DestroyableObject)) {
+            _builder.append("// Generate Inventory of Destroyable Object ");
+            String _name_3 = ((DestroyableObject)entity).getName();
+            _builder.append(_name_3);
+            _builder.newLineIfNotEmpty();
+            CharSequence _generateItems_1 = this.generateItems(((DestroyableObject)entity).getInventory());
+            _builder.append(_generateItems_1);
+            _builder.newLineIfNotEmpty();
+            _builder.append("// Generate DamageModificators of DestroyableObject ");
+            String _name_4 = ((DestroyableObject)entity).getName();
+            _builder.append(_name_4);
+            _builder.newLineIfNotEmpty();
+            CharSequence _generateDamageModificator_1 = this.generateDamageModificator(((DestroyableObject)entity).getDamageModificators());
+            _builder.append(_generateDamageModificator_1);
+            _builder.newLineIfNotEmpty();
+            _builder.append("Entity entity = new DestroyableObject(\"");
+            String _name_5 = ((DestroyableObject)entity).getName();
+            _builder.append(_name_5);
+            _builder.append("\", \"");
+            String _description_1 = ((DestroyableObject)entity).getDescription();
+            _builder.append(_description_1);
+            _builder.append("\", ");
+            double _maxHealth_1 = ((DestroyableObject)entity).getMaxHealth();
+            _builder.append(_maxHealth_1);
+            _builder.append(",  items, null, null);");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.append("entities.add(entity);");
+        _builder.newLine();
+      }
+    }
+    return _builder;
+  }
+
+  public CharSequence generateItems(final EList<Item> items) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("// Generate items");
+    _builder.newLine();
+    _builder.append("ArrayList<Item> items = new ArrayList<Item>();");
+    _builder.newLine();
+    {
+      for(final Item item : items) {
+        _builder.append("items.add(new Item(\"");
+        String _name = item.getName();
+        _builder.append(_name);
+        _builder.append("\", \"");
+        String _description = item.getDescription();
+        _builder.append(_description);
+        _builder.append("\", ");
+        double _damage = item.getDamage();
+        _builder.append(_damage);
+        _builder.append(", ");
+        boolean _isConsumable = item.isConsumable();
+        _builder.append(_isConsumable);
+        _builder.append(", null, null, null, null);");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    return _builder;
+  }
+
+  public CharSequence generateDamageModificator(final EList<DamageModificator> damageModificators) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("// Generate DamageModificator");
+    _builder.newLine();
+    _builder.append("ArrayList<DamageModificator> damageModificators = new ArrayList<DamagaModificator>();");
+    _builder.newLine();
+    {
+      for(final DamageModificator damageModificator : damageModificators) {
+        _builder.append("DamageModificator damageModificator = new DamageModificator(");
+        String _name = damageModificator.getName();
+        _builder.append(_name);
+        _builder.append(", ");
+        String _description = damageModificator.getDescription();
+        _builder.append(_description);
+        _builder.append(", null, ");
+        double _multiplikator = damageModificator.getMultiplikator();
+        _builder.append(_multiplikator);
+        _builder.append(");");
+        _builder.newLineIfNotEmpty();
+        _builder.append("damageModificators.add(damageModificator);");
+        _builder.newLine();
+      }
+    }
     _builder.newLine();
     return _builder;
   }

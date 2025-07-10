@@ -128,12 +128,14 @@ public class Area extends GenericElement {
         for (int i = 0; i<connections.length; i++) {
             if(connections[i] == null) continue;
 
-            for (Area area : connections[i].getAreas()) {
-                if (area != this) {
-                    adjacentAreas.append(EDirection.getValueString(i)).append(area.shortToString()).append("\n");
-                    break;
-                }
+            if (connections[i].getAreaFrom() != this) {
+            	adjacentAreas.append(EDirection.getValueString(i)).append(connections[i].getAreaFrom().shortToString()).append("\n");
+                break;
+            } else if (connections[i].getAreaTo() != this) {
+            	adjacentAreas.append(EDirection.getValueString(i)).append(connections[i].getAreaTo().shortToString()).append("\n");
+                break;
             }
+
         }
         return adjacentAreas.toString();
     }

@@ -7,13 +7,13 @@
   <foreignModel>ModelAndConquer.ecore</foreignModel>
   <genPackages prefix="ModelAndConquer" disposableProviderFactory="true" childCreationExtenders="true"
       ecorePackage="ModelAndConquer.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ModelAndConquer.ecore#//EDirections">
-      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EDirections/NORTHTOSOUTH"/>
-      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EDirections/EASTTOWEST"/>
-      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EDirections/SOUTHTONORTH"/>
-      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EDirections/WESTTOEAST"/>
-      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EDirections/UPTODOWN"/>
-      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EDirections/DOWNTOUP"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ModelAndConquer.ecore#//EConnectionDirections">
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EConnectionDirections/NORTHTOSOUTH"/>
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EConnectionDirections/EASTTOWEST"/>
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EConnectionDirections/SOUTHTONORTH"/>
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EConnectionDirections/WESTTOEAST"/>
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EConnectionDirections/UPTODOWN"/>
+      <genEnumLiterals ecoreEnumLiteral="ModelAndConquer.ecore#//EConnectionDirections/DOWNTOUP"/>
     </genEnums>
     <genClasses ecoreClass="ModelAndConquer.ecore#//Game">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Game/player"/>

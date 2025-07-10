@@ -28,6 +28,7 @@ import ModelAndConquer.Monster
 import ModelAndConquer.DestroyableObject
 import ModelAndConquer.Item
 import ModelAndConquer.Player
+import ModelAndConquer.DamageModificator
 
 class GeneratorHandler extends AbstractHandler {
 	
@@ -82,40 +83,25 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 	
 	def generateAreas(EList<Area> areas)'''
-	// Generate Areas
-	«FOR Area area: areas»
-	// Generate Non Player Entities of the Area
-	ArrayList<INonPlayerEntity> entities = new ArrayList<INonPlayerEntity>();
-	«FOR INonPlayerEntity entity: area.entities»
-	«IF entity instanceof Monster»
-	
-	// Generate Inventory of Monster
-	ArrayList<Item> inventory = new ArrayList<Item>();
-	«FOR Item item: entity.inventory»
-	inventory.add(new Item("«item.name»", "«item.description»", «item.damage», «item.consumable», null, null, null, null);
-	«ENDFOR»
-	Entity entity = new Monster("«entity.name»", "«entity.description»", «entity.maxHealth», null, null, null, null, null, null, null, null)
-	«ENDIF»
-	«IF entity instanceof DestroyableObject»Entity entity = new DestroyableObject("«entity.name»", "«entity.description»", «entity.maxHealth»,  «ENDIF»
-	entities.add(entity);
-	«ENDFOR»
-	
-	// Generate items of Area
-	ArrayList<Item> items = new ArrayList<Item>();
-	«FOR Item item: area.items»
-	items.add(new Item("«item.name»", "«item.description»", «item.damage», «item.consumable», null, null, null, null);
-	«ENDFOR»
-	
-	// Add Area object
-	this.areas.add(new Area("«area.name»", "«area.description»", null, entities, items, null));
-	«ENDFOR»
+		// Generate Areas
+		«FOR Area area: areas»
+		// Generate Area «area.name»
+		// Generate INonPlayerEntities for «area.name»
+		«generateINonPlayerEntities(area.entities)»
+		
+		// Generate Items for «area.name»
+		«generateItems(area.items)»
+		
+		// Add Area object
+		this.areas.add(new Area("«area.name»", "«area.description»", null, entities, items, null));
+		«ENDFOR»
 	'''
 
 	def generateConnections(EList<Connection> connections)'''
-	// Generate Connections
-	«FOR Connection connection: connections»
-	this.connections.add(new Connection("«connection.name»", "«connection.description»", «connection.direction», null, null, null));
-	«ENDFOR»
+		// Generate Connections
+		«FOR Connection connection: connections»
+		this.connections.add(new Connection("«connection.name»", "«connection.description»", null, null, null, null);
+		«ENDFOR»
 	'''
 	
 	def generateEffects(EList<Effect> effects)'''
@@ -131,7 +117,43 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 	
 	def generateINonPlayerEntities(EList<INonPlayerEntity> entities)'''
+		// Generate Non Player Entities
+		ArrayList<INonPlayerEntity> entities = new ArrayList<INonPlayerEntity>();
+		«FOR INonPlayerEntity entity: entities»
+		«IF entity instanceof Monster»
+		// Generate Inventory of Monster «entity.name»
+		«generateItems(entity.inventory)»
+		// Generate DamageModificators of Monster «entity.name»
+		«generateDamageModificator(entity.damageModificators)»
+		Entity entity = new Monster("«entity.name»", "«entity.description»", «entity.maxHealth», items, null, null, null, null, null, null, null)
+		«ENDIF»
+		«IF entity instanceof DestroyableObject»
+		// Generate Inventory of Destroyable Object «entity.name»
+		«generateItems(entity.inventory)»
+		// Generate DamageModificators of DestroyableObject «entity.name»
+		«generateDamageModificator(entity.damageModificators)»
+		Entity entity = new DestroyableObject("«entity.name»", "«entity.description»", «entity.maxHealth»,  items, null, null);
+		«ENDIF»
+		entities.add(entity);
+		«ENDFOR»
+	'''
 	
+	def generateItems(EList<Item> items)'''
+		// Generate items
+		ArrayList<Item> items = new ArrayList<Item>();
+		«FOR Item item: items»
+		items.add(new Item("«item.name»", "«item.description»", «item.damage», «item.consumable», null, null, null, null);
+		«ENDFOR»
+	'''
+	
+	def generateDamageModificator(EList<DamageModificator> damageModificators)'''
+		// Generate DamageModificator
+		ArrayList<DamageModificator> damageModificators = new ArrayList<DamagaModificator>();
+		«FOR DamageModificator damageModificator: damageModificators»
+		DamageModificator damageModificator = new DamageModificator(«damageModificator.name», «damageModificator.description», null, «damageModificator.multiplikator»);
+		damageModificators.add(damageModificator);
+		«ENDFOR»
+		
 	'''
 	
 	def generateEDamageTypes(EList<DamageType> damageTypes) '''
@@ -154,7 +176,7 @@ class GeneratorHandler extends AbstractHandler {
 		}
 	}
 	'''
-	
+
 	
 	def void createFileWithContent(IProject project, String pckgName, String fileName, CharSequence content) {
 		var String currentFolderString = "src-gen/";

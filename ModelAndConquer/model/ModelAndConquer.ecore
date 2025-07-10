@@ -66,7 +66,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="areaTo" lowerBound="1"
         eType="#//Area"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" lowerBound="1"
-        eType="#//EDirections"/>
+        eType="#//EConnectionDirections"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Item" eSuperTypes="#//GenericElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="damage" lowerBound="1"
@@ -113,7 +113,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="monster" lowerBound="1"
         upperBound="-1" eType="#//Monster" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="EDirections">
+  <eClassifiers xsi:type="ecore:EEnum" name="EConnectionDirections">
     <eLiterals name="NORTHTOSOUTH"/>
     <eLiterals name="EASTTOWEST" value="1"/>
     <eLiterals name="SOUTHTONORTH" value="2"/>
