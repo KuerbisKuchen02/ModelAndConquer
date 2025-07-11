@@ -59,8 +59,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Connection" eSuperTypes="#//GenericElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="onTraverseEffect" upperBound="-1"
         eType="#//Effect"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="unlockedWith" upperBound="-1"
-        eType="#//Item"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unlockedWith" eType="#//Item"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="areaFrom" lowerBound="1"
         eType="#//Area"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="areaTo" lowerBound="1"
@@ -72,15 +71,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="damage" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="damageType" lowerBound="1"
-        upperBound="-1" eType="#//DamageType"/>
+        eType="#//DamageType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="consumable" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="onDropEffect" upperBound="-1"
-        eType="#//Effect"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="onPickupEffect" upperBound="-1"
-        eType="#//Effect"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="onUseEffect" upperBound="-1"
-        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onDropEffect" eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onPickupEffect" eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onUseEffect" eType="#//Effect"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Effect" abstract="true" eSuperTypes="#//GenericElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="probability" lowerBound="1"

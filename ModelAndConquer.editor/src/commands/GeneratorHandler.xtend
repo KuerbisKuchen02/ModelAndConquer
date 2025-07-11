@@ -30,6 +30,8 @@ import ModelAndConquer.Item
 import ModelAndConquer.Player
 import ModelAndConquer.DamageModificator
 import ModelAndConquer.EConnectionDirections
+import java.util.ArrayList
+import ModelAndConquer.Entity
 
 class GeneratorHandler extends AbstractHandler {
 	
@@ -86,66 +88,41 @@ class GeneratorHandler extends AbstractHandler {
 			ArrayList<DamageModificator> damageModificators;
 			Entity entity;
 			DamageModificator damageModificator;
-
+			
+			// Create all GenericElements of the Game and their Sub-ELements which have a containment Relation within the Model
+			initPlayer();
+			initAreas();
+			initConnection();
+			initEffects();
+			
+			// Link all Generic Elements with their EReference Attributes
+			mapAreasAndConnections();
+			mapEffectsOfItems();
+			
+		}
+		
+		private void initPlayer() {
 			«generatePlayer(game.player)»
-			
+		}
+		
+		private void initAreas() {
 			«generateAreas(game.areas)»
-			
+		}
+		
+		private void initConnections() {
 			«generateConnections(game.connections)»
-			
+		}
+		
+		private void initEffects() {
 			«generateEffects(game.effects)»
-			
-			// Set all non Containment References
-			// Map Areas and Connections
-			Connection connection = null;
-			Area areaFrom = null;
-			Area areaTo = null;
-			«FOR Connection connection: game.connections»
-			// Get References
-			connection = findConnectionByName("«connection.name»");
-			areaFrom = findAreaByName("«connection.areaFrom.name»");
-			areaTo = findAreaByName("«connection.areaTo.name»");
-
-			// Set Connection Attributes
-			connection.setAreaFrom(areaFrom);
-			connection.setAreaTo(areaTo);
-
-			// Set Area Attributes
-			«IF connection.direction == EConnectionDirections.NORTHTOSOUTH»
-			areaFrom.setConnection(connection, EDirection.NORTH);
-			areaTo.setConnection(connection, EDirection.SOUTH);
-			«ELSEIF connection.direction == EConnectionDirections.EASTTOWEST»
-			areaFrom.setConnection(connection, EDirection.EAST);
-			areaTo.setConnection(connection, EDirection.WEST);
-			«ELSEIF connection.direction == EConnectionDirections.SOUTHTONORTH»
-			areaFrom.setConnection(connection, EDirection.SOUTH);
-			areaTo.setConnection(connection, EDirection.NORTH);
-			«ELSEIF connection.direction == EConnectionDirections.WESTTOEAST»
-			areaFrom.setConnection(connection, EDirection.WEST);
-			areaTo.setConnection(connection, EDirection.EAST);
-			«ELSEIF connection.direction == EConnectionDirections.UPTODOWN»
-			areaFrom.setConnection(connection, EDirection.UP);
-			areaTo.setConnection(connection, EDirection.DOWN);
-			«ELSEIF connection.direction == EConnectionDirections.DOWNTOUP»
-			areaFrom.setConnection(connection, EDirection.DOWN);
-			areaTo.setConnection(connection, EDirection.UP);
-			«ENDIF»
-			«ENDFOR»
-
-			// Set unlock Item references
-
-			// Set Effects for Areas
-			«FOR Area area: game.areas»
-			«IF area.onEnterEffect !== null»
-			// Set Effect for Area «area.name»
-			ArrayList<Effect> areaEffects = new ArrayList<Effects>();
-			«FOR Effect effect: area.onEnterEffect»
-			areaEffects.add(findEffectByName("«effect.name»"));
-			«ENDFOR»
-			findAreaByName("«area.name»").setOnEnterEffect(findEffectByName(areaEffects));
-			«ENDIF»
-
-			«ENDFOR»
+		}
+		
+		private void mapAreasAndConnections() {
+			«mapAreasAndConnections(game)»
+		}
+		
+		private void mapEffectsOfItems() {
+			«mapEffectsOfItems(game)»
 		}
 	}
 	'''
@@ -178,13 +155,27 @@ class GeneratorHandler extends AbstractHandler {
 	
 	def generateEffects(EList<Effect> effects)'''
 	// Generate Effects
+	Effect effect = null;
 	«FOR Effect effect: effects»
-		this.effects.add(
-		«IF effect instanceof HealthEffect»new HealthEffect("«effect.name»", "«effect.description»", «effect.duration», «effect.amount», «effect.onSelf», null)«ENDIF»
-		«IF effect instanceof SpawnEffect»new SpawnEffect("«effect.name»", "«effect.description»", null, null)«ENDIF»
-		«IF effect instanceof DamageModificatorEffect»new DamageModificatorEffect("«effect.name»", "«effect.description»", null, «effect.onSelf»)«ENDIF»
-		«IF effect instanceof EndGameEffect»new EndGameEffect("«effect.name»", "«effect.description»")«ENDIF»
-		);
+		«IF effect instanceof HealthEffect»
+		effect = new HealthEffect("«effect.name»", "«effect.description»", «effect.duration», «effect.amount», «effect.onSelf», null)
+		«ENDIF»
+		«IF effect instanceof SpawnEffect»
+		Monster spawnEffectEntities = new ArrayList<Monster>();
+		«FOR Monster monster: (effect as SpawnEffect).monster»
+		spawnEffectEntities.add(findMonsterByName("«monster.name»");
+		«ENDFOR»
+		Area spawnEffectArea = findAReaByName("«(effect as SpawnEffect).area.name»");
+		effect = new SpawnEffect("«effect.name»", "«effect.description»", spawnEffectEntities, area);
+		«ENDIF»
+		«IF effect instanceof DamageModificatorEffect»
+		DamageModificator damageModificator = new DamageModificator("«(effect as DamageModificatorEffect).damageModificator.name»", "«(effect as DamageModificatorEffect).damageModificator.description»", findDamageTypeByName("«(effect as DamageModificatorEffect).damageModificator.damageType.name»"), «(effect as DamageModificatorEffect).damageModificator.multiplikator»);
+		effect = new DamageModificatorEffect("«effect.name»", "«effect.description»", damageModificator, «effect.onSelf»)
+		«ENDIF»
+		«IF effect instanceof EndGameEffect»
+		effect = new EndGameEffect("«effect.name»", "«effect.description»")
+		«ENDIF»
+		this.effects.add(effect);
 	«ENDFOR»
 	'''
 	
@@ -197,14 +188,14 @@ class GeneratorHandler extends AbstractHandler {
 				«generateItems(entity.inventory)»
 				// Generate DamageModificators of Monster «entity.name»
 				«generateDamageModificator(entity.damageModificators)»
-				entity = new Monster("«entity.name»", "«entity.description»", «entity.maxHealth», items, null, null, null, null, null, null, null);
+				entity = new Monster("«entity.name»", "«entity.description»", «entity.maxHealth», items, null, damageModificators, null, null, null, null, null);
 			«ENDIF»
 			«IF entity instanceof DestroyableObject»
 			// Generate Inventory of Destroyable Object «entity.name»
 				«generateItems(entity.inventory)»
 				// Generate DamageModificators of DestroyableObject «entity.name»
 				«generateDamageModificator(entity.damageModificators)»
-				entity = new DestroyableObject("«entity.name»", "«entity.description»", «entity.maxHealth»,  items, null, null);
+				entity = new DestroyableObject("«entity.name»", "«entity.description»", «entity.maxHealth»,  items, null, damageModificators);
 			«ENDIF»
 			entities.add((INonPlayerEntity) entity);
 		«ENDFOR»
@@ -220,7 +211,7 @@ class GeneratorHandler extends AbstractHandler {
 	
 	def generateDamageModificator(EList<DamageModificator> damageModificators)'''
 		// Generate DamageModificator
-		damageModificators = new ArrayList<>();
+		ArrayList<DamageModificator> damageModificators = new ArrayList<>();
 		«FOR DamageModificator damageModificator: damageModificators»
 			DamageModificator damageModificator = new DamageModificator(«damageModificator.name», «damageModificator.description», null, «damageModificator.multiplikator»));
 			damageModificators.add(damageModificator);
@@ -249,6 +240,112 @@ class GeneratorHandler extends AbstractHandler {
 	}
 	'''
 
+	def mapAreasAndConnections(Game game)'''
+	// Map Areas and Connections
+	Connection connection = null;
+	Area areaFrom = null;
+	Area areaTo = null;
+	«FOR Connection connection: game.connections»
+	// Get References for Connection «connection.name»
+	connection = findConnectionByName("«connection.name»");
+	areaFrom = findAreaByName("«connection.areaFrom.name»");
+	areaTo = findAreaByName("«connection.areaTo.name»");
+
+	// Set Connection Attributes for Connection «connection.name»
+	connection.setAreaFrom(areaFrom);
+	connection.setAreaTo(areaTo);
+
+	// Set Area Attributes for Connection «connection.name»
+	«IF connection.direction == EConnectionDirections.NORTHTOSOUTH»
+	areaFrom.setConnection(connection, EDirection.NORTH);
+	areaTo.setConnection(connection, EDirection.SOUTH);
+	«ELSEIF connection.direction == EConnectionDirections.EASTTOWEST»
+	areaFrom.setConnection(connection, EDirection.EAST);
+	areaTo.setConnection(connection, EDirection.WEST);
+	«ELSEIF connection.direction == EConnectionDirections.SOUTHTONORTH»
+	areaFrom.setConnection(connection, EDirection.SOUTH);
+	areaTo.setConnection(connection, EDirection.NORTH);
+	«ELSEIF connection.direction == EConnectionDirections.WESTTOEAST»
+	areaFrom.setConnection(connection, EDirection.WEST);
+	areaTo.setConnection(connection, EDirection.EAST);
+	«ELSEIF connection.direction == EConnectionDirections.UPTODOWN»
+	areaFrom.setConnection(connection, EDirection.UP);
+	areaTo.setConnection(connection, EDirection.DOWN);
+	«ELSEIF connection.direction == EConnectionDirections.DOWNTOUP»
+	areaFrom.setConnection(connection, EDirection.DOWN);
+	areaTo.setConnection(connection, EDirection.UP);
+	«ENDIF»
+	
+	«IF connection.unlockedWith !== null»
+	// Set unlock Item references for «connection.name»
+	connection.setLocked(findItemByName("«connection.unlockedWith.name»");
+	«ENDIF»
+	
+	«IF connection.onTraverseEffect !== null»
+	// Set onTraverseEffect for «connection.name»
+	«FOR Effect effect: connection.onTraverseEffect»
+	connection.setOnTraverseEffect(findEffectByName("«effect.name»");
+	«ENDFOR»
+	«ENDIF»
+	
+	«ENDFOR»
+
+	// Set Effects for Areas
+	«FOR Area area: game.areas»
+	«IF area.onEnterEffect !== null»
+	// Set Effect for Area «area.name»
+	ArrayList<Effect> areaEffects = new ArrayList<Effects>();
+	«FOR Effect effect: area.onEnterEffect»
+	areaEffects.add(findEffectByName("«effect.name»"));
+	«ENDFOR»
+	findAreaByName("«area.name»").setOnEnterEffect(areaEffects));
+	«ENDIF»
+
+	«ENDFOR»
+	'''
+
+	def mapEffectsOfItems(Game game)'''
+	«FOR Item item: getAllItems(game)»
+	// Set Effects and DamageType for Item «item.name»
+	Item item = findItemByName("«item.name»");
+	«IF item.onUseEffect !== null»item.setOnUseEffect(findEffectByName("«item.onUseEffect.name»");«ENDIF»
+	«IF item.onPickupEffect !== null»item.setOnPickupEffect(findEffectByName("«item.onPickupEffect.name»"); «ENDIF»
+	«IF item.onDropEffect !== null»item.setOnDropEffect(findEffectByName("«item.onDropEffect.name»"); «ENDIF»
+	«IF item.damageType !== null»item.setDamageType(getDamageTypeByName("«item.damageType.name»");«ENDIF»
+	«ENDFOR»
+	'''
+
+	def ArrayList<Item> getAllItems(Game game) {
+		var items = new ArrayList<Item>();
+		// Get Items from the player
+		if (game.player.inventory !== null) {
+			for (Item item: game.player.inventory) {
+				items.add(item);
+			}
+		}
+		
+		
+		for (Area area: game.areas) {
+			// Get Items from the Areas
+			if (area.items !== null) {
+				for (Item item: area.items) {
+					items.add(item);
+				}
+			}
+			// Get Items from the INonPlayerEntities in the Area
+			if (area.entities !== null) {
+				for (INonPlayerEntity entity: area.entities) {
+					if ((entity as Entity).inventory !== null) {
+						for (Item item: (entity as Entity).inventory) {
+							items.add(item);
+						}
+					}
+				}
+			}
+		}
+		
+		return items;
+	}
 	
 	def void createFileWithContent(IProject project, String pckgName, String fileName, CharSequence content) {
 		var String currentFolderString = "src-gen/";
