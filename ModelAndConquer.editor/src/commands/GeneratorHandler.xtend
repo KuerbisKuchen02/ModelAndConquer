@@ -62,10 +62,20 @@ class GeneratorHandler extends AbstractHandler {
 		
 		public Game(String name, String description) {
 			super(name, description);
-			this.area = new Area[«game.areas.size»];
+			this.areas = new ArrayList<>();
+			this.connections = new ArrayList<>();
+			this.damageTypes = new ArrayList<>();
+			this.effects = new ArrayList<>();
+			this.parser = new GameParser(this);
 		}
 		
 		public void init() {
+			ArrayList<INonPlayerEntity> entities;
+			ArrayList<Item> items;
+			ArrayList<DamageModificator> damageModificators;
+			Entity entity;
+			DamageModificator damageModificator;
+			
 			«generatePlayer(game.player)»
 			
 			«generateAreas(game.areas)»
@@ -85,73 +95,73 @@ class GeneratorHandler extends AbstractHandler {
 	def generateAreas(EList<Area> areas)'''
 		// Generate Areas
 		«FOR Area area: areas»
-		// Generate Area «area.name»
-		// Generate INonPlayerEntities for «area.name»
-		«generateINonPlayerEntities(area.entities)»
-		
-		// Generate Items for «area.name»
-		«generateItems(area.items)»
-		
-		// Add Area object
-		this.areas.add(new Area("«area.name»", "«area.description»", null, entities, items, null));
+			// Generate Area «area.name»
+			// Generate INonPlayerEntities for «area.name»
+			«generateINonPlayerEntities(area.entities)»
+			
+			// Generate Items for «area.name»
+			«generateItems(area.items)»
+			
+			// Add Area object
+			this.areas.add(new Area("«area.name»", "«area.description»", null, entities, items, null));
 		«ENDFOR»
 	'''
 
 	def generateConnections(EList<Connection> connections)'''
 		// Generate Connections
 		«FOR Connection connection: connections»
-		this.connections.add(new Connection("«connection.name»", "«connection.description»", null, null, null, null);
+			this.connections.add(new Connection("«connection.name»", "«connection.description»", null, null, null, null));
 		«ENDFOR»
 	'''
 	
 	def generateEffects(EList<Effect> effects)'''
 	// Generate Effects
 	«FOR Effect effect: effects»
-	this.effects.add( 
-	«IF effect instanceof HealthEffect»new HealthEffect("«effect.name»", "«effect.description»", «effect.duration», «effect.amount», «effect.onSelf», null)«ENDIF»
-	«IF effect instanceof SpawnEffect»new SpawnEffect("«effect.name»", "«effect.description»", null, null)«ENDIF»
-	«IF effect instanceof DamageModificatorEffect»new DamageModificatorEffect("«effect.name»", "«effect.description»", null, «effect.onSelf»)«ENDIF»
-	«IF effect instanceof EndGameEffect»new EndGameEffect("«effect.name»", "«effect.description»")«ENDIF»
-	);
+		this.effects.add( 
+		«IF effect instanceof HealthEffect»new HealthEffect("«effect.name»", "«effect.description»", «effect.duration», «effect.amount», «effect.onSelf», null)«ENDIF»
+		«IF effect instanceof SpawnEffect»new SpawnEffect("«effect.name»", "«effect.description»", null, null)«ENDIF»
+		«IF effect instanceof DamageModificatorEffect»new DamageModificatorEffect("«effect.name»", "«effect.description»", null, «effect.onSelf»)«ENDIF»
+		«IF effect instanceof EndGameEffect»new EndGameEffect("«effect.name»", "«effect.description»")«ENDIF»
+		);
 	«ENDFOR»
 	'''
 	
 	def generateINonPlayerEntities(EList<INonPlayerEntity> entities)'''
 		// Generate Non Player Entities
-		ArrayList<INonPlayerEntity> entities = new ArrayList<INonPlayerEntity>();
+		entities = new ArrayList<>();
 		«FOR INonPlayerEntity entity: entities»
-		«IF entity instanceof Monster»
-		// Generate Inventory of Monster «entity.name»
-		«generateItems(entity.inventory)»
-		// Generate DamageModificators of Monster «entity.name»
-		«generateDamageModificator(entity.damageModificators)»
-		Entity entity = new Monster("«entity.name»", "«entity.description»", «entity.maxHealth», items, null, null, null, null, null, null, null)
-		«ENDIF»
-		«IF entity instanceof DestroyableObject»
-		// Generate Inventory of Destroyable Object «entity.name»
-		«generateItems(entity.inventory)»
-		// Generate DamageModificators of DestroyableObject «entity.name»
-		«generateDamageModificator(entity.damageModificators)»
-		Entity entity = new DestroyableObject("«entity.name»", "«entity.description»", «entity.maxHealth»,  items, null, null);
-		«ENDIF»
-		entities.add(entity);
+			«IF entity instanceof Monster»
+				// Generate Inventory of Monster «entity.name»
+				«generateItems(entity.inventory)»
+				// Generate DamageModificators of Monster «entity.name»
+				«generateDamageModificator(entity.damageModificators)»
+				entity = new Monster("«entity.name»", "«entity.description»", «entity.maxHealth», items, null, null, null, null, null, null, null);
+			«ENDIF»
+			«IF entity instanceof DestroyableObject»
+			// Generate Inventory of Destroyable Object «entity.name»
+				«generateItems(entity.inventory)»
+				// Generate DamageModificators of DestroyableObject «entity.name»
+				«generateDamageModificator(entity.damageModificators)»
+				entity = new DestroyableObject("«entity.name»", "«entity.description»", «entity.maxHealth»,  items, null, null);
+			«ENDIF»
+			entities.add((INonPlayerEntity) entity);
 		«ENDFOR»
 	'''
 	
 	def generateItems(EList<Item> items)'''
 		// Generate items
-		ArrayList<Item> items = new ArrayList<Item>();
+		items = new ArrayList<>();
 		«FOR Item item: items»
-		items.add(new Item("«item.name»", "«item.description»", «item.damage», «item.consumable», null, null, null, null);
+			items.add(new Item("«item.name»", "«item.description»", «item.damage», «item.consumable», null, null, null, null));
 		«ENDFOR»
 	'''
 	
 	def generateDamageModificator(EList<DamageModificator> damageModificators)'''
 		// Generate DamageModificator
-		ArrayList<DamageModificator> damageModificators = new ArrayList<DamagaModificator>();
+		damageModificators = new ArrayList<>();
 		«FOR DamageModificator damageModificator: damageModificators»
-		DamageModificator damageModificator = new DamageModificator(«damageModificator.name», «damageModificator.description», null, «damageModificator.multiplikator»);
-		damageModificators.add(damageModificator);
+			DamageModificator damageModificator = new DamageModificator(«damageModificator.name», «damageModificator.description», null, «damageModificator.multiplikator»));
+			damageModificators.add(damageModificator);
 		«ENDFOR»
 		
 	'''
@@ -159,7 +169,7 @@ class GeneratorHandler extends AbstractHandler {
 	def generateEDamageTypes(EList<DamageType> damageTypes) '''
 	public enum EDamageType {
 		«FOR int i: 0..damageTypes.size-1 SEPARATOR ','»
-		«damageTypes.get(i).name.toUpperCase»(«i»)«IF i==damageTypes.size-1»;«ENDIF»
+			«damageTypes.get(i).name.toUpperCase»(«i»)«IF i==damageTypes.size-1»;«ENDIF»
 		«ENDFOR»
 		
 		private final int value;
@@ -169,7 +179,7 @@ class GeneratorHandler extends AbstractHandler {
 		public static String getValueString(int value) {
 			return switch (value) {
 				«FOR int i: 0..damageTypes.size-1»
-				case «i» -> "«damageTypes.get(i).name»"
+					case «i» -> "«damageTypes.get(i).name»"
 				«ENDFOR»
 				default -> "Not an valid DamageType!"
 			}

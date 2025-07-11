@@ -4,42 +4,37 @@ import compiler.GameParser;
 import models._static.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Game extends GenericElement {
     private static final String TAG = Game.class.getSimpleName();
     private Player player;
     private boolean isRunning = true;
-    private Area[] areas;
-    private Connection[] connections;
-    private EDamageType[] damageTypes;
-    private Effect[] effects;
+    private final ArrayList<Area> areas;
+    private final ArrayList<Connection> connections;
+    private final ArrayList<EDamageType> damageTypes;
+    private final ArrayList<Effect> effects;
     private final Scanner sc = new Scanner(System.in);
     private static Game game = null;
     private final GameParser parser;
 
     /**
      * Generated
-     * */
-    private Game() {
-        // TODO objects need to be generated
+     */
+    public Game() {
         super("", "");
-        parser = new GameParser(this);
-
+        this.areas = new ArrayList<>();
+        this.connections = new ArrayList<>();
+        this.damageTypes = new ArrayList<>();
+        this.effects = new ArrayList<>();
+        this.parser = new GameParser(this);
+        init();
     }
 
-    public static void main(String[] args) {
-        Game game = getGame();
-        game.gameLoop();
-    }
-
-    public static Game getGame(){
-        if(game == null){
-            game = new Game();
-        }
-        return game;
-    }
+    /**
+     * Generated
+     */
+    public void init() {}
 
     /**
      * Static
@@ -157,21 +152,21 @@ public class Game extends GenericElement {
      * Prints a help message describing the game and all available actions.
      */
     public void help() {
-        System.out.println(STR."""
-        ==========================================================
-        Hello! Welcome to: \{getName()}!
-        \{getDescription()}
-        ==========================================================
-        You are able to do the following actions:
-        walk | go | walk (north | south | west | east | up | down)
-        hit | attack <Monster> [with <Item>]
-        use <Item> [on <Monster | Connection>]
-        take <Item>
-        drop <Item>
-        inspect, look area | player | item
-        unlock <Connection> with <Item>
-        ==========================================================
-        If you need help, type: help"""
+        System.out.println(
+                "==========================================================\n"
+                        + "Hello! Welcome to: "+ getName() + "!\n"
+                        + getDescription()
+                        + "==========================================================\n"
+                        + "You are able to do the following actions:\n"
+                        + "walk | go | walk (north | south | west | east | up | down)\n"
+                        + "hit | attack <Monster> [with <Item>]\n"
+                        + "use <Item> [on <Monster | Connection>]\n"
+                        + "take <Item>\n"
+                        + "drop <Item>\n"
+                        + "inspect, look area | player | item\n"
+                        + "unlock <Connection> with <Item>\n"
+                        + "==========================================================\n"
+                        + "If you need help, type: help\n"
         );
     }
 
@@ -281,7 +276,7 @@ public class Game extends GenericElement {
         Area area = player.getPosition();
         GenericElement genericElement = getEntityInArea(genericElementString);
         if (genericElement != null) return genericElement;
-
+        genericElement = getItemFromArea(genericElementString);
         if (genericElement != null) return genericElement;
         EDirection direction = getDirection(genericElementString);
         if (direction != null) {
