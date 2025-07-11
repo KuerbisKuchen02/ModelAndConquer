@@ -36,6 +36,18 @@ public class Game extends GenericElement {
      */
     public void init() {}
 
+    public static void main(String[] args) {
+        Game game = getGame();
+        game.gameLoop();
+    }
+
+    public static Game getGame(){
+        if(game == null){
+            game = new Game();
+        }
+        return game;
+    }
+
     /**
      * Static
      * */
