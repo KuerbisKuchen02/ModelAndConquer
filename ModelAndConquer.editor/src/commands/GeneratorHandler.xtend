@@ -29,6 +29,7 @@ import ModelAndConquer.DestroyableObject
 import ModelAndConquer.Item
 import ModelAndConquer.Player
 import ModelAndConquer.DamageModificator
+import ModelAndConquer.EConnectionDirections
 
 class GeneratorHandler extends AbstractHandler {
 	
@@ -58,8 +59,18 @@ class GeneratorHandler extends AbstractHandler {
 	}
 	
 	def generateGame(Game game)'''
+	// Imports
+	import java.util.ArrayList;
+	import models._static.*;
+
 	public class Game extends GenericElement {
 		
+		// Attributes
+		Player player;
+		ArrayList<Area> areas;
+		ArrayList<Connection> connections;
+		ArrayList<Effect> effects;
+
 		public Game(String name, String description) {
 			super(name, description);
 			this.areas = new ArrayList<>();
@@ -75,7 +86,7 @@ class GeneratorHandler extends AbstractHandler {
 			ArrayList<DamageModificator> damageModificators;
 			Entity entity;
 			DamageModificator damageModificator;
-			
+
 			«generatePlayer(game.player)»
 			
 			«generateAreas(game.areas)»
@@ -84,26 +95,77 @@ class GeneratorHandler extends AbstractHandler {
 			
 			«generateEffects(game.effects)»
 			
+			// Set all non Containment References
+			// Map Areas and Connections
+			Connection connection = null;
+			Area areaFrom = null;
+			Area areaTo = null;
+			«FOR Connection connection: game.connections»
+			// Get References
+			connection = findConnectionByName("«connection.name»");
+			areaFrom = findAreaByName("«connection.areaFrom.name»");
+			areaTo = findAreaByName("«connection.areaTo.name»");
+
+			// Set Connection Attributes
+			connection.setAreaFrom(areaFrom);
+			connection.setAreaTo(areaTo);
+
+			// Set Area Attributes
+			«IF connection.direction == EConnectionDirections.NORTHTOSOUTH»
+			areaFrom.setConnection(connection, EDirection.NORTH);
+			areaTo.setConnection(connection, EDirection.SOUTH);
+			«ELSEIF connection.direction == EConnectionDirections.EASTTOWEST»
+			areaFrom.setConnection(connection, EDirection.EAST);
+			areaTo.setConnection(connection, EDirection.WEST);
+			«ELSEIF connection.direction == EConnectionDirections.SOUTHTONORTH»
+			areaFrom.setConnection(connection, EDirection.SOUTH);
+			areaTo.setConnection(connection, EDirection.NORTH);
+			«ELSEIF connection.direction == EConnectionDirections.WESTTOEAST»
+			areaFrom.setConnection(connection, EDirection.WEST);
+			areaTo.setConnection(connection, EDirection.EAST);
+			«ELSEIF connection.direction == EConnectionDirections.UPTODOWN»
+			areaFrom.setConnection(connection, EDirection.UP);
+			areaTo.setConnection(connection, EDirection.DOWN);
+			«ELSEIF connection.direction == EConnectionDirections.DOWNTOUP»
+			areaFrom.setConnection(connection, EDirection.DOWN);
+			areaTo.setConnection(connection, EDirection.UP);
+			«ENDIF»
+			«ENDFOR»
+
+			// Set unlock Item references
+
+			// Set Effects for Areas
+			«FOR Area area: game.areas»
+			«IF area.onEnterEffect !== null»
+			// Set Effect for Area «area.name»
+			ArrayList<Effect> areaEffects = new ArrayList<Effects>();
+			«FOR Effect effect: area.onEnterEffect»
+			areaEffects.add(findEffectByName("«effect.name»"));
+			«ENDFOR»
+			findAreaByName("«area.name»").setOnEnterEffect(findEffectByName(areaEffects));
+			«ENDIF»
+
+			«ENDFOR»
 		}
 	}
 	'''
 	
 	def generatePlayer(Player player)'''
-		this.player = new Player("«player.name»", "«player.description»", «player.maxHealth», null, null, null);
+		this.player = new Player("«player.name»", "«player.description»", «player.maxHealth», new ArrayList<Item>(), new ArrayList<Effect>(), new ArrayList<DamageModificator>(), «player.spawnpoint»);
 	'''
 	
 	def generateAreas(EList<Area> areas)'''
 		// Generate Areas
 		«FOR Area area: areas»
-			// Generate Area «area.name»
-			// Generate INonPlayerEntities for «area.name»
-			«generateINonPlayerEntities(area.entities)»
-			
-			// Generate Items for «area.name»
-			«generateItems(area.items)»
-			
-			// Add Area object
-			this.areas.add(new Area("«area.name»", "«area.description»", null, entities, items, null));
+		// Generate Area «area.name»
+		// Generate INonPlayerEntities for «area.name»
+		«generateINonPlayerEntities(area.entities)»
+		
+		// Generate Items for «area.name»
+		«generateItems(area.items)»
+		
+		// Add Area «area.name» to list
+		this.areas.add(new Area("«area.name»", "«area.description»", null, entities, items, null));
 		«ENDFOR»
 	'''
 
@@ -117,7 +179,7 @@ class GeneratorHandler extends AbstractHandler {
 	def generateEffects(EList<Effect> effects)'''
 	// Generate Effects
 	«FOR Effect effect: effects»
-		this.effects.add( 
+		this.effects.add(
 		«IF effect instanceof HealthEffect»new HealthEffect("«effect.name»", "«effect.description»", «effect.duration», «effect.amount», «effect.onSelf», null)«ENDIF»
 		«IF effect instanceof SpawnEffect»new SpawnEffect("«effect.name»", "«effect.description»", null, null)«ENDIF»
 		«IF effect instanceof DamageModificatorEffect»new DamageModificatorEffect("«effect.name»", "«effect.description»", null, «effect.onSelf»)«ENDIF»

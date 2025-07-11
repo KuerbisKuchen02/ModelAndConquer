@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Player extends Entity implements IHealable {
     private Area position;
-    private static Player player;
 
     public Area getPosition() {
         return position;
@@ -15,9 +14,9 @@ public class Player extends Entity implements IHealable {
     }
 
     public Player(String name, String description, double maxHealth,  ArrayList<Item> inventory,
-                   ArrayList<Effect> effects,  ArrayList<DamageModificator> damageModificators) {
+                  ArrayList<Effect> effects,  ArrayList<DamageModificator> damageModificators, Area spawnpoint) {
         super(name, description, maxHealth, inventory, effects, damageModificators);
-        Player.player = this;
+        this.position = spawnpoint;
     }
 
     @Override

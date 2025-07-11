@@ -25,6 +25,8 @@ public class Area extends GenericElement {
 
     public void setConnections(Connection[] connections) { this.connections = connections; }
 
+    public void setConnection(Connection connection, EDirection direction) { this.connections[direction.getValue()] = connection; }
+    
     public void setEntities(ArrayList<INonPlayerEntity> entities) {
         this.entities = entities;
     }
