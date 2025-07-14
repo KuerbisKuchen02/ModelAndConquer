@@ -31,14 +31,14 @@ public class GameParser {
         String rest = (splits.length == 2) ? splits[1].trim().toLowerCase() : "";
 
         switch (command) {
-            case "move", "go", "walk" -> move(rest);
-            case "hit", "attack" -> attack(rest);
-            case "use" -> use(rest);
-            case "take" -> take(rest);
-            case "drop" -> drop(rest);
-            case "inspect", "look" -> inspect(rest);
+            case "move", "go", "walk", "m" -> move(rest);
+            case "hit", "attack", "a" -> attack(rest);
+            case "use", "u" -> use(rest);
+            case "take", "t" -> take(rest);
+            case "drop", "d" -> drop(rest);
+            case "inspect", "look", "i" -> inspect(rest);
             case "unlock" -> unlock(rest);
-            case "help"  -> help();
+            case "help", "h"  -> help();
             case "Schokokuchen" -> schokoKuchen();
             default -> System.out.println("This command does not exist!");
         }

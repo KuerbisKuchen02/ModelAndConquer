@@ -170,7 +170,7 @@ public class Game extends GenericElement {
             case Connection connection:
                 connection.tryUnlock(item);
                 break;
-            case Entity entity:
+            case Entity _:
                 item.getOnUse().apply();
                 break;
             default:
@@ -225,7 +225,6 @@ public class Game extends GenericElement {
         } else {
             throw new IllegalArgumentException("The Player already has this item");
         }
-
         wasATurn = true;
     }
 
@@ -261,15 +260,18 @@ public class Game extends GenericElement {
                 System.out.println(player.getPosition());
                 return;
             case "player", "self":
-                System.out.println(player.toString());
+                System.out.println(player);
                 return;
         }
+        if (player.getPosition().getName().toLowerCase().equals(element)) {
+            System.out.println(player.getPosition());
+            return;
+        }
 
-        for (Item item : player.getInventory()) {
-            if (item.getName().equals(element)) {
-                System.out.println(item);
-                return;
-            }
+        Item item = getItemFromInventory(element);
+        if (item != null) {
+            System.out.println(item);
+            return;
         }
 
         GenericElement genericElement = getGenericElementInArea(element);
@@ -326,7 +328,7 @@ public class Game extends GenericElement {
 
     private Entity getEntityInArea(String entity) {
         for (INonPlayerEntity e : player.getPosition().getEntities()) {
-            if (((GenericElement)e).getName().toLowerCase().equals(entity)) {
+            if (((GenericElement)e).getName().toLowerCase().contains(entity)) {
                 return (Entity) e;
             }
         }
@@ -336,7 +338,7 @@ public class Game extends GenericElement {
 
     private Item getItemFromArea(String item) {
         for (Item i : player.getPosition().getItems()) {
-            if (i.getName().toLowerCase().equals(item)) {
+            if (i.getName().toLowerCase().contains(item)) {
                 return i;
             }
         }
@@ -345,7 +347,7 @@ public class Game extends GenericElement {
 
     private Item getItemFromInventory(String item) {
         for (Item i : player.getInventory()) {
-            if (i.getName().toLowerCase().equals(item)) {
+            if (i.getName().toLowerCase().contains(item)) {
                 return i;
             }
         }
@@ -354,12 +356,12 @@ public class Game extends GenericElement {
 
     private EDirection getDirection(String direction) {
         return switch (direction.toLowerCase()) {
-            case "north" -> EDirection.NORTH;
-            case "south" -> EDirection.SOUTH;
-            case "east" -> EDirection.EAST;
-            case "west" -> EDirection.WEST;
-            case "up" -> EDirection.UP;
-            case "down" -> EDirection.DOWN;
+            case "north", "n" -> EDirection.NORTH;
+            case "south", "s" -> EDirection.SOUTH;
+            case "east", "e" -> EDirection.EAST;
+            case "west", "w" -> EDirection.WEST;
+            case "up", "u" -> EDirection.UP;
+            case "down", "d" -> EDirection.DOWN;
             default -> null;
         };
     }
