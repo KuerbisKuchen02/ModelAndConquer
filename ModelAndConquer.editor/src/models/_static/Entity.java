@@ -26,6 +26,7 @@ public abstract class Entity extends GenericElement {
         this.effects =  new ArrayList<>();
         this.damageModificators = (damageModificators == null) ? new ArrayList<>() : damageModificators;
         this.inventory = (inventory == null) ? new ArrayList<>() : inventory;
+        this.evasionChance = evasionChance;
     }
 
     /**

@@ -44,7 +44,7 @@ public class Game extends GenericElement {
             if(inFight && wasATurn){
                 // while in fight monsters turn to hit
                 ArrayList<Monster> monsters = player.getPosition().getMonsters();
-                if(monsters.isEmpty()){
+                if(!monsters.isEmpty()){
                     for(Monster monster : monsters){
                         double dmg = player.takeDamage(monster.getDamage(), monster.getDamageType(), monster.getAccuracy());
                         if(dmg != -1){
@@ -101,7 +101,7 @@ public class Game extends GenericElement {
         			curConnections[direction.getValue()].getAreaB() : curConnections[direction.getValue()].getAreaA();
         	player.setPosition(newArea);
         	newArea.setVisited(true);
-        	System.out.println("You have entered the area " + newArea.shortToString());
+        	System.out.println("You have entered the area: " + newArea.shortToString());
         };
     }
 
@@ -123,8 +123,9 @@ public class Game extends GenericElement {
             return;
         }
 
-        entity.takeDamage(item.getDamage(), item.getDamageType(), item.getAccuracy());
-
+        double dmg = entity.takeDamage(item.getDamage(), item.getDamageType(), item.getAccuracy());
+        if(dmg != -1) System.out.println("You hit " + entity.getName() + " for " + dmg);
+        
         // Apply Effect from the used Item
         applyEffect(item.getOnUse(), player, entity);
 
@@ -280,6 +281,7 @@ public class Game extends GenericElement {
     }
 
     public void applyEffect(Effect effect, GenericElement self, GenericElement other) throws RuntimeException {
+    	if(effect == null) return;
         switch (effect) {
             case HealthEffect healthEffect -> {
                 GenericElement target = healthEffect.isOnSelf() ? self : other;
