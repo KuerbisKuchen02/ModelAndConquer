@@ -4,13 +4,12 @@ import java.util.List;
 
 public class SpawnEffect extends Effect {
     private final List<INonPlayerEntity> nonPlayerEntities;
-    private final Area area;
+    private Area area;
 
-    public SpawnEffect(String name, String description, List<INonPlayerEntity> entities, Area area) {
-        super(name, description);
+    public SpawnEffect(String name, String description, double probability, List<INonPlayerEntity> entities) {
+        super(name, description, probability);
 
         this.nonPlayerEntities = entities;
-        this.area = area;
     }
 
     @Override
@@ -20,11 +19,15 @@ public class SpawnEffect extends Effect {
         }
     }
 
-    public List<INonPlayerEntity> getEntities() {
+    public List<INonPlayerEntity> getNonPlayerEntities() {
         return nonPlayerEntities;
     }
 
     public Area getArea() {
         return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
     }
 }

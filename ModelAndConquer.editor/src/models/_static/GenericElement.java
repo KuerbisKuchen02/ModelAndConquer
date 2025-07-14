@@ -9,11 +9,6 @@ public abstract class GenericElement {
         this.description = description;
     }
 
-    @Override
-    public String toString(){
-        return name + " - " + description;
-    }
-
     public String getName() {
         return name;
     }
@@ -28,5 +23,10 @@ public abstract class GenericElement {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString(){
+        return name + " - " + description;
     }
 }

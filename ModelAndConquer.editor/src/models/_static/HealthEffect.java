@@ -1,23 +1,31 @@
 package models._static;
 
+import java.util.Random;
+
 public class HealthEffect extends Effect {
     private int duration;
     private final double amount;
     private final boolean onSelf;
+
     private IHealable target;
 
-    public HealthEffect(String name, String description, int duration, double amount, boolean onSelf, IHealable target) {
-        super(name, description);
+    public HealthEffect(String name,
+                        String description,
+                        double probability,
+                        double amount,
+                        int duration,
+                        boolean onSelf) {
+        super(name, description, probability);
 
-        this.duration = duration;
         this.amount = amount;
+        this.duration = duration;
         this.onSelf = onSelf;
-        this.target = target;
     }
 
     public int getDuration() {
         return duration;
     }
+
     public double getAmount() {
         return amount;
     }
@@ -36,7 +44,10 @@ public class HealthEffect extends Effect {
 
     @Override
     public void apply() {
-        this.target.heal(this.amount);
-        this.duration--;
+        Random rand = new Random();
+        if (getProbability() > rand.nextDouble()) {
+            this.target.heal(this.amount);
+            this.duration--;
+        }
     }
 }
