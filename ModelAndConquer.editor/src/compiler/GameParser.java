@@ -51,7 +51,11 @@ public class GameParser {
      * @return
      */
     private String[] getNames(String input) {
-        return input.split("\\s?on|with\\s?");
+    	String[] splits = input.split("\\s?on|with\\s?");
+    	for (int i = 0; i < splits.length; i++) {
+    		splits[i] = splits[i].trim();
+    	}
+        return splits;
     }
 
 
