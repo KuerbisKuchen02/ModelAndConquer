@@ -138,9 +138,11 @@ public class Game extends GenericElement {
 
         if (!entity.hasHealthLeft()) {
             // Apply OnDeathEffect if entity is a monster
+        	System.out.println(entity.getName() + " has been defeated.");
             if (entity instanceof Monster) {
                 applyEffect(((Monster) entity).getOnKill(), player, entity);
-                player.getPosition().removeEntity((INonPlayerEntity) entity);
+                Entity e = getEntityInArea(entityString);
+                player.getPosition().removeEntity((INonPlayerEntity) e);
             }
         }
 
