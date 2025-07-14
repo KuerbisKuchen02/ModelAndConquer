@@ -90,7 +90,7 @@
     </genClasses>
     <genClasses ecoreClass="ModelAndConquer.ecore#//SpawnEffect">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//SpawnEffect/area"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//SpawnEffect/monster"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//SpawnEffect/entities"/>
     </genClasses>
     <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//IHealable"/>
     <genClasses image="false" ecoreClass="ModelAndConquer.ecore#//INonPlayerEntity"/>

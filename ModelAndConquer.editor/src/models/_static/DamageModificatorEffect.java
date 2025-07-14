@@ -10,7 +10,12 @@ public class DamageModificatorEffect extends Effect {
     private final boolean onSelf;
     private Entity target;
 
-    public DamageModificatorEffect(String name, String description, double probability, DamageModificator damageModificator, boolean onSelf, int duration) {
+    public DamageModificatorEffect(String name, 
+    							   String description, 
+    							   double probability, 
+    							   DamageModificator damageModificator, 
+    							   boolean onSelf, 
+    							   int duration) {
         super(name, description, probability);
 
         this.damageModificator = damageModificator;

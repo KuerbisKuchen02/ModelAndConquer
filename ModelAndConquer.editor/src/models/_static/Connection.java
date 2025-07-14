@@ -2,16 +2,14 @@ package models._static;
 
 public class Connection extends GenericElement {
     private boolean isLocked;
-    private final Area areaA; // AreaFrom
-    private final Area areaB; // AreaTo
+    private Area areaA; // AreaFrom
+    private Area areaB; // AreaTo
 
     private Effect onTraverse;
     private Item unlockedWith;
 
-    public Connection(String name, String description, Area areaA, Area areaB) {
+    public Connection(String name, String description) {
         super(name, description);
-        this.areaA = areaA;
-        this.areaB = areaB;
     }
 
     public void tryTraverse() {
@@ -44,6 +42,14 @@ public class Connection extends GenericElement {
         return isLocked;
     }
 
+    public void setAreaA(Area area) {
+    	this.areaA = area;
+    }
+    
+    public void setAreaB(Area area) {
+    	this.areaB = area;
+    }
+    
     public void setLocked(boolean locked) {
         isLocked = locked;
     }

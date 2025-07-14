@@ -8,9 +8,10 @@ public class DamageModificator extends GenericElement {
 
     public DamageModificator(String name,
                              String description,
+                             EDamageType damageType,
                              double multiplicator) {
         super(name, description);
-
+        this.damageType = damageType;
         this.multiplicator = multiplicator;
     }
 

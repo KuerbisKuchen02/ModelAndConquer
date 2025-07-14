@@ -115,8 +115,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SpawnEffect" eSuperTypes="#//Effect">
     <eStructuralFeatures xsi:type="ecore:EReference" name="area" lowerBound="1" eType="#//Area"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="monster" lowerBound="1"
-        upperBound="-1" eType="#//Monster" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" lowerBound="1"
+        upperBound="-1" eType="#//INonPlayerEntity" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="EConnectionDirections">
     <eLiterals name="NORTHTOSOUTH"/>

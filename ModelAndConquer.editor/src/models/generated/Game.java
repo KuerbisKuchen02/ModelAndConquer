@@ -25,11 +25,12 @@ public class Game extends GenericElement {
     }
 
     public static void main(String[] args) {
-        DungeonGenerator.generate().gameLoop();
+        new DungeonFactory().generate().gameLoop();
     }
 
     public void gameLoop() {
         help();  // Initially print help messages
+        player.getPosition().setVisited(true);  // Set the Spawnpoint as visited
         while (isRunning){
             wasATurn = false;
             try {
