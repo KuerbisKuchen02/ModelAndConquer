@@ -12,6 +12,9 @@
         upperBound="-1" eType="#//DamageType" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="effects" lowerBound="1"
         upperBound="-1" eType="#//Effect" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenericElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -26,6 +29,8 @@
         eType="#//DamageModificator" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inventory" upperBound="-1"
         eType="#//Item" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="evasion" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Player" eSuperTypes="#//Entity #//IHealable">
     <eStructuralFeatures xsi:type="ecore:EReference" name="spawnpoint" lowerBound="1"
@@ -44,6 +49,8 @@
         eType="#//DamageType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="damage" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accuracy" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DestroyableObject" eSuperTypes="#//Entity #//INonPlayerEntity"/>
   <eClassifiers xsi:type="ecore:EClass" name="Area" eSuperTypes="#//GenericElement">
@@ -75,6 +82,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="onDropEffect" eType="#//Effect"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="onPickupEffect" eType="#//Effect"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="onUseEffect" eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accuracy" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Effect" abstract="true" eSuperTypes="#//GenericElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="probability" lowerBound="1"
