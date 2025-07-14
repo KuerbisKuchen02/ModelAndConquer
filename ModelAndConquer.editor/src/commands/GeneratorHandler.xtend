@@ -117,6 +117,10 @@ class GeneratorHandler extends AbstractHandler {
 			«generateEffects(game.effects)»
 		}
 		
+		private void mapPlayerReferences() {
+			«mapPlayerReferences(game.player)»	
+		}
+		
 		private void mapAreasAndConnections() {
 			«mapAreasAndConnections(game)»
 		}
@@ -128,7 +132,7 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 	
 	def generatePlayer(Player player)'''
-		this.player = new Player("«player.name»", "«player.description»", «player.maxHealth», new ArrayList<Item>(), new ArrayList<Effect>(), new ArrayList<DamageModificator>(), «player.spawnpoint»);
+		this.player = new Player("«player.name»", "«player.description»", «player.maxHealth», null, null, null, null);
 	'''
 	
 	def generateAreas(EList<Area> areas)'''
@@ -203,7 +207,7 @@ class GeneratorHandler extends AbstractHandler {
 	
 	def generateItems(EList<Item> items)'''
 		// Generate items
-		items = new ArrayList<>();
+		ArrayList<Item> items = new ArrayList<Item>();
 		«FOR Item item: items»
 			items.add(new Item("«item.name»", "«item.description»", «item.damage», «item.consumable», null, null, null, null));
 		«ENDFOR»
@@ -216,7 +220,6 @@ class GeneratorHandler extends AbstractHandler {
 			DamageModificator damageModificator = new DamageModificator(«damageModificator.name», «damageModificator.description», null, «damageModificator.multiplikator»));
 			damageModificators.add(damageModificator);
 		«ENDFOR»
-		
 	'''
 	
 	def generateEDamageTypes(EList<DamageType> damageTypes) '''
@@ -238,6 +241,29 @@ class GeneratorHandler extends AbstractHandler {
 			}
 		}
 	}
+	'''
+
+	def mapPlayerReferences(Player player)'''
+	«IF player.inventory !== null»
+	// Set Inventory
+	«generateItems(player.inventory)»
+	this.player.setInventory(items);
+	«ENDIF»
+	
+	«IF player.effects !== null»
+	// Set Effects
+	ArrayList<Effect> effects = new ArrayList<Effect>();
+	«FOR Effect effect: player.effects»
+	effects.add(findEffectByName("«effect.name»"));
+	«ENDFOR»
+	this.player.setEffects(effects);
+	«ENDIF»
+	
+	«IF player.damageModificators !== null»
+	// Set DamageModificator
+	«generateDamageModificator(player.damageModificators)»
+	this.player.setDamageModificators(damageModificators);
+	«ENDIF»
 	'''
 
 	def mapAreasAndConnections(Game game)'''
@@ -312,6 +338,7 @@ class GeneratorHandler extends AbstractHandler {
 	«IF item.onPickupEffect !== null»item.setOnPickupEffect(findEffectByName("«item.onPickupEffect.name»"); «ENDIF»
 	«IF item.onDropEffect !== null»item.setOnDropEffect(findEffectByName("«item.onDropEffect.name»"); «ENDIF»
 	«IF item.damageType !== null»item.setDamageType(getDamageTypeByName("«item.damageType.name»");«ENDIF»
+	
 	«ENDFOR»
 	'''
 

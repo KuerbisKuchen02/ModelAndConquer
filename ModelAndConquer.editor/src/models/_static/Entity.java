@@ -22,10 +22,6 @@ public abstract class Entity extends GenericElement {
         this.damageModificators = (damageModificators == null) ? new ArrayList<>() : damageModificators;
     }
 
-    public void setMaxHealth(double maxHealth) {
-        this.maxHealth = maxHealth;
-    }
-
     /**
      * Lets the entity take damage by the given amount.
      * The damage will be effected by the damageModifications of the Entity
@@ -55,13 +51,6 @@ public abstract class Entity extends GenericElement {
         return health > 0;
     }
 
-    // Getter
-    public double getHealth() { return this.health; }
-    public double getMaxHealth() { return this.maxHealth; }
-    public ArrayList<Item> getInventory() { return this.inventory; }
-    public ArrayList<Effect> getEffects() { return this.effects; }
-    public ArrayList<DamageModificator> getDamageModificator() { return this.damageModificators; }
-
     public boolean isInInventory(Item item) {
         for (Item i : inventory) {
             if (i.equals(item)) {
@@ -70,7 +59,25 @@ public abstract class Entity extends GenericElement {
         }
         return false;
     }
-
+    
+    // Getter
+    public double getHealth() { return this.health; }
+    public double getMaxHealth() { return this.maxHealth; }
+    public ArrayList<Item> getInventory() { return this.inventory; }
+    public ArrayList<Effect> getEffects() { return this.effects; }
+    public ArrayList<DamageModificator> getDamageModificator() { return this.damageModificators; }
+    
+    // Setter
+    public void setHealth(double health) { this.health = health; }
+    public void setMaxHealth(double maxHealth) { this.maxHealth = maxHealth; }
+    public void setInventory(ArrayList<Item> items) { this.inventory = items; }
+    public void setEffects(ArrayList<Effect> effects) { this.effects = effects; }
+    public void setDamageModificators(ArrayList<DamageModificator> damageModificators) { this.damageModificators = damageModificators; }
+    
+    public void addToInventory(Item item) { this.inventory.add(item); }
+    public void addToEffects(Effect effect) { this.effects.add(effect); }
+    public void addToDamageModificators(DamageModificator damageModificator) { this.damageModificators.add(damageModificator); }
+    
     @Override
     public String toString(){
         String entityDescription    = "==========================================================\n"

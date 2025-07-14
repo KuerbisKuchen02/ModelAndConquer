@@ -48,7 +48,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Area/entities"/>
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Area/items"/>
       <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Area/onEnterEffect"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ModelAndConquer.ecore#//Area/asciiArt"/>
     </genClasses>
     <genClasses ecoreClass="ModelAndConquer.ecore#//Connection">
       <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ModelAndConquer.ecore#//Connection/onTraverseEffect"/>

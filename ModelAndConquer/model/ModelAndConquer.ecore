@@ -53,8 +53,6 @@
         eType="#//Item" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="onEnterEffect" upperBound="-1"
         eType="#//Effect"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="asciiArt" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Connection" eSuperTypes="#//GenericElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="onTraverseEffect" upperBound="-1"
