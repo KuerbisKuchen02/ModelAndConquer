@@ -1,7 +1,7 @@
-package models.generated;
+package models._static;
 
 import compiler.GameParser;
-import models._static.*;
+import models.generated.DungeonFactory;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,9 +15,6 @@ public class Game extends GenericElement {
     private boolean inFight = false;
     private boolean wasATurn = false;
 
-    /**
-     * Generated
-     */
     public Game(String name, String description, Player player) {
         super(name, description);
         this.player = player;

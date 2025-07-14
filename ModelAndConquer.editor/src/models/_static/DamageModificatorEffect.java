@@ -1,7 +1,5 @@
 package models._static;
 
-import models.generated.Game;
-
 import java.util.Random;
 
 public class DamageModificatorEffect extends Effect {

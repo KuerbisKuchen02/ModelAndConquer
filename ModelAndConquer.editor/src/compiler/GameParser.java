@@ -1,7 +1,7 @@
 package compiler;
 
 import models._static.EndGameEffect;
-import models.generated.Game;
+import models._static.Game;
 
 public class GameParser {
 
