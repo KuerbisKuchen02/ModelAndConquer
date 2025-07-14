@@ -6,7 +6,5 @@ public class EndGameEffect extends Effect {
     }
 
     @Override
-    public void apply() {
-        return;
-    }
+    public void apply() {}
 }

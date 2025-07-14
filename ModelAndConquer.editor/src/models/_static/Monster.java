@@ -5,9 +5,9 @@ import models.generated.EDamageType;
 import java.util.ArrayList;
 
 public class Monster extends Entity implements IHealable, INonPlayerEntity {
+    private final double damage;
+    private final double accuracy;
     private EDamageType damageType;
-    private double damage;
-    private double accuracy;
     private Effect onSpawn;
     private Effect onHit;
     private Effect onDamage;
@@ -37,6 +37,7 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity {
         return damageType;
     }
 
+    @SuppressWarnings("unused")
     public void setDamageType(EDamageType damageType) {
         this.damageType = damageType;
     }
@@ -45,14 +46,11 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity {
         return damage;
     }
 
-    public void setDamage(double damage) {
-        this.damage = damage;
-    }
-
     public Effect getOnSpawn() {
         return onSpawn;
     }
 
+    @SuppressWarnings("unused")
     public void setOnSpawn(Effect onSpawn) {
         this.onSpawn = onSpawn;
     }
@@ -61,6 +59,7 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity {
         return onHit;
     }
 
+    @SuppressWarnings("unused")
     public void setOnHit(Effect onHit) {
         this.onHit = onHit;
     }
@@ -69,6 +68,7 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity {
         return onDamage;
     }
 
+    @SuppressWarnings("unused")
     public void setOnDamage(Effect onDamage) {
         this.onDamage = onDamage;
     }
@@ -77,16 +77,13 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity {
         return onKill;
     }
 
+    @SuppressWarnings("unused")
     public void setOnKill(Effect onKill) {
         this.onKill = onKill;
     }
 
     public double getAccuracy() {
         return accuracy;
-    }
-
-    public void setAccuracy(double accuracy) {
-        this.accuracy = accuracy;
     }
 
     @Override

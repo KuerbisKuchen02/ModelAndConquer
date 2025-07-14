@@ -34,6 +34,8 @@ public class Area extends GenericElement {
         return monsters;
     }
 
+    // TODO: Handle destroyable objects, list them inside toString and toShortString
+    //       Maybe we need also methods to get all monsters separately??
     public ArrayList<DestroyableObject> getDestroyableObjects() {
         ArrayList<DestroyableObject> destroyableObjects = new ArrayList<>();
         for (INonPlayerEntity entity : entities) {
@@ -49,12 +51,14 @@ public class Area extends GenericElement {
         return connections;
     }
 
+    @SuppressWarnings("unused")
     public void setConnection(Connection connection, EDirection direction) { this.connections[direction.getValue()] = connection; }
 
     public ArrayList<INonPlayerEntity> getEntities() {
         return entities;
     }
 
+    @SuppressWarnings("unused")
     public void setEntities(ArrayList<INonPlayerEntity> entities) {
         this.entities = entities;
     }
@@ -69,6 +73,7 @@ public class Area extends GenericElement {
         return items;
     }
 
+    @SuppressWarnings("unused")
     public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
@@ -81,24 +86,11 @@ public class Area extends GenericElement {
         this.items.remove(item);
     }
 
-    /**
-     * @param itemName String name of item
-     * @return Returns either requested item or null if item does not exist.
-     */
-    public Item removeItem(String itemName) {
-        for (Item item : items){
-            if (item.getName().equals(itemName)){
-                items.remove(item);
-                return item;
-            }
-        }
-        return null;
-    }
-
     public Effect getOnEnter() {
         return onEnter;
     }
 
+    @SuppressWarnings("unused")
     public void setOnEnter(Effect onEnter) {
         this.onEnter = onEnter;
     }
@@ -152,8 +144,7 @@ public class Area extends GenericElement {
     public String presentMonsters() {
         StringBuilder monsterList = new StringBuilder();
         for (INonPlayerEntity entity : entities) {
-            if (entity instanceof Monster) {
-                Monster monster = (Monster) entity;
+            if (entity instanceof Monster monster) {
                 monsterList.append(monster).append("\n");
             }
         }

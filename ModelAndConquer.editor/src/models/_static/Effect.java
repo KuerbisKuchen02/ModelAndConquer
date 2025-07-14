@@ -13,6 +13,7 @@ public abstract class Effect extends GenericElement {
         return probability;
     }
 
+    @SuppressWarnings("unused")
     public void setProbability(double probability) {
         if (probability <= 1.0 && probability > 0.00){
             this.probability = probability;

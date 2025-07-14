@@ -4,7 +4,7 @@ import models.generated.EDamageType;
 
 public class DamageModificator extends GenericElement {
     private double multiplicator;
-    private EDamageType damageType;
+    private final EDamageType damageType;
 
     public DamageModificator(String name,
                              String description,
@@ -23,6 +23,7 @@ public class DamageModificator extends GenericElement {
         return damageType;
     }
 
+    @SuppressWarnings("unused")
     private void setMultiplicator(double multiplicator) {
         if(multiplicator != 1.0 && multiplicator > 0){
             this.multiplicator = multiplicator;

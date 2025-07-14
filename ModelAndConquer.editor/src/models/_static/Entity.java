@@ -8,10 +8,10 @@ import java.util.Random;
 public abstract class Entity extends GenericElement {
     protected double health;
     protected double maxHealth;
-    private ArrayList<Item> inventory;
+    private final ArrayList<DamageModificator> damageModificators;
+    private final ArrayList<Item> inventory;
+    private final double evasionChance;
     private ArrayList<Effect> effects;
-    private ArrayList<DamageModificator> damageModificators;
-    private Double evasionChance;
 
     public Entity (String name,
                    String description,
@@ -113,30 +113,19 @@ public abstract class Entity extends GenericElement {
         return health;
     }
 
-    public void setHealth(double health) {
-        this.health = health;
-    }
-
     public double getMaxHealth() {
         return maxHealth;
-    }
-
-    public void setMaxHealth(double maxHealth) {
-        this.maxHealth = maxHealth;
     }
 
     public ArrayList<Item> getInventory() {
         return inventory;
     }
 
-    public void setInventory(ArrayList<Item> inventory) {
-        this.inventory = inventory;
-    }
-
     public ArrayList<Effect> getEffects() {
         return effects;
     }
 
+    @SuppressWarnings("unused")
     public void setEffects(ArrayList<Effect> effects) {
         this.effects = effects;
     }
@@ -145,20 +134,8 @@ public abstract class Entity extends GenericElement {
         return damageModificators;
     }
 
-    public void setDamageModificators(ArrayList<DamageModificator> damageModificators) {
-        this.damageModificators = damageModificators;
-    }
-
-    public Double getEvasionChance() {
-        return evasionChance;
-    }
-
-    public void setEvasionChance(Double evasionChance) {
-        this.evasionChance = evasionChance;
-    }
-    
-
     public void dropItems(Area area){
+        assert area != null;
         for(Item item : inventory){
             area.addItem(item);
         }

@@ -44,18 +44,21 @@ public class Connection extends GenericElement {
         return isLocked;
     }
 
+    @SuppressWarnings("unused")
     public void setAreaA(Area area) {
     	this.areaA = area;
     }
-    
+
+    @SuppressWarnings("unused")
     public void setAreaB(Area area) {
     	this.areaB = area;
     }
-    
+
     public void setLocked(boolean locked) {
         isLocked = locked;
     }
 
+    @SuppressWarnings("unused")
     public void setLocked(Item unlockedWith) {
         this.unlockedWith = unlockedWith;
         isLocked = this.unlockedWith != null;
@@ -65,15 +68,12 @@ public class Connection extends GenericElement {
         return onTraverse;
     }
 
+    @SuppressWarnings("unused")
     public void setOnTraverse(Effect onTraverse) {
         this.onTraverse = onTraverse;
     }
 
     public Item getUnlockedWith() {
         return unlockedWith;
-    }
-
-    public void setUnlockedWith(Item unlockedWith) {
-        this.unlockedWith = unlockedWith;
     }
 }

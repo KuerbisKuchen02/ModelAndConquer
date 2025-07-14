@@ -6,10 +6,13 @@ public class SpawnEffect extends Effect {
     private final List<INonPlayerEntity> nonPlayerEntities;
     private Area area;
 
-    public SpawnEffect(String name, String description, double probability, List<INonPlayerEntity> entities) {
+    public SpawnEffect(String name,
+                       String description,
+                       double probability,
+                       List<INonPlayerEntity> entities) {
         super(name, description, probability);
 
-        this.nonPlayerEntities = entities;
+        this.nonPlayerEntities = entities != null ? entities : List.of();
     }
 
     @Override
@@ -27,6 +30,7 @@ public class SpawnEffect extends Effect {
         return area;
     }
 
+    @SuppressWarnings("unused")
     public void setArea(Area area) {
         this.area = area;
     }

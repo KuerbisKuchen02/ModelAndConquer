@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+@SuppressWarnings("unused")
 public class Logger {
     private static final String LOG_FILE = "app.log";
 

@@ -3,8 +3,8 @@ package models._static;
 import java.util.Random;
 
 public class HealthEffect extends Effect {
-    private int duration;
     private final double amount;
+    private int duration;
     private final boolean onSelf;
 
     private IHealable target;

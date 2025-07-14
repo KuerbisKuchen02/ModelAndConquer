@@ -4,6 +4,7 @@ import compiler.GameParser;
 import models.generated.DungeonFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game extends GenericElement {
@@ -39,7 +40,7 @@ public class Game extends GenericElement {
             }
 
             if(inFight && wasATurn){
-                // while in fight monsters turn to hit
+                // while in fight, monsters turn to hit
                 ArrayList<Monster> monsters = player.getPosition().getMonsters();
                 if(!monsters.isEmpty()){
                     for(Monster monster : monsters){
@@ -60,7 +61,7 @@ public class Game extends GenericElement {
             for(Monster monster : player.getPosition().getMonsters()) {
                 for(Effect effect : monster.getEffects()) {
                     // Only apply Effects which have a duration. Currently only HealthEffects
-                    if(effect instanceof HealthEffect) ((HealthEffect) effect).apply();
+                    if(effect instanceof HealthEffect) effect.apply();
                 }
             }
         }
@@ -68,11 +69,11 @@ public class Game extends GenericElement {
 
 
     private String fightHealthBars(Player player, ArrayList<Monster> monsters){
-        String ret = player.healthBarString(true);
+        StringBuilder ret = new StringBuilder(player.healthBarString(true));
         for(Monster monster : monsters){
-            ret += "\n" + monster.healthBarString(false);
+            ret.append("\n").append(monster.healthBarString(false));
         }
-        return ret;
+        return ret.toString();
     }
 
 
@@ -92,19 +93,23 @@ public class Game extends GenericElement {
             Logger.warn(TAG, "Direction " + directionString + " not found!");
             return;
         }
-        Connection[] curConnections = player.getPosition().getConnections();
-        if(curConnections[direction.getValue()].tryTraverse()) {
-        	Area newArea = curConnections[direction.getValue()].getAreaA() == player.getPosition() ? 
-        			curConnections[direction.getValue()].getAreaB() : curConnections[direction.getValue()].getAreaA();
-        	player.setPosition(newArea);
+        Connection connection = player.getPosition().getConnections()[direction.getValue()];
+        if(connection.tryTraverse()) {
+            applyEffect(connection.getOnTraverse(), player, connection);
+        	Area newArea = connection.getAreaA() == player.getPosition() ?
+                            connection.getAreaB() : connection.getAreaA();
+            player.setPosition(newArea);
         	newArea.setVisited(true);
         	System.out.println("You have entered the area: " + newArea.shortToString());
-        };
+            if (newArea.getOnEnter() != null) {
+                applyEffect(newArea.getOnEnter(), player, newArea);
+            }
+        }
     }
 
     /**
      * Lets the player attack the given entity with the given item.
-     * @param entityString entity which should be attacked
+     * @param entityString entity, which should be attacked
      * @param itemString used item to attack
      */
     public void attack(String entityString, String itemString) {
@@ -126,7 +131,7 @@ public class Game extends GenericElement {
         // Apply Effect from the used Item
         applyEffect(item.getOnUse(), player, entity);
 
-        // Apply Effects if entity is a monster
+        // Apply Effects if the entity is a monster
         if (entity instanceof Monster monster) {
             if(!inFight) inFight = true;
             applyEffect(monster.getOnHit(), monster, player);
@@ -134,13 +139,13 @@ public class Game extends GenericElement {
         }
 
         if (!entity.hasHealthLeft()) {
-            // Apply OnDeathEffect if entity is a monster
+            // Apply OnDeathEffect if the entity is a monster
         	System.out.println(entity.getName() + " has been defeated.");
             if (entity instanceof Monster) {
                 applyEffect(((Monster) entity).getOnKill(), player, entity);
-                Entity e = getEntityInArea(entityString);
-                player.getPosition().removeEntity((INonPlayerEntity) e);
             }
+            entity.dropItems(player.getPosition());
+            player.getPosition().removeEntity((INonPlayerEntity) entity);
         }
 
         if (item.isConsumable()) {
@@ -206,7 +211,7 @@ public class Game extends GenericElement {
     }
 
     /**
-     * Makes the Player pickup a defined item.
+     * Makes the Player pick up a defined item.
      * Only possible when the item is located in the room the Player is currently in.
      * @param itemString The item to pickup
      */
@@ -225,6 +230,11 @@ public class Game extends GenericElement {
         } else {
             throw new IllegalArgumentException("The Player already has this item");
         }
+
+        if (item.getOnPickup() != null) {
+            applyEffect(item.getOnPickup(), player, item);
+        }
+
         wasATurn = true;
     }
 
@@ -247,6 +257,11 @@ public class Game extends GenericElement {
         } else {
             throw new IllegalArgumentException("You can't drop an item that is not in your inventory");
         }
+
+        if (item.getOnDrop() != null) {
+            applyEffect(item.getOnDrop(), player, item);
+        }
+
         wasATurn = true;
     }
 
@@ -303,7 +318,18 @@ public class Game extends GenericElement {
                     return;
                 }
             }
-            case EndGameEffect endGameEffect -> {
+            case SpawnEffect spawnEffect -> {
+                List<INonPlayerEntity> entities = spawnEffect.getNonPlayerEntities();
+                for (INonPlayerEntity entity : entities) {
+                    if (entity instanceof Monster monster) {
+                        if (monster.getOnSpawn() != null) {
+                            applyEffect(monster.getOnSpawn(), monster, spawnEffect.getArea());
+                        }
+                    }
+                }
+                applyEffect(spawnEffect, self, other);
+            }
+            case EndGameEffect _ -> {
                 isRunning = false;
                 return;
             }
