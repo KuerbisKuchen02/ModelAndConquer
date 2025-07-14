@@ -27,6 +27,6 @@ public abstract class GenericElement {
 
     @Override
     public String toString(){
-        return name + " - " + description;
+        return name + (description.isEmpty() ? "" : (" - " + description));
     }
 }

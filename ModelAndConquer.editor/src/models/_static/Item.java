@@ -81,7 +81,7 @@ public class Item extends GenericElement {
                                 + "> " + super.toString() + "\n";
         returnString            += isConsumable ? "> This item is consumable\n" : ""
                                 + "> Damage: " + damage + "\n";
-        returnString            += damageType != null ? damageType + "\n" : ""
+        returnString            += damageType != null ? ("> Damage type: " + damageType + "\n") : ""
                                 + "==========================================================";
         return returnString;
     }

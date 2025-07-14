@@ -155,16 +155,23 @@ public abstract class Entity extends GenericElement {
     public void setEvasionChance(Double evasionChance) {
         this.evasionChance = evasionChance;
     }
+    
+
+    public void dropItems(Area area){
+        for(Item item : inventory){
+            area.addItem(item);
+        }
+    }
 
     @Override
     public String toString(){
         StringBuilder entityDescription    = new StringBuilder("==========================================================\n"
-                + healthBarString(true));
+                + healthBarString(true) + "\n");
 
         if (!inventory.isEmpty()) {
             entityDescription.append("> Items in inventory:\n");
             for(Item item : inventory){
-                entityDescription.append("\t").append(item.getName()).append(" - ").append(item.getDescription()).append("\n");
+                entityDescription.append("\t").append(item.toShortString()).append("\n");
             }
         }
 
@@ -187,11 +194,5 @@ public abstract class Entity extends GenericElement {
 
         entityDescription.append("==========================================================");
         return entityDescription.toString();
-    }
-
-    public void dropItems(Area area){
-        for(Item item : inventory){
-            area.addItem(item);
-        }
     }
 }

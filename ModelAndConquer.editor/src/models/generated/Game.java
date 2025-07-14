@@ -185,7 +185,7 @@ public class Game extends GenericElement {
         System.out.println(
                 "==========================================================\n"
                         + "Hello! Welcome to: "+ getName() + "!\n"
-                        + getDescription()
+                        + getDescription() + "\n"
                         + "==========================================================\n"
                         + "You are able to do the following actions:\n"
                         + "walk | go | walk (north | south | west | east | up | down)\n"
