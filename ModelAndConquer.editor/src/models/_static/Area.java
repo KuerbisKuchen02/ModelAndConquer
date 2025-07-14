@@ -165,7 +165,7 @@ public class Area extends GenericElement {
      */
     public String shortToString(){
         if (visited) {
-            String roomSpec = "";
+            String roomSpec = "\n";
 
             if (!entities.isEmpty()) {
                 roomSpec += "There are monsters in the area." + "\n";

@@ -12,12 +12,14 @@ public class Connection extends GenericElement {
         super(name, description);
     }
 
-    public void tryTraverse() {
+    public boolean tryTraverse() {
         if (isLocked) {
             System.out.println("You have to unlock this passage with: " + unlockedWith.toShortString());
+            return false;
         }
         else{
             if (onTraverse != null) onTraverse.apply();
+            return true;
         }
     }
 

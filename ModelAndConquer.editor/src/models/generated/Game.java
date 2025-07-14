@@ -95,9 +95,14 @@ public class Game extends GenericElement {
             Logger.warn(TAG, "Direction " + directionString + " not found!");
             return;
         }
-
         Connection[] curConnections = player.getPosition().getConnections();
-        curConnections[direction.getValue()].tryTraverse();
+        if(curConnections[direction.getValue()].tryTraverse()) {
+        	Area newArea = curConnections[direction.getValue()].getAreaA() == player.getPosition() ? 
+        			curConnections[direction.getValue()].getAreaB() : curConnections[direction.getValue()].getAreaA();
+        	player.setPosition(newArea);
+        	newArea.setVisited(true);
+        	System.out.println("You have entered the area " + newArea.shortToString());
+        };
     }
 
     /**
