@@ -28,7 +28,7 @@ public class GameParser {
 
         String command = splits[0];  // This is the command to execute
         // This is the rest of the command which needs to be handled accordingly
-        String rest = (splits.length == 2) ? splits[1] : "";
+        String rest = (splits.length == 2) ? splits[1].trim().toLowerCase() : "";
 
         switch (command) {
             case "move", "go", "walk" -> move(rest);
@@ -51,7 +51,7 @@ public class GameParser {
      * @return
      */
     private String[] getNames(String input) {
-    	String[] splits = input.split("\\s?on|with\\s?");
+    	String[] splits = input.split("on|with");
     	for (int i = 0; i < splits.length; i++) {
     		splits[i] = splits[i].trim();
     	}

@@ -221,7 +221,7 @@ public class Game extends GenericElement {
         if (!player.isInInventory(item)) {
             player.getInventory().add(item);
             player.getPosition().removeItem(item);
-            System.out.println("Picked up " + itemString + ".");
+            System.out.println("Picked up " + item.getName() + ".");
         } else {
             throw new IllegalArgumentException("The Player already has this item");
         }
@@ -244,6 +244,7 @@ public class Game extends GenericElement {
         if (player.isInInventory(item)) {
             player.getInventory().remove(item);
             player.getPosition().addItem(item);
+            System.out.println("Dropped " + item.getName() + ".");
         } else {
             throw new IllegalArgumentException("You can't drop an item that is not in your inventory");
         }
@@ -256,10 +257,10 @@ public class Game extends GenericElement {
      */
     public void inspect(String element) {
         switch (element) {
-            case "area":
+            case "area", "room", "location", "place":
                 System.out.println(player.getPosition());
                 return;
-            case "player":
+            case "player", "self":
                 System.out.println(player.toString());
                 return;
         }
@@ -287,7 +288,7 @@ public class Game extends GenericElement {
                 if (target instanceof IHealable) {
                     healthEffect.setTarget((IHealable) target);
                 } else {
-                   Logger.warn(TAG, target + " is not a healable!");
+                   Logger.warn(TAG, target.getName() + " is not a healable!");
                    return;
                 }
             }
@@ -296,7 +297,7 @@ public class Game extends GenericElement {
                 if (target instanceof Entity) {
                     damageModificatorEffect.setTarget((Entity) target);
                 } else {
-                    Logger.warn(TAG, target + " is not a entity!");
+                    Logger.warn(TAG, target.getName() + " is not a entity!");
                     return;
                 }
             }
@@ -325,7 +326,7 @@ public class Game extends GenericElement {
 
     private Entity getEntityInArea(String entity) {
         for (INonPlayerEntity e : player.getPosition().getEntities()) {
-            if (((GenericElement)e).getName().equals(entity)) {
+            if (((GenericElement)e).getName().toLowerCase().equals(entity)) {
                 return (Entity) e;
             }
         }
@@ -335,7 +336,7 @@ public class Game extends GenericElement {
 
     private Item getItemFromArea(String item) {
         for (Item i : player.getPosition().getItems()) {
-            if (i.getName().equals(item)) {
+            if (i.getName().toLowerCase().equals(item)) {
                 return i;
             }
         }
@@ -344,7 +345,7 @@ public class Game extends GenericElement {
 
     private Item getItemFromInventory(String item) {
         for (Item i : player.getInventory()) {
-            if (i.getName().equals(item)) {
+            if (i.getName().toLowerCase().equals(item)) {
                 return i;
             }
         }
