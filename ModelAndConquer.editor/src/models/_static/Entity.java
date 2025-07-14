@@ -58,7 +58,9 @@ public abstract class Entity extends GenericElement {
             }
         }
 
-        health -= endDamage;
+        // Make sure health is never < 0:
+        health = (health - endDamage >= 0) ? health - endDamage : 0;
+
         return endDamage;
     }
 
