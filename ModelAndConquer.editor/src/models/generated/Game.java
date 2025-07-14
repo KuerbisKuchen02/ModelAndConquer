@@ -8,58 +8,55 @@ import java.util.Scanner;
 
 public class Game extends GenericElement {
     private static final String TAG = Game.class.getSimpleName();
-    private Player player;
+    private final Player player;
     private boolean isRunning = true;
-    private final ArrayList<Area> areas;
-    private final ArrayList<Connection> connections;
-    private final ArrayList<EDamageType> damageTypes;
-    private final ArrayList<Effect> effects;
     private final Scanner sc = new Scanner(System.in);
-    private static Game game = null;
     private final GameParser parser;
+    private boolean inFight = false;
+    private boolean wasATurn = false;
 
     /**
      * Generated
      */
-    public Game() {
-        super("", "");
-        this.areas = new ArrayList<>();
-        this.connections = new ArrayList<>();
-        this.damageTypes = new ArrayList<>();
-        this.effects = new ArrayList<>();
+    public Game(String name, String description, Player player) {
+        super(name, description);
+        this.player = player;
         this.parser = new GameParser(this);
-        init();
     }
-
-    /**
-     * Generated
-     */
-    public void init() {}
 
     public static void main(String[] args) {
-        Game game = getGame();
-        game.gameLoop();
+        DungeonGenerator.generate().gameLoop();
     }
 
-    public static Game getGame(){
-        if(game == null){
-            game = new Game();
-        }
-        return game;
-    }
-
-    /**
-     * Static
-     * */
     public void gameLoop() {
         help();  // Initially print help messages
         while (isRunning){
+            wasATurn = false;
             try {
                 System.out.print("> ");
                 String s = sc.nextLine();
                 parser.parse(s);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+            }
+
+            if(inFight && wasATurn){
+                // while in fight monsters turn to hit
+                ArrayList<Monster> monsters = player.getPosition().getMonsters();
+                if(monsters.isEmpty()){
+                    for(Monster monster : monsters){
+                        double dmg = player.takeDamage(monster.getDamage(), monster.getDamageType(), monster.getAccuracy());
+                        if(dmg != -1){
+                            applyEffect(monster.getOnDamage(), monster, player);
+                            System.out.println("You got hit by " + monster.getName() + " for " + dmg);
+                        }
+                    }
+                    System.out.println(fightHealthBars(player, monsters));
+                }
+                else{
+                    System.out.println("You have defeated all monsters in this area");
+                    inFight = false;
+                }
             }
 
             for(Monster monster : player.getPosition().getMonsters()) {
@@ -71,11 +68,26 @@ public class Game extends GenericElement {
         }
     }
 
+
+    private String fightHealthBars(Player player, ArrayList<Monster> monsters){
+        String ret = player.healthBarString(true);
+        for(Monster monster : monsters){
+            ret += "\n" + monster.healthBarString(false);
+        }
+        return ret;
+    }
+
+
     /**
      * Tries moving the player to a given direction.
      * @param directionString The direction to move to.
      */
     public void move(String directionString) {
+        if (inFight){
+            System.out.println("You cannot move while you are in a fight!");
+            return;
+        }
+
         EDirection direction = getDirection(directionString);
         if (direction == null) {
             System.out.println("You need to enter a valid direction!");
@@ -105,26 +117,30 @@ public class Game extends GenericElement {
             return;
         }
 
-        entity.takeDamage(item.getDamage(), item.getDamageType());
+        entity.takeDamage(item.getDamage(), item.getDamageType(), item.getAccuracy());
 
         // Apply Effect from the used Item
         applyEffect(item.getOnUse(), player, entity);
 
         // Apply Effects if entity is a monster
         if (entity instanceof Monster monster) {
+            if(!inFight) inFight = true;
             applyEffect(monster.getOnHit(), monster, player);
+            System.out.println(fightHealthBars(player, player.getPosition().getMonsters()));
         }
 
         if (!entity.hasHealthLeft()) {
             // Apply OnDeathEffect if entity is a monster
             if (entity instanceof Monster) {
                 applyEffect(((Monster) entity).getOnKill(), player, entity);
+                player.getPosition().removeEntity((INonPlayerEntity) entity);
             }
         }
 
         if (item.isConsumable()) {
             player.getInventory().remove(item);
         }
+        wasATurn = true;
     }
 
     public void use(String itemString, String genericElementString) {
@@ -158,6 +174,7 @@ public class Game extends GenericElement {
         if (item.isConsumable()) {
             player.getInventory().remove(item);
         }
+        wasATurn = true;
     }
 
     /**
@@ -203,6 +220,7 @@ public class Game extends GenericElement {
             throw new IllegalArgumentException("The Player already has this item");
         }
 
+        wasATurn = true;
     }
 
     /**
@@ -223,6 +241,7 @@ public class Game extends GenericElement {
         } else {
             throw new IllegalArgumentException("You can't drop an item that is not in your inventory");
         }
+        wasATurn = true;
     }
 
     /**
@@ -335,23 +354,5 @@ public class Game extends GenericElement {
             case "down" -> EDirection.DOWN;
             default -> null;
         };
-    }
-
-    /**
-     * Has to be generated...
-     * @param damageType
-     * @return
-     */
-    private EDamageType getDamageTypeFromString(String damageType) {
-        return null;
-    }
-
-    private Effect getEffectFromString(String effect) {
-        for (Effect e : effects) {
-            if (e.getName().equals(effect)) {
-                return e;
-            }
-        }
-        return null;
     }
 }

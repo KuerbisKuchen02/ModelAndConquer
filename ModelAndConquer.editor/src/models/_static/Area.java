@@ -3,61 +3,31 @@ package models._static;
 import java.util.ArrayList;
 
 public class Area extends GenericElement {
-    private Connection[] connections = new Connection[6];
     private ArrayList<INonPlayerEntity> entities;
     private ArrayList<Item> items;
+    private final Connection[] connections;
     private Effect onEnter;
-    private String asciiArt;
-    private boolean visited = false;
 
+    private boolean visited;
 
-    public Area(String name, String description, Connection[] connections, ArrayList<INonPlayerEntity> entities, ArrayList<Item> items, Effect onEnter) {
+    public Area(String name,
+                String description,
+                ArrayList<INonPlayerEntity> entities,
+                ArrayList<Item> items) {
         super(name, description);
-        setConnections((connections != null && connections.length == 6) ? connections: new Connection[6]);
-        setEntities((entities != null) ? entities : new ArrayList<>());
-        setItems((items != null) ? items : new ArrayList<>());
-        setOnEnter(onEnter);
+
+        this.entities = entities == null ? new ArrayList<>() : entities;
+        this.items = items == null ? new ArrayList<>() : items;
+        this.connections = new Connection[6];
+        this.visited = false;
     }
-
-    public Connection[] getConnections() {
-        return connections;
-    }
-
-    public void setConnections(Connection[] connections) { this.connections = connections; }
-
-    public void setConnection(Connection connection, EDirection direction) { this.connections[direction.getValue()] = connection; }
-    
-    public void setEntities(ArrayList<INonPlayerEntity> entities) {
-        this.entities = entities;
-    }
-
-    public void removeEntity(INonPlayerEntity entity) { this.entities.remove(entity); }
-
-    public void addEntity(INonPlayerEntity entity){
-        this.entities.add(entity);
-    }
-
-    /**
-     * @return Returns String containing descriptions of all monsters
-     */
-    public String presentMonsters() {
-        StringBuilder monsterList = new StringBuilder();
-        for (INonPlayerEntity entity : entities) {
-            if (entity instanceof Monster) {
-                Monster monster = (Monster) entity;
-                monsterList.append(monster.toString()).append("\n");
-            }
-        }
-        return monsterList.toString();
-    }
-
-    public ArrayList<INonPlayerEntity> getEntities() { return entities; }
 
     public ArrayList<Monster> getMonsters() {
+
         ArrayList<Monster> monsters = new ArrayList<>();
         for (INonPlayerEntity entity : entities) {
             if (entity instanceof Monster) {
-                    monsters.add((Monster) entity);
+                monsters.add((Monster) entity);
             }
         }
 
@@ -75,17 +45,32 @@ public class Area extends GenericElement {
         return destroyableObjects;
     }
 
-    public void setItems(ArrayList<Item> items) { this.items = items; }
+    public Connection[] getConnections() {
+        return connections;
+    }
 
-    /**
-     * @return Returns String containing descriptions of all items
-     */
-    public String presentItems(){
-        StringBuilder itemsString = new StringBuilder();
-        for (Item item : items){
-            itemsString.append("\t").append(item.toShortString()).append("\n");
-        }
-        return itemsString.toString();
+    public void setConnection(Connection connection, EDirection direction) { this.connections[direction.getValue()] = connection; }
+
+    public ArrayList<INonPlayerEntity> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(ArrayList<INonPlayerEntity> entities) {
+        this.entities = entities;
+    }
+
+    public void addEntity(INonPlayerEntity entity){
+        this.entities.add(entity);
+    }
+
+    public void removeEntity(INonPlayerEntity entity) { this.entities.remove(entity); }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
     }
 
     public void addItem(Item item) {
@@ -110,36 +95,69 @@ public class Area extends GenericElement {
         return null;
     }
 
-    public void visitArea(){ this.visited = true; }
+    public Effect getOnEnter() {
+        return onEnter;
+    }
 
-    public ArrayList<Item> getItems() { return items; }
+    public void setOnEnter(Effect onEnter) {
+        this.onEnter = onEnter;
+    }
 
-    public void setOnEnter(Effect onEnter) { this.onEnter = onEnter; }
+    public boolean isVisited() {
+        return visited;
+    }
 
-    public Effect getOnEnter() { return onEnter; }
-
-    public void setAsciiArt(String asciiArt) { this.asciiArt = asciiArt; }
-
-    public String getAsciiArt() { return asciiArt; }
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
 
     /**
      * @return String with short description of adjacent Areas
      */
     public String presentAdjacentAreas(){
         StringBuilder adjacentAreas = new StringBuilder();
-        for (int i = 0; i<connections.length; i++) {
+        for (int i = 0; i < connections.length; i++) {
             if(connections[i] == null) continue;
 
-            if (connections[i].getAreaFrom() != this) {
-            	adjacentAreas.append("\t").append(EDirection.getValueString(i)).append(" - ").append(connections[i].getAreaFrom().shortToString()).append("\n");
-                break;
-            } else if (connections[i].getAreaTo() != this) {
-            	adjacentAreas.append("\t").append(EDirection.getValueString(i)).append(" - ").append(connections[i].getAreaTo().shortToString()).append("\n");
-                break;
+            Area area = connections[i].getAreaA() != this ? connections[i].getAreaA() : connections[i].getAreaB();
+            adjacentAreas.append("\t")
+                    .append(EDirection.getValueString(i))
+                    .append(" - ");
+            if(area.isVisited()) {
+                adjacentAreas.append(area.shortToString());
             }
+            else{
+                adjacentAreas.append("unknown area");
+            }
+            adjacentAreas.append("\n");
 
         }
         return adjacentAreas.toString();
+    }
+
+    /**
+     * @return Returns String containing descriptions of all items
+     */
+    public String presentItems(){
+        StringBuilder itemsString = new StringBuilder();
+        for (Item item : items){
+            itemsString.append("\t").append(item.toShortString()).append("\n");
+        }
+        return itemsString.toString();
+    }
+
+    /**
+     * @return Returns String containing descriptions of all monsters
+     */
+    public String presentMonsters() {
+        StringBuilder monsterList = new StringBuilder();
+        for (INonPlayerEntity entity : entities) {
+            if (entity instanceof Monster) {
+                Monster monster = (Monster) entity;
+                monsterList.append(monster).append("\n");
+            }
+        }
+        return monsterList.toString();
     }
 
     /**
@@ -167,7 +185,7 @@ public class Area extends GenericElement {
     public String toString(){
         if (visited) {
             String roomSpecification    = "==========================================================\n"
-                                        + "> This Area is: " + getName() + "\n";
+                    + "> This Area is: " + getName() + "\n";
 
             if (!entities.isEmpty()) {
                 roomSpecification       += "> There are Monsters in the Area:\n" + presentMonsters();

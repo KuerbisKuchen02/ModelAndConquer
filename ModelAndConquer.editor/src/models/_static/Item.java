@@ -7,29 +7,67 @@ import java.util.Objects;
 public class Item extends GenericElement {
     private final double damage;
     private final boolean isConsumable;
-    private final Effect onDrop;
-    private final Effect onUse;
-    private final Effect onPickup;
-    private final EDamageType damageType;
+    private final double accuracy;
+    private EDamageType damageType;
+    private Effect onDrop;
+    private Effect onPickup;
+    private Effect onUse;
 
-    public Item(String name, String description, double damage,  boolean isConsumable, Effect onDrop, Effect onUse, Effect onPickup,  EDamageType damageType) {
+    public Item(String name,
+                String description,
+                double damage,
+                boolean isConsumable,
+                double accuracy) {
         super(name, description);
 
         this.damage = damage;
         this.isConsumable = isConsumable;
-        this.onDrop = onDrop;
-        this.onUse = onUse;
-        this.onPickup = onPickup;
+        this.accuracy = accuracy;
+    }
+
+    public double getDamage() {
+        return damage;
+    }
+
+    public EDamageType getDamageType() {
+        return damageType;
+    }
+
+    public void setDamageType(EDamageType damageType) {
         this.damageType = damageType;
     }
 
-    public double getDamage() { return this.damage; }
-    public Effect getOnDrop() { return this.onDrop; }
-    public Effect getOnUse() { return this.onUse; }
-    public Effect getOnPickup() { return this.onPickup; }
-    public EDamageType getDamageType() { return this.damageType; }
+    public boolean isConsumable() {
+        return isConsumable;
+    }
 
-    public boolean isConsumable() { return this.isConsumable; }
+    public Effect getOnDrop() {
+        return onDrop;
+    }
+
+    public void setOnDrop(Effect onDrop) {
+        this.onDrop = onDrop;
+    }
+
+    public Effect getOnPickup() {
+        return onPickup;
+    }
+
+    public void setOnPickup(Effect onPickup) {
+        this.onPickup = onPickup;
+    }
+
+    public Effect getOnUse() {
+        return onUse;
+    }
+
+    public void setOnUse(Effect onUse) {
+        this.onUse = onUse;
+    }
+
+    public double getAccuracy() {
+        return accuracy;
+    }
 
     @Override
     public boolean equals(Object o) {

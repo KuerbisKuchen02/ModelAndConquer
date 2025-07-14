@@ -3,14 +3,23 @@ package models._static;
 import models.generated.EDamageType;
 
 public class DamageModificator extends GenericElement {
-    private final EDamageType damageType;
     private double multiplicator;
+    private EDamageType damageType;
 
-    public DamageModificator(String name, String description, EDamageType damageType, double multiplicator) {
+    public DamageModificator(String name,
+                             String description,
+                             double multiplicator) {
         super(name, description);
 
-        this.damageType = damageType;
         this.multiplicator = multiplicator;
+    }
+
+    public double getMultiplicator() {
+        return multiplicator;
+    }
+
+    public EDamageType getDamageType() {
+        return damageType;
     }
 
     private void setMultiplicator(double multiplicator) {
@@ -18,7 +27,4 @@ public class DamageModificator extends GenericElement {
             this.multiplicator = multiplicator;
         }
     }
-
-    public EDamageType getDamageType() { return this.damageType; }
-    public double getMultiplicator() { return this.multiplicator; }
 }
