@@ -558,9 +558,9 @@ class GeneratorHandler extends AbstractHandler {
 	«FOR Effect effect: game.effects»
 	«IF effect instanceof SpawnEffect»
 	// Set SpawnArea of SpawnEffect «effect.name»
-	Effect effect = findEffectByName("«effect.name»");
+	effect = findEffectByName("«effect.name»");
 	spawnEffectArea = findAreaByName("«effect.area.name»");
-	effect.setArea(spawnEffectArea);
+	((SpawnEffect) effect).setArea(spawnEffectArea);
 	«ENDIF»
 	«ENDFOR»
 	'''
