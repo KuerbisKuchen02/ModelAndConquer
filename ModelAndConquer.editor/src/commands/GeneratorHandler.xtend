@@ -373,7 +373,7 @@ class GeneratorHandler extends AbstractHandler {
 		spawnEffectEntities = new ArrayList<>();
 		«FOR INonPlayerEntity entity: (effect as SpawnEffect).entities»
 		«IF entity instanceof Entity»
-		spawnEffectEntities.add(findINonPlayerEntityByName("«entity.name»");
+		spawnEffectEntities.add(findINonPlayerEntityByName("«entity.name»"));
 		«ENDIF»
 		«ENDFOR»
 		effect = new SpawnEffect("«effect.name»", "«effect.description»", «effect.probability», spawnEffectEntities);
@@ -558,7 +558,7 @@ class GeneratorHandler extends AbstractHandler {
 	«FOR Effect effect: game.effects»
 	«IF effect instanceof SpawnEffect»
 	// Set SpawnArea of SpawnEffect «effect.name»
-	Effect effect = findEffectByName("«effect.name»").setEffect();
+	Effect effect = findEffectByName("«effect.name»");
 	spawnEffectArea = findAreaByName("«effect.area.name»");
 	effect.setArea(spawnEffectArea);
 	«ENDIF»
