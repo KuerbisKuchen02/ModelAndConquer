@@ -176,7 +176,7 @@ public class Area extends GenericElement {
     public String toString(){
         if (visited) {
             String roomSpecification    = "==========================================================\n"
-                    + "> This Area is: " + getName() + "\n";
+                    + "> You are in " + getName() + "\n";
 
             if (!entities.isEmpty()) {
                 roomSpecification       += "> There are Monsters in the Area:\n" + presentMonsters();

@@ -184,7 +184,7 @@ public class Game extends GenericElement {
                 connection.tryUnlock(item);
                 break;
             case Entity _:
-                item.getOnUse().apply();
+                applyEffect(item.getOnUse(), player, element);
                 break;
             default:
                 throw new IllegalStateException("How did you get here");
