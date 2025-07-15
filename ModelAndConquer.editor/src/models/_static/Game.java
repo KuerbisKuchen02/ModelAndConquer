@@ -144,6 +144,15 @@ public class Game extends GenericElement {
             if (entity instanceof Monster) {
                 applyEffect(((Monster) entity).getOnKill(), player, entity);
             }
+
+            // Show dropped items
+            if (!entity.getInventory().isEmpty()) {
+                System.out.println(entity.getName() + " dropped the following items:");
+                for (Item droppedItem : entity.getInventory()) {
+                    System.out.println("\t" + droppedItem.toShortString());
+                }
+            }
+
             entity.dropItems(player.getPosition());
             player.getPosition().removeEntity((INonPlayerEntity) entity);
         }

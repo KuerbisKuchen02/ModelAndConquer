@@ -191,7 +191,7 @@ public class Area extends GenericElement {
             }
 
             if (!items.isEmpty()){
-                roomSpec += "There are items in the area." + "\n";
+                roomSpec += "\tThere are items in the area." + "\n";
             }
 
             return super.toString() + roomSpec;
