@@ -49,4 +49,11 @@ public class DamageModificatorEffect extends Effect {
             getTarget().getDamageModificators().add(damageModificator);
         }
     }
+
+    @Override
+    public String toString(){
+        String ret = super.toString();
+        ret += "\n" + damageModificator + " for " + duration + " turns.";
+        return ret;
+    }
 }

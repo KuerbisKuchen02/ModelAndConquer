@@ -21,4 +21,11 @@ public abstract class Effect extends GenericElement {
     }
 
     abstract public void apply();
+
+    @Override
+    public String toString() {
+        String ret = super.toString();
+        ret += "\nProbability: " + probability;
+        return ret;
+    }
 }

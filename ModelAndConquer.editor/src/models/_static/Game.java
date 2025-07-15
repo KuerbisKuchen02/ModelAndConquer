@@ -144,6 +144,15 @@ public class Game extends GenericElement {
             if (entity instanceof Monster) {
                 applyEffect(((Monster) entity).getOnKill(), player, entity);
             }
+
+            // Show dropped items
+            if (!entity.getInventory().isEmpty()) {
+                System.out.println(entity.getName() + " dropped the following items:");
+                for (Item droppedItem : entity.getInventory()) {
+                    System.out.println("\t" + droppedItem.toShortString());
+                }
+            }
+
             entity.dropItems(player.getPosition());
             player.getPosition().removeEntity((INonPlayerEntity) entity);
         }
@@ -299,7 +308,12 @@ public class Game extends GenericElement {
 
         GenericElement genericElement = getGenericElementInArea(element);
         if (genericElement != null) {
-            System.out.println((genericElement));
+            if(genericElement instanceof Item){
+                System.out.println(((Item) genericElement).toShortString());
+            }
+            else{
+                System.out.println(genericElement);
+            }
         } else {
             System.out.println("There is nothing to inspect which has this name.");
         }

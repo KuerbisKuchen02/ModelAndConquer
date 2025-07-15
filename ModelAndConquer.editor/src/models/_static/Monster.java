@@ -85,9 +85,4 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity {
     public double getAccuracy() {
         return accuracy;
     }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

@@ -90,6 +90,7 @@ public class Item extends GenericElement {
                 + (isConsumable ? "> This item is consumable\n" : "")
                 + "> Damage: " + damage + "\n"
                 + (damageType != null ? ("> Damage type: " + damageType + "\n") : "")
+                + (onDrop != null ? "> On drop effect: " + onDrop.toString() + "\n" : "")
                 + "==========================================================";
     }
 

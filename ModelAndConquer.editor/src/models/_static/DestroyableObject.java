@@ -12,4 +12,9 @@ public class DestroyableObject extends Entity implements INonPlayerEntity{
                              double evasionChance) {
         super(name, description, maxHealth, damageModificators, inventory, evasionChance);
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

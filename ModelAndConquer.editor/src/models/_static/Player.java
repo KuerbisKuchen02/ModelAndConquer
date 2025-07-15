@@ -29,7 +29,43 @@ public class Player extends Entity implements IHealable {
 
     @Override
     public String toString() {
-        return super.toString() + "\n> You are in the area: " + position.getName()
-                + "\n==========================================================";
+        StringBuilder entityDescription = new StringBuilder("==========================================================\n"
+                + healthBarString(true) + "\n");
+
+        ArrayList<Item> inventory = getInventory();
+
+        if (!inventory.isEmpty()) {
+            entityDescription.append("> Items in inventory:\n");
+            for(Item item : inventory){
+                entityDescription.append("\t").append(item.toShortString()).append("\n");
+            }
+        }
+
+        ArrayList<DamageModificator> damageModificators = getDamageModificators();
+
+        if (!damageModificators.isEmpty()) {
+            entityDescription.append("> Damage multipliers:\n");
+            for(DamageModificator dm : damageModificators){
+                entityDescription
+                        .append("\t")
+                        .append((dm.getMultiplicator() > 1.0) ? "weak" : "resistant")
+                        .append("against")
+                        .append(dm.getDamageType().toString())
+                        .append("\n");
+            }
+        }
+
+        ArrayList<Effect> effects = getEffects();
+
+        if (!effects.isEmpty()) {
+            entityDescription.append("> Current Effects:\n");
+            for(Effect e : effects) entityDescription.append("\t").append(e.toString()).append("\n");
+        }
+
+        entityDescription
+                .append("\n> You are in the ").append(position.getName())
+                .append("\n==========================================================");
+
+        return entityDescription.toString();
     }
 }

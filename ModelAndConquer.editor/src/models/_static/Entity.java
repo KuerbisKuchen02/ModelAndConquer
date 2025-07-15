@@ -144,16 +144,9 @@ public abstract class Entity extends GenericElement {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder entityDescription    = new StringBuilder("==========================================================\n"
                 + healthBarString(true) + "\n");
-
-        if (!inventory.isEmpty()) {
-            entityDescription.append("> Items in inventory:\n");
-            for(Item item : inventory){
-                entityDescription.append("\t").append(item.toShortString()).append("\n");
-            }
-        }
 
         if (!damageModificators.isEmpty()) {
             entityDescription.append("> Damage multipliers:\n");
