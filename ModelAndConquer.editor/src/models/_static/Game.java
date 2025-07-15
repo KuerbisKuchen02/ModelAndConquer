@@ -308,7 +308,12 @@ public class Game extends GenericElement {
 
         GenericElement genericElement = getGenericElementInArea(element);
         if (genericElement != null) {
-            System.out.println((genericElement));
+            if(genericElement instanceof Item){
+                System.out.println(((Item) genericElement).toShortString());
+            }
+            else{
+                System.out.println(genericElement);
+            }
         } else {
             System.out.println("There is nothing to inspect which has this name.");
         }

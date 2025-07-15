@@ -50,4 +50,12 @@ public class HealthEffect extends Effect {
             this.duration--;
         }
     }
+
+    @Override
+    public String toString(){
+        String ret = super.toString();
+        ret += "\n" + (amount > 0 ? "Heals" : "Damages") + " for " + amount +
+                (duration == 1 ? " once" : (" over " + duration + " turns"));
+        return ret;
+    }
 }

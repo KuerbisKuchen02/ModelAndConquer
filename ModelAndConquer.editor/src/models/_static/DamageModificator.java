@@ -29,4 +29,9 @@ public class DamageModificator extends GenericElement {
             this.multiplicator = multiplicator;
         }
     }
+
+    @Override
+    public String toString() {
+        return (multiplicator > 1 ? "Strong" : "Weak") + " against " + damageType;
+    }
 }
