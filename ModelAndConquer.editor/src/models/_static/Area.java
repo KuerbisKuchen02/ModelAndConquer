@@ -134,6 +134,8 @@ public class Area extends GenericElement {
                     .append(EDirection.getValueString(i))
                     .append(" - ");
             if(area.isVisited()) {
+                adjacentAreas.append("Already visited, more details:");
+                adjacentAreas.append("\n----------------------------------------------------------\n");
                 adjacentAreas.append(area.shortToString());
             }
             else{
@@ -252,18 +254,6 @@ public class Area extends GenericElement {
     public String shortToString(){
         if (visited) {
             String roomSpec = "\n";
-
-            if (!getMonsters().isEmpty()) {
-                roomSpec += "\tThere are monsters in the area." + "\n";
-            }
-
-            if (!getDestroyableObjects().isEmpty()) {
-                roomSpec += "\tThere are destroyable objects in the area." + "\n";
-            }
-
-            if (!items.isEmpty()){
-                roomSpec += "\tThere are items in the area." + "\n";
-            }
 
             roomSpec += asciiArtString();
 
