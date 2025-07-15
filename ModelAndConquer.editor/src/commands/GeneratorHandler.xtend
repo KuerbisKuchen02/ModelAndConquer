@@ -1,6 +1,7 @@
 package commands
 
 import ModelAndConquer.DamageType
+
 import ModelAndConquer.Game
 import ModelAndConquer.presentation.ModelAndConquerEditor
 import java.io.ByteArrayInputStream
@@ -50,7 +51,13 @@ class GeneratorHandler extends AbstractHandler {
 		// Get selected element
 		var TreeSelection ts = ue.selection as TreeSelection;
 		
-		var Game game = ts.firstElement as Game;		
+		var Game game = ts.firstElement as Game;	
+		
+		val IFolder folder = project.getFolder("src-gen");
+		if (folder.exists) folder.delete(true, null);	
+		
+		copyStaticFiles(project, "models._static");
+		copyStaticFiles(project, "compiler");
 		
 		createFileWithContent(project, "models.generated", "DungeonFactory.java", generateGame(game));
 		
@@ -312,7 +319,7 @@ class GeneratorHandler extends AbstractHandler {
 	
 	«IF player.inventory !== null»
 		// Set Inventory
-		items = new ArrayList<Item>();
+		items = new ArrayList<>();
 		«generateItems(player.inventory)»
 	«ENDIF»
 	
@@ -337,7 +344,7 @@ class GeneratorHandler extends AbstractHandler {
 		«generateINonPlayerEntities(area.entities)»
 		
 		// Generate Items for «area.name»
-		items = new ArrayList<Item>();
+		items = new ArrayList<>();
 		«generateItems(area.items)»
 		
 		// Add Area «area.name» to list
@@ -363,7 +370,7 @@ class GeneratorHandler extends AbstractHandler {
 		effect = new HealthEffect("«effect.name»", "«effect.description»", «effect.probability», «effect.amount», «effect.duration», «effect.onSelf»);
 		«ENDIF»
 		«IF effect instanceof SpawnEffect»
-		spawnEffectEntities = new ArrayList<Monster>();
+		spawnEffectEntities = new ArrayList<>();
 		«FOR INonPlayerEntity entity: (effect as SpawnEffect).entities»
 		«IF entity instanceof Entity»
 		spawnEffectEntities.add(findINonPlayerEntityByName("«entity.name»");
@@ -384,7 +391,7 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 	
 	def generateINonPlayerEntities(EList<INonPlayerEntity> entities)'''
-		entities = new ArrayList<INonPlayerEntity>();
+		entities = new ArrayList<>();
 		«FOR INonPlayerEntity entity: entities»
 			«IF entity instanceof Monster»
 				// Generate Inventory of Monster «entity.name»
@@ -590,29 +597,42 @@ class GeneratorHandler extends AbstractHandler {
 		return items;
 	}
 	
-	def void createFileWithContent(IProject project, String pckgName, String fileName, CharSequence content) {
-		var String currentFolderString = "src-gen/";
-		var IFolder folder
+	def void copyStaticFiles(IProject project, String pckgName) {
+		var String currentFolderString = "src-gen/"
+		var IFolder folder;
 		
 		folder = project.getFolder("src-gen");
-		if(!folder.exists) {
-			folder.create(true, true, null)
+		if (!folder.exists) folder.create(true, true, null)
+		
+		for(String n : pckgName.split("\\.")) { //de . thm . zdh . Toll
+			currentFolderString = currentFolderString + n + "/";
+			folder = project.getFolder(currentFolderString);
+			
+			if(!folder.exists) folder.create(true,true,null);
 		}
+		
+		// TODO Copy files
+		
+	}
+	
+	def void createFileWithContent(IProject project, String pckgName, String fileName, CharSequence content) {
+		var String currentFolderString = "src-gen/";
+		var IFolder folder;
+		
+		folder = project.getFolder("src-gen");
+		if (!folder.exists) folder.create(true, true, null)
+
 	
 		for(String n : pckgName.split("\\.")) { //de . thm . zdh . Toll
 			currentFolderString = currentFolderString + n + "/";
 			folder = project.getFolder(currentFolderString);
 			
-			if(!folder.exists) {
-				folder.create(true,true,null);
-			}
+			if(!folder.exists) folder.create(true,true,null);
 		}
 
 		var IFile file = folder.getFile(fileName);
 	
-		if(file.exists) {
-			file.delete(true,null);
-		}
+		if(file.exists) file.delete(true,null);
 	
 		if(!file.exists) {
 			var byte[] bytes;

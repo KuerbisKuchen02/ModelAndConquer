@@ -83,9 +83,10 @@ public class GameParser {
         String[] parameters = getNames(input);
 
         if (parameters.length != 2) {
-            throw new IllegalArgumentException("Using items requires exactly one item and entity");
+            game.use(parameters[0], null);
+        } else {
+            game.use(parameters[0], parameters[1]);
         }
-        game.use(parameters[0], parameters[1]);
     }
 
     private void drop(String input) {
@@ -105,10 +106,7 @@ public class GameParser {
     }
 
     private void inspect(String input){
-        if (input.isEmpty()) {
-            throw new IllegalArgumentException("Inspecting must contain exactly one thing.");
-        }
-        game.inspect(input);
+        game.inspect(input.isEmpty() ? "area" : input);
     }
 
     private void unlock(String input){
