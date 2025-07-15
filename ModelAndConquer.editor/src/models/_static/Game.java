@@ -42,6 +42,8 @@ public class Game extends GenericElement {
 
     }
 
+    
+
     public void gameLoop() {
         help();  // Initially print help messages
         player.getPosition().setVisited(true);  // Set the Spawnpoint as visited

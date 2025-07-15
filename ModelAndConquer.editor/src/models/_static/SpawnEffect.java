@@ -1,18 +1,18 @@
 package models._static;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class SpawnEffect extends Effect {
-    private final List<INonPlayerEntity> nonPlayerEntities;
+    private final ArrayList<INonPlayerEntity> nonPlayerEntities;
     private Area area;
 
     public SpawnEffect(String name,
                        String description,
                        double probability,
-                       List<INonPlayerEntity> entities) {
+                       ArrayList<INonPlayerEntity> entities) {
         super(name, description, probability);
 
-        this.nonPlayerEntities = entities != null ? entities : List.of();
+        this.nonPlayerEntities = (entities == null) ? new ArrayList<>() : entities;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class SpawnEffect extends Effect {
         }
     }
 
-    public List<INonPlayerEntity> getNonPlayerEntities() {
+    public ArrayList<INonPlayerEntity> getNonPlayerEntities() {
         return nonPlayerEntities;
     }
 

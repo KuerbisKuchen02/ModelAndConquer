@@ -176,8 +176,8 @@ public class Area extends GenericElement {
     }
 
     private String asciiArtString(){
-        String dynamicLine = String.format("%s%5s%s%5s%s%5s", " | Items |  x ", items.size(),
-                "   ⠙⠛⢻⣷⣾⡟⠛⠋  x ", getMonsters().size(), "    |\\         \\  x ",
+        String dynamicLine = String.format("%s%-5s%s%-5s%s%-5s", " | Items |  x ", items.size(),
+                "   ⠙⠛⢻⣷⣾⡟⠛⠋  x ", getMonsters().size(), "    | |---------|  x ",
                 getDestroyableObjects().size()) + "\n";
 
         return  "    :~:               ⠀⢀⣠⣤⣤⣄⡀⠀              __________\n" +
