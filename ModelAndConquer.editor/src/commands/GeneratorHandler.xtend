@@ -1,6 +1,7 @@
 package commands
 
 import ModelAndConquer.DamageType
+
 import ModelAndConquer.Game
 import ModelAndConquer.presentation.ModelAndConquerEditor
 import java.io.ByteArrayInputStream
@@ -50,7 +51,13 @@ class GeneratorHandler extends AbstractHandler {
 		// Get selected element
 		var TreeSelection ts = ue.selection as TreeSelection;
 		
-		var Game game = ts.firstElement as Game;		
+		var Game game = ts.firstElement as Game;	
+		
+		val IFolder folder = project.getFolder("src-gen");
+		if (folder.exists) folder.delete(true, null);	
+		
+		copyStaticFiles(project, "models._static");
+		copyStaticFiles(project, "compiler");
 		
 		createFileWithContent(project, "models.generated", "DungeonFactory.java", generateGame(game));
 		
@@ -197,12 +204,12 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 	
 	def generatePlayer(Player player)'''
-	ArrayList<Item> items = null;
-	ArrayList<DamageModificator> damageModificators = null;
+	ArrayList<Item> items;
+	ArrayList<DamageModificator> damageModificators;
 	
 	«IF player.inventory !== null»
 		// Set Inventory
-		items = new ArrayList<Item>();
+		items = new ArrayList<>();
 		«generateItems(player.inventory)»
 	«ENDIF»
 	
@@ -215,10 +222,10 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 	
 	def generateAreas(EList<Area> areas)'''
-		ArrayList<Item> items = null;
-		Entity entity = null;
-		ArrayList<INonPlayerEntity> entities = null;
-		ArrayList<DamageModificator> damageModificators = null;
+		ArrayList<Item> items;
+		Entity entity;
+		ArrayList<INonPlayerEntity> entities;
+		ArrayList<DamageModificator> damageModificators;
 		
 		// Generate Areas
 		«FOR Area area: areas»
@@ -227,7 +234,7 @@ class GeneratorHandler extends AbstractHandler {
 		«generateINonPlayerEntities(area.entities)»
 		
 		// Generate Items for «area.name»
-		items = new ArrayList<Item>();
+		items = new ArrayList<>();
 		«generateItems(area.items)»
 		
 		// Add Area «area.name» to list
@@ -244,16 +251,16 @@ class GeneratorHandler extends AbstractHandler {
 	
 	def generateEffects(EList<Effect> effects)'''
 	// Generate Effects
-	Effect effect = null;
-	ArrayList<INonPlayerEntity> spawnEffectEntities = null;
-	DamageModificator damageModificator = null;
+	Effect effect;
+	ArrayList<INonPlayerEntity> spawnEffectEntities;
+	DamageModificator damageModificator;
 	
 	«FOR Effect effect: effects»
 		«IF effect instanceof HealthEffect»
 		effect = new HealthEffect("«effect.name»", "«effect.description»", «effect.probability», «effect.amount», «effect.duration», «effect.onSelf»);
 		«ENDIF»
 		«IF effect instanceof SpawnEffect»
-		spawnEffectEntities = new ArrayList<Monster>();
+		spawnEffectEntities = new ArrayList<>();
 		«FOR INonPlayerEntity entity: (effect as SpawnEffect).entities»
 		«IF entity instanceof Entity»
 		spawnEffectEntities.add(findINonPlayerEntityByName("«entity.name»");
@@ -274,7 +281,7 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 	
 	def generateINonPlayerEntities(EList<INonPlayerEntity> entities)'''
-		entities = new ArrayList<INonPlayerEntity>();
+		entities = new ArrayList<>();
 		«FOR INonPlayerEntity entity: entities»
 			«IF entity instanceof Monster»
 				// Generate Inventory of Monster «entity.name»
@@ -343,7 +350,7 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 
 	def mapPlayerReferences(Player player)'''
-	ArrayList<Effect> effects = null;
+	ArrayList<Effect> effects;
 	
 	// Set Spawnpoint
 	player.setPosition(findAreaByName("«player.spawnpoint.name»"));
@@ -360,9 +367,9 @@ class GeneratorHandler extends AbstractHandler {
 
 	def mapAreasAndConnections(Game game)'''
 	// Map Areas and Connections
-	Connection connection = null;
-	Area areaFrom = null;
-	Area areaTo = null;
+	Connection connection;
+	Area areaFrom;
+	Area areaTo;
 	
 	«FOR Connection connection: game.connections»
 	// Get References for Connection «connection.name»
@@ -424,9 +431,9 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 
 	def mapEffectsOfItems(Game game)'''
-	Item item = null;
-	Effect effect = null;
-	Area spawnEffectArea = null;
+	Item item;
+	Effect effect;
+	Area spawnEffectArea;
 	
 	«FOR Item item: getAllItems(game)»
 	// Set Effects and DamageType for Item «item.name»
@@ -480,29 +487,42 @@ class GeneratorHandler extends AbstractHandler {
 		return items;
 	}
 	
-	def void createFileWithContent(IProject project, String pckgName, String fileName, CharSequence content) {
-		var String currentFolderString = "src-gen/";
-		var IFolder folder
+	def void copyStaticFiles(IProject project, String pckgName) {
+		var String currentFolderString = "src-gen/"
+		var IFolder folder;
 		
 		folder = project.getFolder("src-gen");
-		if(!folder.exists) {
-			folder.create(true, true, null)
+		if (!folder.exists) folder.create(true, true, null)
+		
+		for(String n : pckgName.split("\\.")) { //de . thm . zdh . Toll
+			currentFolderString = currentFolderString + n + "/";
+			folder = project.getFolder(currentFolderString);
+			
+			if(!folder.exists) folder.create(true,true,null);
 		}
+		
+		// TODO Copy files
+		
+	}
+	
+	def void createFileWithContent(IProject project, String pckgName, String fileName, CharSequence content) {
+		var String currentFolderString = "src-gen/";
+		var IFolder folder;
+		
+		folder = project.getFolder("src-gen");
+		if (!folder.exists) folder.create(true, true, null)
+
 	
 		for(String n : pckgName.split("\\.")) { //de . thm . zdh . Toll
 			currentFolderString = currentFolderString + n + "/";
 			folder = project.getFolder(currentFolderString);
 			
-			if(!folder.exists) {
-				folder.create(true,true,null);
-			}
+			if(!folder.exists) folder.create(true,true,null);
 		}
 
 		var IFile file = folder.getFile(fileName);
 	
-		if(file.exists) {
-			file.delete(true,null);
-		}
+		if(file.exists) file.delete(true,null);
 	
 		if(!file.exists) {
 			var byte[] bytes;

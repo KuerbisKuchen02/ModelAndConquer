@@ -40,7 +40,7 @@ public class Game extends GenericElement {
             }
 
             if(inFight && wasATurn){
-                // while in fight, monsters turn to hit
+                // while in a fight, monsters turn to hit
                 ArrayList<Monster> monsters = player.getPosition().getMonsters();
                 if(!monsters.isEmpty()){
                     for(Monster monster : monsters){
@@ -155,7 +155,15 @@ public class Game extends GenericElement {
     }
 
     public void use(String itemString, String genericElementString) {
-        GenericElement element = getGenericElementInArea(genericElementString);
+        GenericElement element;
+        if (genericElementString == null
+                || genericElementString.isEmpty()
+                || genericElementString.equals("self")
+                || genericElementString.equals("player")) {
+            element = player;
+        } else {
+            element = getGenericElementInArea(genericElementString);
+        }
         Item item = getItemFromInventory(itemString);
         if (item == null) {
             System.out.println("You need to enter a valid item!");
