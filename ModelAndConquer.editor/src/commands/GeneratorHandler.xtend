@@ -83,7 +83,7 @@ class GeneratorHandler extends AbstractHandler {
 		ArrayList<Connection> connections = new ArrayList<>();
 		ArrayList<Effect> effects = new ArrayList<>();
 					
-		public Game generate() {
+		public Game generate() throws Exception {
 			// Create all GenericElements of the Game and their Sub-ELements which have a containment Relation within the Model
 			initPlayer();
 			initAreas();
@@ -95,6 +95,10 @@ class GeneratorHandler extends AbstractHandler {
 			mapAreasAndConnections();
 			mapEffectsOfItems();
 			
+			if (!checkGame()) {
+				throw new Exception("Game generation failed due to constraints not being met.");
+			}
+					
 			return new Game("«game.name»", "«game.description»", player);
 			
 		}
@@ -242,55 +246,10 @@ class GeneratorHandler extends AbstractHandler {
 			}
 	
 			// Errorcheck: No Prepositions in any Names
-			for (Item item: this.player.getInventory()) {
-				if (item.getName().matches(" on | with ")) {
-					Logger.error(TAG, "Item " + item.getName() + " contains a preposition in its name.");
-					return false;
-				}
-			}
-			for (DamageModificator damageModificator: this.player.getDamageModificators()) {
-				if (damageModificator.getName().matches(" on | with ")) {
-					Logger.error(TAG, "DamageModificator " + damageModificator.getName() + " contains a preposition in its name.");
-					return false;
-				}
-			}
-			for (Area area : this.areas) {
-				if (area.getName().matches(" on | with ")) {
-					Logger.error(TAG, "Area " + area.getName() + " contains a preposition in its name.");
-					return false;
-				}
-				for (Item item: area.getItems()) {
-					if (item.getName().matches(" on | with ")) {
-						Logger.error(TAG, "Item " + item.getName() + " in Area " + area.getName() + " contains a preposition in its name.");
-						return false;
-					}
-				}
-				for (INonPlayerEntity entity: area.getEntities()) {
-					if (entity instanceof Monster) {
-						Monster monster = (Monster) entity;
-						if (monster.getName().matches(" on | with ")) {
-							Logger.error(TAG, "Monster " + monster.getName() + " in Area " + area.getName() + " contains a preposition in its name.");
-							return false;
-						}
-					}
-					else if (entity instanceof DestroyableObject) {
-						DestroyableObject destroyableObject = (DestroyableObject) entity;
-						if (destroyableObject.getName().matches(" on | with ")) {
-							Logger.error(TAG, "DestroyableObject " + destroyableObject.getName() + " in Area " + area.getName() + " contains a preposition in its name.");
-							return false;
-						}
-					}
-				}
-			}
-			for (Connection connection: this.connections) {
-				if (connection.getName().matches(" on | with ")) {
-					Logger.error(TAG, "Connection " + connection.getName() + " contains a preposition in its name.");
-					return false;
-				}
-			}
-			for (Effect effect: this.effects) {
-				if (effect.getName().matches(" on | with ")) {
-					Logger.error(TAG, "Effect " + effect.getName() + " contains a preposition in its name.");
+			ArrayList<GenericElement> allGenericElements = getAllGenericElements();
+			for (GenericElement element : allGenericElements) {
+				if (element.getName().isEmpty() || element.getName().matches(" on | with ")) {
+					Logger.error(TAG, "Element " + element.getName() + " contains a preposition in its name.");
 					return false;
 				}
 			}
@@ -309,6 +268,37 @@ class GeneratorHandler extends AbstractHandler {
 			}
 	
 			return true;
+		}
+		
+		private ArrayList<GenericElement> getAllGenericElements() {
+			ArrayList<GenericElement> elements = new ArrayList<>();
+			elements.add(player);
+			for (Item item : player.getInventory()) {
+				elements.add(item);
+			}
+			for (DamageModificator damageModificator : player.getDamageModificators()) {
+				elements.add(damageModificator);
+			}
+			elements.addAll(areas);
+			for (Area area : areas) {
+				elements.addAll(area.getItems());
+				for (INonPlayerEntity entity : area.getEntities()) {
+					if (entity instanceof Monster) {
+						Monster monster = (Monster) entity;
+						elements.add(monster);
+						elements.addAll(monster.getInventory());
+						elements.addAll(monster.getDamageModificators());
+					} else if (entity instanceof DestroyableObject) {
+						DestroyableObject destroyableObject = (DestroyableObject) entity;
+						elements.add(destroyableObject);
+						elements.addAll(destroyableObject.getInventory());
+						elements.addAll(destroyableObject.getDamageModificators());
+					}
+				}
+			}
+			elements.addAll(connections);
+			elements.addAll(effects);
+			return elements;
 		}
 	}
 	'''
