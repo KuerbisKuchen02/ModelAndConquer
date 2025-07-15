@@ -88,6 +88,30 @@ public class Monster extends Entity implements IHealable, INonPlayerEntity {
 
     @Override
     public String toString() {
-        return super.toString();
+        StringBuilder entityDescription    = new StringBuilder("==========================================================\n"
+                + healthBarString(true) + "\n");
+
+        ArrayList<DamageModificator> damageModificator = getDamageModificators();
+        ArrayList<Effect> effects = getEffects();
+
+        if (!damageModificator.isEmpty()) {
+            entityDescription.append("> Damage multipliers:\n");
+            for(DamageModificator dm : damageModificator){
+                entityDescription
+                        .append("\t")
+                        .append((dm.getMultiplicator() > 1.0) ? "weak" : "resistant")
+                        .append("against")
+                        .append(dm.getDamageType().toString())
+                        .append("\n");
+            }
+        }
+
+        if (!effects.isEmpty()) {
+            entityDescription.append("> Current Effects:\n");
+            for(Effect e : effects) entityDescription.append("\t").append(e.toString()).append("\n");
+        }
+
+        entityDescription.append("==========================================================");
+        return entityDescription.toString();
     }
 }
