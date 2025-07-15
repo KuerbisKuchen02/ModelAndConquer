@@ -34,7 +34,7 @@ public class Connection extends GenericElement {
     }
 
     public Area getOtherArea(Area currentArea){
-        return currentArea == areaA ? currentArea : areaB;
+        return currentArea == areaA ? areaB : areaA;
     }
 
     public Area getAreaA() {

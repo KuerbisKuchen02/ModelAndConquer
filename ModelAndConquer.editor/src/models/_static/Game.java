@@ -233,7 +233,7 @@ public class Game extends GenericElement {
             case Connection connection:
                 connection.tryUnlock(item);
                 break;
-            case Entity _:
+            case Entity a:
                 applyEffect(item.getOnUse(), player, element);
                 break;
             default:
@@ -397,7 +397,7 @@ public class Game extends GenericElement {
                 }
                 applyEffect(spawnEffect, self, other);
             }
-            case EndGameEffect _ -> {
+            case EndGameEffect a -> {
                 System.out.println(
                         " ██▒   █▓ ██▓ ▄████▄  ▄▄▄█████▓ ▒█████   ██▀███ ▓██   ██▓ ▐██▌ \n" +
                         "▓██░   █▒▓██▒▒██▀ ▀█  ▓  ██▒ ▓▒▒██▒  ██▒▓██ ▒ ██▒▒██  ██▒ ▐██▌ \n" +
