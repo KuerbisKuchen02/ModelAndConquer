@@ -1,7 +1,7 @@
 package models._static;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.function.Function;
 
 public class Area extends GenericElement {
     private ArrayList<INonPlayerEntity> entities;
@@ -187,7 +187,62 @@ public class Area extends GenericElement {
                 " .'     `.            ⣇⠈⠉⡿⢿⠉⠁⣸             |\\         \\\n" +
                 dynamicLine +
                 "  `.._..'              ⠀ ⡏⠉⢹                \\ | Objects |\n" +
-                "                                             \\|_________|\n";
+                "                                             \\|__________|\n";
+    }
+
+    /**
+     * Method to receive a string projecting current area and adjacent areas visually
+     * @param padding left padding
+     * @return map String
+     */
+    public String mapString(int padding){
+        String visitedArea = "|+|";
+        String unknownArea = "|*|";
+        String ret = "";
+
+        Function<Integer, String> getRoom = (i) -> connections[i] != null &&
+                connections[i].getOtherArea(this).isVisited() ? visitedArea : unknownArea;
+
+        int mapElementSize = visitedArea.length();
+
+        // build map from top to bottom, first check north and up connection, then west and east, then south and down
+
+        String currLine = String.format("%" + padding + "s", "");
+        if(connections[0] != null) currLine = String.format("%" + (padding+mapElementSize+1) + "s%s", currLine,
+                getRoom.apply(0));
+        if(connections[4] != null) currLine = String.format("%" + (padding+2*mapElementSize+1) + "s%s", currLine,
+                getRoom.apply(4));
+        // only append line if
+        if(connections[0] != null || connections[4] != null) ret += currLine + "\n";
+
+        currLine = String.format("%" + padding + "s", "");
+        if(connections[0] != null) currLine = String.format("%" + padding + "s%s", currLine, "     | ");
+        if(connections[4] != null) currLine = String.format("%" + (padding+2*mapElementSize+1) + "s%s",
+                currLine, "/   ");
+        if(connections[0] != null || connections[4] != null) ret += currLine + "\n";
+
+        currLine = String.format("%" + padding + "s", "");
+        if(connections[3] != null) currLine = String.format("%" + padding + "s%s", currLine,
+                getRoom.apply(3) + "-");
+        // current area
+        currLine = String.format("%" + (padding + mapElementSize+1) + "s%s", currLine, "|X|");
+        if(connections[1] != null) currLine += "-" +
+                getRoom.apply(1);
+        if(connections[3] != null || connections[1] != null) ret += currLine + "\n";
+
+        currLine = String.format("%" + padding + "s", "");
+        if(connections[5] != null) currLine = String.format("%" + padding + "s%s", currLine, "   / ");
+        if(connections[2] != null) currLine = String.format("%" + (padding+2*mapElementSize-1) + "s%s", currLine, "| ");
+        if(connections[5] != null || connections[2] != null) ret += currLine + "\n";
+
+        currLine = String.format("%" + padding + "s", "");
+        if(connections[5] != null) currLine = String.format("%" + padding + "s%s", currLine, " " + getRoom.apply(5));
+        if (connections[2] != null) currLine = String.format("%" + (padding+mapElementSize+1) + "s%s", currLine,
+                getRoom.apply(2) + "    ");
+
+        if(connections[5] != null || connections[2] != null) ret += currLine + "\n";
+        ret += "\nLegend: |X|: current area, |+|: visited area, |*|: unknown area\n";
+        return ret;
     }
 
 
@@ -237,6 +292,8 @@ public class Area extends GenericElement {
             }
 
             roomSpecification += "> Adjacent Areas: \n" + presentAdjacentAreas();
+            roomSpecification += "----------------------------------------------------------";
+            roomSpecification += "\nmap: \n" + mapString(4);
             roomSpecification += "==========================================================";
             return roomSpecification;
         } else {

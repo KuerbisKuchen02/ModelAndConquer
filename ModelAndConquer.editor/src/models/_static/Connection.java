@@ -33,6 +33,10 @@ public class Connection extends GenericElement {
         }
     }
 
+    public Area getOtherArea(Area currentArea){
+        return currentArea == areaA ? currentArea : areaB;
+    }
+
     public Area getAreaA() {
         return areaA;
     }
