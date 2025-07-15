@@ -47,7 +47,12 @@ public class HealthEffect extends Effect {
         Random rand = new Random();
         if (getProbability() > rand.nextDouble()) {
             this.target.heal(this.amount);
-            this.duration--;
+        }
+
+        this.duration--;
+
+        if (duration == 0) {
+            entityTarget.getEffects().remove(this);
         }
     }
 

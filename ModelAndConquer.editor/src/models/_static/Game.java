@@ -88,10 +88,19 @@ public class Game extends GenericElement {
                 }
             }
 
+            // Apply Effect for the Player
+            for (Effect effect : player.getEffects()) {
+                // Only apply Effects which have a duration. Currently only HealthEffects
+                if (effect instanceof HealthEffect) effect.apply();
+                if (effect instanceof DamageModificatorEffect) effect.apply();
+            }
+
+            // Apply Effects for all Monsters in the area
             for(Monster monster : player.getPosition().getMonsters()) {
                 for(Effect effect : monster.getEffects()) {
                     // Only apply Effects which have a duration. Currently only HealthEffects
                     if(effect instanceof HealthEffect) effect.apply();
+                    if (effect instanceof DamageModificatorEffect) effect.apply();
                 }
             }
         }
@@ -309,6 +318,11 @@ public class Game extends GenericElement {
             applyEffect(item.getOnDrop(), player, item);
         }
 
+        // Delete the effect which was given on pickup
+        if (item.getOnPickup() != null) {
+            deleteEffect(player, item.getOnPickup());
+        }
+
         wasATurn = true;
     }
 
@@ -400,6 +414,15 @@ public class Game extends GenericElement {
         }
 
         effect.apply();
+    }
+
+    /**
+     * Deletes an effect from the active effectlist of an entity.
+     * @param entity The entity to delete the effect from.
+     * @param effect The effect to delete.
+     */
+    public void deleteEffect(Entity entity, Effect effect) {
+        entity.getEffects().removeIf(EntityEffect -> EntityEffect.getName().equals(effect.getName()));
     }
 
     private GenericElement getGenericElementInArea(String genericElementString) {

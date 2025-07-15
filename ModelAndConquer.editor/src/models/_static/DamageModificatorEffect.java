@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class DamageModificatorEffect extends Effect {
     private final DamageModificator damageModificator;
-    private final int duration;
+    private int duration;
     private final boolean onSelf;
     private Entity target;
 
@@ -47,6 +47,12 @@ public class DamageModificatorEffect extends Effect {
 
         if (getProbability() > rand.nextDouble()) {
             getTarget().getDamageModificators().add(damageModificator);
+        }
+
+        this.duration--;
+
+        if (this.duration == 0) {
+            getTarget().getDamageModificators().remove(damageModificator);
         }
     }
 
