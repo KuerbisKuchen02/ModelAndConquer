@@ -54,7 +54,7 @@ public class HealthEffect extends Effect {
     @Override
     public String toString(){
         String ret = super.toString();
-        ret += "\n" + (amount > 0 ? "Heals" : "Damages") + " for " + amount +
+        ret += "\n" + (amount > 0 ? "Heals" : "Damages") + " for " + amount + " hp" +
                 (duration == 1 ? " once" : (" over " + duration + " turns"));
         return ret;
     }
