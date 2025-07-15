@@ -25,6 +25,7 @@ public class Connection extends GenericElement {
 
     public void tryUnlock(Item item) {
         if (item.equals(unlockedWith)) {
+            System.out.println("Unlocked with " + unlockedWith.toShortString());
             isLocked = false;
         }
         else{
