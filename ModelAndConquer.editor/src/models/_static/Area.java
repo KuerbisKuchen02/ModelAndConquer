@@ -1,6 +1,7 @@
 package models._static;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Area extends GenericElement {
     private ArrayList<INonPlayerEntity> entities;
@@ -34,6 +35,24 @@ public class Area extends GenericElement {
         return monsters;
     }
 
+    public boolean hasMonsters() {
+        for (INonPlayerEntity entity : entities) {
+            if (entity instanceof Monster) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasDestroyableObjects() {
+        for (INonPlayerEntity entity : entities) {
+            if (entity instanceof DestroyableObject) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // TODO: Handle destroyable objects, list them inside toString and toShortString
     //       Maybe we need also methods to get all monsters separately??
     public ArrayList<DestroyableObject> getDestroyableObjects() {
@@ -43,7 +62,6 @@ public class Area extends GenericElement {
                 destroyableObjects.add((DestroyableObject) entity);
             }
         }
-
         return destroyableObjects;
     }
 
@@ -143,12 +161,18 @@ public class Area extends GenericElement {
      */
     public String presentMonsters() {
         StringBuilder monsterList = new StringBuilder();
-        for (INonPlayerEntity entity : entities) {
-            if (entity instanceof Monster monster) {
-                monsterList.append(monster).append("\n");
-            }
+        for (Monster monster : getMonsters()) {
+            monsterList.append(monster).append("\n");
         }
         return monsterList.toString();
+    }
+
+    public String presentDestroyableObjects() {
+        StringBuilder destroyableObjectsList = new StringBuilder();
+        for (DestroyableObject destroyableObject : getDestroyableObjects()) {
+            destroyableObjectsList.append(destroyableObject).append("\n");
+        }
+        return destroyableObjectsList.toString();
     }
 
     /**
@@ -158,8 +182,12 @@ public class Area extends GenericElement {
         if (visited) {
             String roomSpec = "\n";
 
-            if (!entities.isEmpty()) {
-                roomSpec += "There are monsters in the area." + "\n";
+            if (!getMonsters().isEmpty()) {
+                roomSpec += "\tThere are monsters in the area." + "\n";
+            }
+
+            if (!getDestroyableObjects().isEmpty()) {
+                roomSpec += "\tThere are destroyable objects in the area." + "\n";
             }
 
             if (!items.isEmpty()){
@@ -175,15 +203,19 @@ public class Area extends GenericElement {
     @Override
     public String toString(){
         if (visited) {
-            String roomSpecification    = "==========================================================\n"
+            String roomSpecification = "==========================================================\n"
                     + "> You are in " + getName() + "\n";
 
-            if (!entities.isEmpty()) {
-                roomSpecification       += "> There are Monsters in the Area:\n" + presentMonsters();
+            if (hasMonsters()) {
+                roomSpecification += "> There are Monsters in the Area:\n" + presentMonsters();
+            }
+
+            if (hasDestroyableObjects()) {
+                roomSpecification += "> There are destroyable objects in the Area:\n" + presentDestroyableObjects();
             }
 
             if (!items.isEmpty()) {
-                roomSpecification       += "> There are items in the Area:\n" + presentItems();
+                roomSpecification += "> There are items in the Area:\n" + presentItems();
             }
 
             roomSpecification += "> Adjacent Areas: \n" + presentAdjacentAreas();
