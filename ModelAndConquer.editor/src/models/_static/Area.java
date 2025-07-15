@@ -228,7 +228,7 @@ public class Area extends GenericElement {
         currLine = String.format("%" + (padding + mapElementSize+1) + "s%s", currLine, "|X|");
         if(connections[1] != null) currLine += "-" +
                 getRoom.apply(1);
-        if(connections[3] != null || connections[1] != null) ret += currLine + "\n";
+        ret += currLine + "\n";
 
         currLine = String.format("%" + padding + "s", "");
         if(connections[5] != null) currLine = String.format("%" + padding + "s%s", currLine, "   / ");
