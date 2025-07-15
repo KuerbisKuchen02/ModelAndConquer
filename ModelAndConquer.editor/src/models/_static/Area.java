@@ -175,6 +175,22 @@ public class Area extends GenericElement {
         return destroyableObjectsList.toString();
     }
 
+    private String asciiArtString(){
+        String dynamicLine = String.format("%s%5s%s%5s%s%5s", " | Items |  x ", items.size(),
+                "   ⠙⠛⢻⣷⣾⡟⠛⠋  x ", getMonsters().size(), "    |\\         \\  x ",
+                getDestroyableObjects().size()) + "\n";
+
+        return  "    :~:               ⠀⢀⣠⣤⣤⣄⡀⠀              __________\n" +
+                "    | |               ⣴⣿⣿⣿⣿⣿⣿⣦             /\\____;;___\\\n" +
+                "   .' `.              ⣿⣿⣿⣿⣿⣿⣿⣿            | /         /\n" +
+                " .'     `.            ⣇⠈⠉⡿⢿⠉⠁⣸            `._________.\n" +
+                dynamicLine +
+                "  `.._..'              ⠀ ⡏⠉⢹⠀               | |---------|\n" +
+                "                                             \\ | Objects |\n" +
+                "                                              \\|_________|\n";
+    }
+
+
     /**
      * @return String with short description of area
      */
@@ -193,6 +209,8 @@ public class Area extends GenericElement {
             if (!items.isEmpty()){
                 roomSpec += "\tThere are items in the area." + "\n";
             }
+
+            roomSpec += asciiArtString();
 
             return super.toString() + roomSpec;
         } else {
