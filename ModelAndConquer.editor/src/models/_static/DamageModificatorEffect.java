@@ -46,7 +46,9 @@ public class DamageModificatorEffect extends Effect {
         Random rand = new Random();
 
         if (getProbability() > rand.nextDouble()) {
-            getTarget().getDamageModificators().add(damageModificator);
+            if (getTarget().getDamageModificators().contains(damageModificator)) {
+                getTarget().getDamageModificators().add(damageModificator);
+            }
         }
 
         this.duration--;

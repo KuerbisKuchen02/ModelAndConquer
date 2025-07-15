@@ -45,7 +45,11 @@ public class HealthEffect extends Effect {
     @Override
     public void apply() {
         Random rand = new Random();
+        Entity entityTarget = (Entity) getTarget();
         if (getProbability() > rand.nextDouble()) {
+            if (!entityTarget.getEffects().contains(this)) {
+                entityTarget.getEffects().add((this));
+            }
             this.target.heal(this.amount);
         }
 
