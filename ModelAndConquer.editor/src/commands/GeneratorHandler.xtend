@@ -69,6 +69,8 @@ class GeneratorHandler extends AbstractHandler {
 
 	public class DungeonFactory {
 		
+		public static final String TAG = DungeonFactory.class.getSimpleName();
+		
 		Player player;
 		ArrayList<Area> areas = new ArrayList<>();
 		ArrayList<Connection> connections = new ArrayList<>();
@@ -193,12 +195,120 @@ class GeneratorHandler extends AbstractHandler {
 			}
 			return null;
 		}
+		
+		/**
+		 * Checks whether the game was generated correctly according to constraints.
+		 * @return
+		 */
+		private boolean checkGame() {
+			// Errorcheck: Check if every Area has at least one outgoing connection.
+			for (Area area : this.areas) {
+				if (area.getConnections() == null || area.getConnections().length == 0) {
+					System.out.println("Error: Area " + area.getName() + " has no outgoing connections.");
+					return false;
+				}
+	
+				boolean hasOutgoingConnection = false;
+				for (Connection connection: area.getConnections()) {
+					if (connection != null) {
+						hasOutgoingConnection = true;
+						break;
+					}
+				}
+	
+				if (!hasOutgoingConnection) {
+					Logger.error(TAG, "Area " + area.getName() + " has no outgoing connections.");
+					return false;
+				}
+			}
+	
+			// Errorcheck: Check if the Game has at least one EndGameEffect
+			boolean hasEndGameEffect = false;
+			for (Effect effect : this.effects) {
+				if (effect instanceof EndGameEffect) {
+					hasEndGameEffect = true;
+				}
+			}
+	
+			if (!hasEndGameEffect) {
+				return false;
+			}
+	
+			// Errorcheck: No Prepositions in any Names
+			for (Item item: this.player.getInventory()) {
+				if (item.getName().matches(" on | with ")) {
+					Logger.error(TAG, "Item " + item.getName() + " contains a preposition in its name.");
+					return false;
+				}
+			}
+			for (DamageModificator damageModificator: this.player.getDamageModificators()) {
+				if (damageModificator.getName().matches(" on | with ")) {
+					Logger.error(TAG, "DamageModificator " + damageModificator.getName() + " contains a preposition in its name.");
+					return false;
+				}
+			}
+			for (Area area : this.areas) {
+				if (area.getName().matches(" on | with ")) {
+					Logger.error(TAG, "Area " + area.getName() + " contains a preposition in its name.");
+					return false;
+				}
+				for (Item item: area.getItems()) {
+					if (item.getName().matches(" on | with ")) {
+						Logger.error(TAG, "Item " + item.getName() + " in Area " + area.getName() + " contains a preposition in its name.");
+						return false;
+					}
+				}
+				for (INonPlayerEntity entity: area.getEntities()) {
+					if (entity instanceof Monster) {
+						Monster monster = (Monster) entity;
+						if (monster.getName().matches(" on | with ")) {
+							Logger.error(TAG, "Monster " + monster.getName() + " in Area " + area.getName() + " contains a preposition in its name.");
+							return false;
+						}
+					}
+					else if (entity instanceof DestroyableObject) {
+						DestroyableObject destroyableObject = (DestroyableObject) entity;
+						if (destroyableObject.getName().matches(" on | with ")) {
+							Logger.error(TAG, "DestroyableObject " + destroyableObject.getName() + " in Area " + area.getName() + " contains a preposition in its name.");
+							return false;
+						}
+					}
+				}
+			}
+			for (Connection connection: this.connections) {
+				if (connection.getName().matches(" on | with ")) {
+					Logger.error(TAG, "Connection " + connection.getName() + " contains a preposition in its name.");
+					return false;
+				}
+			}
+			for (Effect effect: this.effects) {
+				if (effect.getName().matches(" on | with ")) {
+					Logger.error(TAG, "Effect " + effect.getName() + " contains a preposition in its name.");
+					return false;
+				}
+			}
+	
+			// Errorcheck: OnSpawnEffect darf kein SpawnEffect sein
+			for (Area area : this.areas) {
+				for (INonPlayerEntity entity: area.getEntities()) {
+					if (entity instanceof Monster) {
+						Monster monster = (Monster) entity;
+						if (monster.getOnSpawn() != null && monster.getOnSpawn() instanceof SpawnEffect) {
+							Logger.error(TAG, "Monster " + monster.getName() + " has a SpawnEffect as OnSpawnEffect.");
+							return false;
+						}
+					}
+				}
+			}
+	
+			return true;
+		}
 	}
 	'''
 	
 	def generatePlayer(Player player)'''
-	ArrayList<Item> items = null;
-	ArrayList<DamageModificator> damageModificators = null;
+	ArrayList<Item> items;
+	ArrayList<DamageModificator> damageModificators;
 	
 	«IF player.inventory !== null»
 		// Set Inventory
@@ -215,10 +325,10 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 	
 	def generateAreas(EList<Area> areas)'''
-		ArrayList<Item> items = null;
-		Entity entity = null;
-		ArrayList<INonPlayerEntity> entities = null;
-		ArrayList<DamageModificator> damageModificators = null;
+		ArrayList<Item> items;
+		Entity entity;
+		ArrayList<INonPlayerEntity> entities;
+		ArrayList<DamageModificator> damageModificators;
 		
 		// Generate Areas
 		«FOR Area area: areas»
@@ -244,9 +354,9 @@ class GeneratorHandler extends AbstractHandler {
 	
 	def generateEffects(EList<Effect> effects)'''
 	// Generate Effects
-	Effect effect = null;
-	ArrayList<INonPlayerEntity> spawnEffectEntities = null;
-	DamageModificator damageModificator = null;
+	Effect effect;
+	ArrayList<INonPlayerEntity> spawnEffectEntities;
+	DamageModificator damageModificator;
 	
 	«FOR Effect effect: effects»
 		«IF effect instanceof HealthEffect»
@@ -343,7 +453,7 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 
 	def mapPlayerReferences(Player player)'''
-	ArrayList<Effect> effects = null;
+	ArrayList<Effect> effects;
 	
 	// Set Spawnpoint
 	player.setPosition(findAreaByName("«player.spawnpoint.name»"));
@@ -360,9 +470,9 @@ class GeneratorHandler extends AbstractHandler {
 
 	def mapAreasAndConnections(Game game)'''
 	// Map Areas and Connections
-	Connection connection = null;
-	Area areaFrom = null;
-	Area areaTo = null;
+	Connection connection;
+	Area areaFrom;
+	Area areaTo;
 	
 	«FOR Connection connection: game.connections»
 	// Get References for Connection «connection.name»
@@ -424,9 +534,9 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 
 	def mapEffectsOfItems(Game game)'''
-	Item item = null;
-	Effect effect = null;
-	Area spawnEffectArea = null;
+	Item item;
+	Effect effect;
+	Area spawnEffectArea;
 	
 	«FOR Item item: getAllItems(game)»
 	// Set Effects and DamageType for Item «item.name»
