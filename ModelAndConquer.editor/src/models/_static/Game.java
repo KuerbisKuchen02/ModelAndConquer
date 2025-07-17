@@ -159,7 +159,7 @@ public class Game extends GenericElement {
      */
     public void attack(String entityString, String itemString) {
         Entity entity = getEntityInArea(entityString);
-        Item item = getItemFromInventory(itemString);
+        Item item = itemString.isEmpty() ? new Item("Hand", "", 1.0, false, 1) : getItemFromInventory(itemString);
         if (item == null) {
             System.out.println("You need to enter a valid item!");
             Logger.warn(TAG, "Item " + itemString + " not found!");

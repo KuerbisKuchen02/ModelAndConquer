@@ -66,10 +66,16 @@ public class GameParser {
     private void attack(String input){
         String[] parameters = getNames(input);
 
-        if (parameters.length != 2) {
-            throw new IllegalArgumentException("Attacking requires exactly one item and entity to attack");
+        if (parameters.length == 1) {
+        	game.attack(parameters[0], "");
         }
-        game.attack(parameters[0], parameters[1]);
+        else if (parameters.length == 2) {
+        	game.attack(parameters[0], parameters[1]);
+        } else {
+        	throw new IllegalArgumentException("Attacking requires exactly one entity and optionally one item to attack");
+                 
+        }
+        
     }
 
     private void take(String input){
