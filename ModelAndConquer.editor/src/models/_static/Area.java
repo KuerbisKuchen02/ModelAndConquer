@@ -259,7 +259,9 @@ public class Area extends GenericElement {
     public String toString(){
         if (visited) {
             String roomSpecification = "==========================================================\n"
-                    + "> You are in " + getName() + "\n";
+                    + "> You are in " + getName() + "\n\n";
+
+            roomSpecification += getDescription() + "\n\n";
 
             roomSpecification += asciiArtString();
             

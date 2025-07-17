@@ -73,6 +73,7 @@ class GeneratorHandler extends AbstractHandler {
 	// Imports
 	import java.util.ArrayList;
 	import models._static.*;
+	
 
 	public class DungeonFactory {
 		
@@ -382,8 +383,8 @@ class GeneratorHandler extends AbstractHandler {
 	def generateConnections(EList<Connection> connections)'''
 		// Generate Connections
 		«FOR Connection connection: connections»
-		«IF connection.name.isEmpty»
-			this.connections.add(new Connection("«connection.areaFrom»" + " To " + "«connection.areaTo»", "«connection.description»");
+		«IF connection.name === null || connection.name.isEmpty»
+			this.connections.add(new Connection("«connection.areaFrom.name»" + " To " + "«connection.areaTo.name»", "«connection.description»"));
 		«ELSE»
 			this.connections.add(new Connection("«connection.name»", "«connection.description»"));
 		«ENDIF»
@@ -528,8 +529,13 @@ class GeneratorHandler extends AbstractHandler {
 	Area areaTo;
 	
 	«FOR Connection connection: game.connections»
-	// Get References for Connection «connection.name»
-	connection = findConnectionByName("«connection.name»");
+	«IF connection.name === null || connection.name.isEmpty»
+		// Get References for Connection «connection.areaFrom.name»" + " To " + "«connection.areaTo.name»
+		connection = findConnectionByName("«connection.areaFrom.name»" + " To " + "«connection.areaTo.name»");
+	«ELSE»
+		// Get References for Connection «connection.name»
+		connection = findConnectionByName("«connection.name»");
+	«ENDIF»
 	areaFrom = findAreaByName("«connection.areaFrom.name»");
 	areaTo = findAreaByName("«connection.areaTo.name»");
 
