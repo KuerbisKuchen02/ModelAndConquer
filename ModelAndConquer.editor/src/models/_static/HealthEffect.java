@@ -43,7 +43,7 @@ public class HealthEffect extends Effect {
     }
 
     @Override
-    public void apply() {
+    public String apply() {
         Random rand = new Random();
         Entity entityTarget = (Entity) getTarget();
         if (getProbability() > rand.nextDouble()) {
@@ -58,6 +58,8 @@ public class HealthEffect extends Effect {
         if (duration == 0) {
             entityTarget.getEffects().remove(this);
         }
+        
+        return ((Entity) this.target).getName() + " got " + (this.amount > 0 ? "healed" : "damaged") + " by " + this.amount + " because of " + this.getName();
     }
 
     @Override

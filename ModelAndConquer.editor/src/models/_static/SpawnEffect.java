@@ -16,10 +16,15 @@ public class SpawnEffect extends Effect {
     }
 
     @Override
-    public void apply() {
+    public String apply() {
+    	String msg = "Spawned ";
         for (INonPlayerEntity entity : nonPlayerEntities) {
+        	msg += entity + " ";
             area.addEntity(entity);
         }
+        
+        msg += "because of " + this.getName();
+        return msg;
     }
 
     public ArrayList<INonPlayerEntity> getNonPlayerEntities() {

@@ -135,6 +135,10 @@ public class Game extends GenericElement {
             return;
         }
         Connection connection = player.getPosition().getConnections()[direction.getValue()];
+        if (connection == null) {
+        	System.out.println("You cannot go there...");
+        	return;
+        }
         if(connection.tryTraverse()) {
             applyEffect(connection.getOnTraverse(), player, connection);
         	Area newArea = connection.getAreaA() == player.getPosition() ?
@@ -167,18 +171,21 @@ public class Game extends GenericElement {
         }
 
         double dmg = entity.takeDamage(item.getDamage(), item.getDamageType(), item.getAccuracy());
-        if(dmg != -1) System.out.println("You hit " + entity.getName() + " for " + dmg);
-        
-        // Apply Effect from the used Item
-        applyEffect(item.getOnUse(), player, entity);
-
-        // Apply Effects if the entity is a monster
-        if (entity instanceof Monster monster) {
-            if(!inFight) inFight = true;
-            applyEffect(monster.getOnHit(), monster, player);
-            System.out.println(fightHealthBars(player, player.getPosition().getMonsters()));
+        if(dmg != -1) {
+        	System.out.println("You hit " + entity.getName() + " for " + dmg);
+        	
+        	// Apply Effect from the used Item
+            applyEffect(item.getOnUse(), player, entity);
+            
+            // Apply Effects if the entity is a monster
+            if (entity instanceof Monster monster) {
+                if(!inFight) inFight = true;
+                applyEffect(monster.getOnHit(), monster, player);
+                System.out.println(fightHealthBars(player, player.getPosition().getMonsters()));
+            }
         }
-
+        
+        
         if (!entity.hasHealthLeft()) {
             // Apply OnDeathEffect if the entity is a monster
         	System.out.println(entity.getName() + " has been defeated.");
@@ -415,7 +422,7 @@ public class Game extends GenericElement {
             case null, default -> throw new RuntimeException("How did we get here? endGameEffect");
         }
 
-        effect.apply();
+        System.out.println(effect.apply());
     }
 
     /**

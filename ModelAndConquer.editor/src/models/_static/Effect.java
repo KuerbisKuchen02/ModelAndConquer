@@ -20,7 +20,7 @@ public abstract class Effect extends GenericElement {
         }
     }
 
-    abstract public void apply();
+    abstract public String apply();
 
     @Override
     public String toString() {

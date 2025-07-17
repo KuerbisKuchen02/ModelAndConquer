@@ -154,7 +154,7 @@ public abstract class Entity extends GenericElement {
                 entityDescription
                         .append("\t")
                         .append((dm.getMultiplicator() > 1.0) ? "weak" : "resistant")
-                        .append("against")
+                        .append(" against ")
                         .append(dm.getDamageType().toString())
                         .append("\n");
             }

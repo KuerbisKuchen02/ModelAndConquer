@@ -42,7 +42,7 @@ public class DamageModificatorEffect extends Effect {
     }
 
     @Override
-    public void apply() {
+    public String apply() {
         Random rand = new Random();
 
         if (getProbability() > rand.nextDouble()) {
@@ -56,6 +56,8 @@ public class DamageModificatorEffect extends Effect {
         if (this.duration == 0) {
             getTarget().getDamageModificators().remove(damageModificator);
         }
+        
+        return "Got " + (damageModificator.getMultiplicator() > 1 ? "resistance" : "weakness") + "for " + damageModificator.getDamageType() + " by " + this.getName();
     }
 
     @Override
