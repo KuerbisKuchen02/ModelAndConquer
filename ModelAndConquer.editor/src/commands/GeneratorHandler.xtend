@@ -448,7 +448,7 @@ class GeneratorHandler extends AbstractHandler {
 	
 	public enum EDamageType {
 		«FOR int i: 0..damageTypes.size-1 SEPARATOR ','»
-			«damageTypes.get(i).name.toUpperCase»(«i»)«IF i==damageTypes.size-1»;«ENDIF»
+			«damageTypes.get(i).name.split(" ").join("_").toUpperCase»(«i»)«IF i==damageTypes.size-1»;«ENDIF»
 		«ENDFOR»
 		
 		private final int value;
@@ -458,7 +458,7 @@ class GeneratorHandler extends AbstractHandler {
 		public static EDamageType getDamageTypeByName(String name) {
 			switch (name) {
 				«FOR int i: 0..damageTypes.size-1»
-					case "«damageTypes.get(i).name»": return EDamageType.«damageTypes.get(i).name.toUpperCase»;
+					case "«damageTypes.get(i).name»": return EDamageType.«damageTypes.get(i).name.split(" ").join("_").toUpperCase»;
 				«ENDFOR»
 				default: return null;
 			}
