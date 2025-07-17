@@ -53,8 +53,6 @@ public class Area extends GenericElement {
         return false;
     }
 
-    // TODO: Handle destroyable objects, list them inside toString and toShortString
-    //       Maybe we need also methods to get all monsters separately??
     public ArrayList<DestroyableObject> getDestroyableObjects() {
         ArrayList<DestroyableObject> destroyableObjects = new ArrayList<>();
         for (INonPlayerEntity entity : entities) {
@@ -134,9 +132,7 @@ public class Area extends GenericElement {
                     .append(EDirection.getValueString(i))
                     .append(" - ");
             if(area.isVisited()) {
-                adjacentAreas.append("Already visited, more details:");
-                adjacentAreas.append("\n----------------------------------------------------------\n");
-                adjacentAreas.append(area.shortToString());
+            	adjacentAreas.append(area.shortToString());
             }
             else{
                 adjacentAreas.append("unknown area");
@@ -253,11 +249,7 @@ public class Area extends GenericElement {
      */
     public String shortToString(){
         if (visited) {
-            String roomSpec = "\n";
-
-            roomSpec += asciiArtString();
-
-            return super.toString() + roomSpec;
+            return super.toString();
         } else {
             return "There is an unknown area.";
         }
@@ -269,16 +261,18 @@ public class Area extends GenericElement {
             String roomSpecification = "==========================================================\n"
                     + "> You are in " + getName() + "\n";
 
+            roomSpecification += asciiArtString();
+            
             if (hasMonsters()) {
-                roomSpecification += "> There are Monsters in the Area:\n" + presentMonsters();
+                roomSpecification += "> Monster:\n" + presentMonsters();
             }
 
             if (hasDestroyableObjects()) {
-                roomSpecification += "> There are destroyable objects in the Area:\n" + presentDestroyableObjects();
+                roomSpecification += "> Destroyable Objects:\n" + presentDestroyableObjects();
             }
 
             if (!items.isEmpty()) {
-                roomSpecification += "> There are items in the Area:\n" + presentItems();
+                roomSpecification += "> Items:\n" + presentItems();
             }
 
             roomSpecification += "> Adjacent Areas: \n" + presentAdjacentAreas();
