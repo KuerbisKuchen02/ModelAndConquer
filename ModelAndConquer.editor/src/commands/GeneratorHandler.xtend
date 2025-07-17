@@ -167,6 +167,11 @@ class GeneratorHandler extends AbstractHandler {
 		}
 		
 		private DamageModificator findDamageModificatorByName(String name) {
+			for (DamageModificator damageModificator: player.getDamageModificators()) {
+				if (damageModificator.getName().equals(name)) {
+					return damageModificator;
+				}
+			}
 			for (Area area: this.areas) {
 				for (INonPlayerEntity entity : area.getEntities()) {
 					for (DamageModificator damageModificator : ((Entity) entity).getDamageModificators()) {
@@ -200,6 +205,11 @@ class GeneratorHandler extends AbstractHandler {
 		}
 		
 		private Item findItemByName(String name) {
+			for (Item item: player.getInventory()) {
+				if (item.getName().equals(name)) {
+					return item;
+				}
+			}
 			for (Area area: this.areas) {
 				for (Item item: area.getItems()) {
 					if (item.getName().equals(name)) {
