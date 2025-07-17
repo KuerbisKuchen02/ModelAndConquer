@@ -80,6 +80,7 @@ public class Game extends GenericElement {
                                     "░ ░   ░   ░   ▒   ░      ░      ░      ░ ░ ░ ▒       ░░     ░     ░░   ░     ░ \n" +
                                     "      ░       ░  ░       ░      ░  ░       ░ ░        ░     ░  ░   ░      ░    ");
                             isRunning = false;
+                            break;
                         }
                     }
                     System.out.println(fightHealthBars(player, monsters));
