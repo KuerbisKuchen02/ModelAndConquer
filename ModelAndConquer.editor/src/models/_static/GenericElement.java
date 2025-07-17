@@ -21,7 +21,7 @@ public abstract class GenericElement {
 
     @Override
     public String toString(){
-        return name + (description.isEmpty() ? "" : (" - " + description));
+        return name + (description.isEmpty() ? "" : (" - " + getDescription()));
     }
 
     private static final String LINEBREAK = "\n"; // or "\r\n";

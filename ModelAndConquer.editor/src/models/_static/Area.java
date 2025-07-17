@@ -244,12 +244,16 @@ public class Area extends GenericElement {
     }
 
 
+    public String getNameAndDescription() {
+        return getName() + (getDescription().isEmpty() ? "" : "\n\n" + getDescription());
+    }
+
     /**
      * @return String with short description of area
      */
     public String shortToString(){
         if (visited) {
-            return super.toString();
+            return getName();
         } else {
             return "There is an unknown area.";
         }

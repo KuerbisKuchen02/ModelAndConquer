@@ -146,7 +146,7 @@ public class Game extends GenericElement {
                             connection.getAreaB() : connection.getAreaA();
             player.setPosition(newArea);
         	newArea.setVisited(true);
-        	System.out.println("You have entered the area: " + newArea.shortToString());
+        	System.out.println("You have entered the area: " + newArea.getNameAndDescription());
             if (newArea.getOnEnter() != null) {
                 applyEffect(newArea.getOnEnter(), player, newArea);
             }
@@ -260,7 +260,7 @@ public class Game extends GenericElement {
     public void help() {
         System.out.println(
                 "==========================================================\n"
-                        + "Hello! Welcome to: "+ getName() + "!\n"
+                        + "Hello! \nWelcome to: "+ getName() + "!\n\n"
                         + getDescription() + "\n"
                         + "==========================================================\n"
                         + "You are able to do the following actions:\n"
