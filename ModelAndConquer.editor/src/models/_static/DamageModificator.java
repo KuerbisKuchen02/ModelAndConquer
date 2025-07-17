@@ -4,14 +4,12 @@ import models.generated.EDamageType;
 
 public class DamageModificator extends GenericElement {
     private double multiplicator;
-    private final EDamageType damageType;
+    private EDamageType damageType;
 
     public DamageModificator(String name,
                              String description,
-                             EDamageType damageType,
                              double multiplicator) {
         super(name, description);
-        this.damageType = damageType;
         this.multiplicator = multiplicator;
     }
 
@@ -21,6 +19,10 @@ public class DamageModificator extends GenericElement {
 
     public EDamageType getDamageType() {
         return damageType;
+    }
+    
+    public void setDamageType(EDamageType damageType) {
+    	this.damageType = damageType;
     }
 
     @SuppressWarnings("unused")

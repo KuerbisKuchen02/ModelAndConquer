@@ -94,6 +94,7 @@ class GeneratorHandler extends AbstractHandler {
 			mapPlayerReferences();
 			mapAreasAndConnections();
 			mapEffectsOfItems();
+			mapDamageTypeToDamageModificators();
 			
 			if (!checkGame()) {
 				throw new Exception("Game generation failed due to constraints not being met.");
@@ -131,6 +132,10 @@ class GeneratorHandler extends AbstractHandler {
 			«mapEffectsOfItems(game)»
 		}
 		
+		private void mapDamageTypeToDamageModificators() {
+			«mapDamageTypeToDamageModificators(game)»
+		}
+		
 		private Area findAreaByName(String name) {
 			for (Area area: this.areas) {
 				if (area.getName().equals(name)) {
@@ -158,6 +163,20 @@ class GeneratorHandler extends AbstractHandler {
 				}
 			}
 			
+			return null;
+		}
+		
+		private DamageModificator findDamageModificatorByName(String name) {
+			for (Area area: this.areas) {
+				for (INonPlayerEntity entity : area.getEntities()) {
+					for (DamageModificator damageModificator : ((Entity) entity).getDamageModificators()) {
+						if (damageModificator.getName().equals(name)) {
+							return damageModificator;
+						}
+					}
+				}
+			}
+					
 			return null;
 		}
 		
@@ -369,7 +388,7 @@ class GeneratorHandler extends AbstractHandler {
 		effect = new SpawnEffect("«effect.name»", "«effect.description»", «effect.probability», spawnEffectEntities);
 		«ENDIF»
 		«IF effect instanceof DamageModificatorEffect»
-		damageModificator = new DamageModificator("«effect.damageModificator.name»", "«effect.damageModificator.description»", EDamageType.getDamageTypeByName("«effect.damageModificator.damageType.name»"), «effect.damageModificator.multiplikator»);
+		damageModificator = new DamageModificator("«effect.damageModificator.name»", "«effect.damageModificator.description»", «effect.damageModificator.multiplikator»);
 		effect = new DamageModificatorEffect("«effect.name»", "«effect.description»", «effect.probability», damageModificator, «effect.onSelf», «effect.duration»);
 		«ENDIF»
 		«IF effect instanceof EndGameEffect»
@@ -412,7 +431,7 @@ class GeneratorHandler extends AbstractHandler {
 	def generateDamageModificator(EList<DamageModificator> damageModificators)'''
 		damageModificators = new ArrayList<>();
 		«FOR DamageModificator damageModificator: damageModificators»
-			damageModificators.add(new DamageModificator(«damageModificator.name», «damageModificator.description», «damageModificator.multiplikator»)));
+			damageModificators.add(new DamageModificator("«damageModificator.name»", "«damageModificator.description»", «damageModificator.multiplikator»));
 		«ENDFOR»
 	'''
 	
@@ -463,6 +482,21 @@ class GeneratorHandler extends AbstractHandler {
 	«ENDFOR»
 	this.player.setEffects(effects);
 	«ENDIF»
+	'''
+	
+	def mapDamageTypeToDamageModificators(Game game)'''
+	Entity entity;
+	DamageModificator damageModificator;
+	
+	«FOR Area area : game.areas»
+	«FOR INonPlayerEntity entity: area.entities»
+	entity = (Entity) findINonPlayerEntityByName("«(entity as Entity).name»");
+	«FOR DamageModificator damageModificator : (entity as Entity).damageModificators»
+		damageModificator = findDamageModificatorByName("«damageModificator.name»");
+		damageModificator.setDamageType(EDamageType.getDamageTypeByName("«damageModificator.damageType.name»"));
+	«ENDFOR»
+	«ENDFOR»
+	«ENDFOR»
 	'''
 
 	def mapAreasAndConnections(Game game)'''
