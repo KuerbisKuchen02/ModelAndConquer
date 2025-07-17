@@ -59,12 +59,10 @@
         eType="#//INonPlayerEntity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
         eType="#//Item" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="onEnterEffect" upperBound="-1"
-        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onEnterEffect" eType="#//Effect"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Connection" eSuperTypes="#//GenericElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="onTraverseEffect" upperBound="-1"
-        eType="#//Effect"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="onTraverseEffect" eType="#//Effect"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unlockedWith" eType="#//Item"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="areaFrom" lowerBound="1"
         eType="#//Area"/>

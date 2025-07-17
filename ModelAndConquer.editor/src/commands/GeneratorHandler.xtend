@@ -285,6 +285,14 @@ class GeneratorHandler extends AbstractHandler {
 					}
 				}
 			}
+			
+			// Errorcheck: Connections dürfen nicht die gleiche Area als Ein und Ausgang besitzen
+			for (Connection connection: this.connections) {
+				if (connection.getAreaA() == connection.getAreaB()) {
+					Logger.error(TAG, "Connection " + connection.getName() + " has the same Area: " + connection.getAreaA().getName() + " as entry and exit");
+					return false;
+				}
+			}
 	
 			return true;
 		}
@@ -541,26 +549,18 @@ class GeneratorHandler extends AbstractHandler {
 	connection.setLocked(findItemByName("«connection.unlockedWith.name»"));
 	«ENDIF»
 	
-	«IF connection.onTraverseEffect !== null && connection.onTraverseEffect.size !== 0»
+	«IF connection.onTraverseEffect !== null»
 	// Set onTraverseEffect for «connection.name»
-	«FOR Effect effect: connection.onTraverseEffect»
-	connection.setOnTraverse(findEffectByName("«effect.name»"));
-	«ENDFOR»
+	connection.setOnTraverse(findEffectByName("«connection.onTraverseEffect.name»"));
 	«ENDIF»
-	
 	«ENDFOR»
 
 	// Set Effects for Areas
 	«FOR Area area: game.areas»
-	«IF area.onEnterEffect !== null && area.onEnterEffect.size !== 0»
+	«IF area.onEnterEffect !== null»
 	// Set Effect for Area «area.name»
-	ArrayList<Effect> areaEffects = new ArrayList<Effects>();
-	«FOR Effect effect: area.onEnterEffect»
-	areaEffects.add(findEffectByName("«effect.name»"));
-	«ENDFOR»
-	findAreaByName("«area.name»").setOnEnter(areaEffects));
+	findAreaByName("«area.name»").setOnEnter(findEffectByName("«area.onEnterEffect.name»"));
 	«ENDIF»
-
 	«ENDFOR»
 	'''
 
