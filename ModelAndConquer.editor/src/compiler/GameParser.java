@@ -121,6 +121,6 @@ public class GameParser {
         if (parameters.length != 2) {
             throw new IllegalArgumentException("Unlocking requires exactly one item and one Connection");
         }
-        game.use(parameters[0], parameters[1]);
+        game.use(parameters[1], parameters[0]);
     }
 }
