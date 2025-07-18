@@ -80,7 +80,9 @@ public class Item extends GenericElement {
                 && Objects.equals(onDrop, item.onDrop)
                 && Objects.equals(onUse, item.onUse)
                 && Objects.equals(onPickup, item.onPickup)
-                && damageType == item.damageType;
+                && damageType == item.damageType
+                && getName().equals(item.getName())
+                && getDescription().equals(item.getDescription());
     }
 
     @Override
