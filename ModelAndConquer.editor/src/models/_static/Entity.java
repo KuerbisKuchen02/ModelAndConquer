@@ -39,12 +39,12 @@ public abstract class Entity extends GenericElement {
         Random rand = new Random();
         double randChance = rand.nextDouble();
         if(randChance > hitProbability){
-            System.out.println("Hit on " + getName() + " missed.");
+            System.out.println("Hit missed");
             return -1;
         }
 
         if (randChance > (1-evasionChance) * hitProbability) {
-            System.out.println(getName() + " dogded the hit.");
+            System.out.println("Hit was dodged");
             return -1;
         }
 

@@ -23,17 +23,6 @@ public class Game extends GenericElement {
     }
 
     public static void main(String[] args) {
-        System.out.println("\n" +
-                " ███▄ ▄███▓ ▒█████  ▓█████▄ ▓█████  ██▓        ▄▄▄       ███▄    █ ▓█████▄     ▄████▄   ▒█████   ███▄    █   █████   █    ██ ▓█████  ██▀███  \n" +
-                "▓██▒▀█▀ ██▒▒██▒  ██▒▒██▀ ██▌▓█   ▀ ▓██▒       ▒████▄     ██ ▀█   █ ▒██▀ ██▌   ▒██▀ ▀█  ▒██▒  ██▒ ██ ▀█   █ ▒██▓  ██▒ ██  ▓██▒▓█   ▀ ▓██ ▒ ██▒\n" +
-                "▓██    ▓██░▒██░  ██▒░██   █▌▒███   ▒██░       ▒██  ▀█▄  ▓██  ▀█ ██▒░██   █▌   ▒▓█    ▄ ▒██░  ██▒▓██  ▀█ ██▒▒██▒  ██░▓██  ▒██░▒███   ▓██ ░▄█ ▒\n" +
-                "▒██    ▒██ ▒██   ██░░▓█▄   ▌▒▓█  ▄ ▒██░       ░██▄▄▄▄██ ▓██▒  ▐▌██▒░▓█▄   ▌   ▒▓▓▄ ▄██▒▒██   ██░▓██▒  ▐▌██▒░██  █▀ ░▓▓█  ░██░▒▓█  ▄ ▒██▀▀█▄  \n" +
-                "▒██▒   ░██▒░ ████▓▒░░▒████▓ ░▒████▒░██████▒    ▓█   ▓██▒▒██░   ▓██░░▒████▓    ▒ ▓███▀ ░░ ████▓▒░▒██░   ▓██░░▒███▒█▄ ▒▒█████▓ ░▒████▒░██▓ ▒██▒\n" +
-                "░ ▒░   ░  ░░ ▒░▒░▒░  ▒▒▓  ▒ ░░ ▒░ ░░ ▒░▓  ░    ▒▒   ▓▒█░░ ▒░   ▒ ▒  ▒▒▓  ▒    ░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒░   ▒ ▒ ░░ ▒▒░ ▒ ░▒▓▒ ▒ ▒ ░░ ▒░ ░░ ▒▓ ░▒▓░\n" +
-                "░  ░      ░  ░ ▒ ▒░  ░ ▒  ▒  ░ ░  ░░ ░ ▒  ░     ▒   ▒▒ ░░ ░░   ░ ▒░ ░ ▒  ▒      ░  ▒     ░ ▒ ▒░ ░ ░░   ░ ▒░ ░ ▒░  ░ ░░▒░ ░ ░  ░ ░  ░  ░▒ ░ ▒░\n" +
-                "░      ░   ░ ░ ░ ▒   ░ ░  ░    ░     ░ ░        ░   ▒      ░   ░ ░  ░ ░  ░    ░        ░ ░ ░ ▒     ░   ░ ░    ░   ░  ░░░ ░ ░    ░     ░░   ░ \n" +
-                "       ░       ░ ░     ░       ░  ░    ░  ░         ░  ░         ░    ░       ░ ░          ░ ░           ░     ░       ░        ░  ░   ░     \n" +
-                "                     ░                                              ░         ░                                                              \n");
         try {
             new DungeonFactory().generate().gameLoop();
         } catch (Exception e) {
@@ -45,7 +34,11 @@ public class Game extends GenericElement {
     
 
     public void gameLoop() {
+    	System.out.println("\n" + AsciiArtPrinter.convertToAsciiArt(getName()));  
+    	System.out.println(getDescription());
         help();  // Initially print help messages
+        System.out.println("If you need help, type: help\n");
+        
         player.getPosition().setVisited(true);  // Set the Spawnpoint as visited
         while (isRunning){
             wasATurn = false;
@@ -259,20 +252,16 @@ public class Game extends GenericElement {
      */
     public void help() {
         System.out.println(
-                "==========================================================\n"
-                        + "Hello! \nWelcome to: "+ getName() + "!\n\n"
-                        + getDescription() + "\n"
-                        + "==========================================================\n"
-                        + "You are able to do the following actions:\n"
-                        + "walk | go | walk (north | south | west | east | up | down)\n"
-                        + "hit | attack <Monster> [with <Item>]\n"
-                        + "use <Item> [on <Monster | Connection>]\n"
-                        + "take <Item>\n"
-                        + "drop <Item>\n"
-                        + "inspect, look area | player | item\n"
-                        + "unlock <Connection> with <Item>\n"
-                        + "==========================================================\n"
-                        + "If you need help, type: help\n"
+        		"\n**********************************************************\n\n"
+				+ "You are able to do the following actions:\n"
+                + " - walk | go | walk (north | south | west | east | up | down)\n"
+                + " - hit | attack <Monster> [with <Item>]\n"
+                + " - use <Item> [on <Monster | Connection>]\n"
+                + " - take <Item>\n"
+                + " - drop <Item>\n"
+                + " - inspect, look area | player | item\n"
+                + " - unlock <Connection> with <Item>\n\n"
+                + "**********************************************************\n"
         );
     }
 
