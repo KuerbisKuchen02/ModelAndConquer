@@ -382,7 +382,7 @@ public class AsciiArtPrinter {
 					});
 
 			for (int i = 0; i < 10; i++) {
-				result[i].append(art[i]);
+				result[i].append(" ").append(art[i]);
 			}
 		}
 
