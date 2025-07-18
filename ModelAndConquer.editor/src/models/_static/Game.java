@@ -62,7 +62,7 @@ public class Game extends GenericElement {
                         }
 
                         if (player.getHealth() <= 0) {
-                            AsciiArtPrinter.convertToAsciiArt("Game Over!");
+                            System.out.println(AsciiArtPrinter.convertToAsciiArt("Game Over!"));
                             isRunning = false;
                             break;
                         }
@@ -386,7 +386,7 @@ public class Game extends GenericElement {
                 applyEffect(spawnEffect, self, other);
             }
             case EndGameEffect a -> {
-                AsciiArtPrinter.convertToAsciiArt("Victory!");
+                System.out.println(AsciiArtPrinter.convertToAsciiArt("Victory!"));
                 isRunning = false;
                 return;
             }
