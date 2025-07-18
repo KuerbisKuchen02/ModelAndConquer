@@ -384,7 +384,6 @@ public class Game extends GenericElement {
                         }
                     }
                 }
-                applyEffect(spawnEffect, self, other);
             }
             case EndGameEffect a -> {
                 System.out.println(AsciiArtPrinter.convertToAsciiArt("Victory!"));
