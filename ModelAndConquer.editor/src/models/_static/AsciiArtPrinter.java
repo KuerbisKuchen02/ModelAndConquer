@@ -332,6 +332,18 @@ public class AsciiArtPrinter {
 				"  ░  ",
 				"  ░  ",
 		});
+		asciiArtMap.put(' ', new String[] {
+				"     ",
+				"     ",
+				"     ",
+				"     ",
+				"     ",
+				"     ",
+				"     ",
+				"     ",
+				"     ",
+				"     ",
+		});
 		asciiArtMap.put('!', new String[] {
 				" ▐██▌ ",
 				" ▐██▌ ",
