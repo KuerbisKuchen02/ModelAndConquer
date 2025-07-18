@@ -64,7 +64,7 @@ public class Game extends GenericElement {
                         if (player.getHealth() <= 0) {
                             System.out.println(AsciiArtPrinter.convertToAsciiArt("Game Over!"));
                             isRunning = false;
-                            break;
+                            return;
                         }
                     }
                     System.out.println(fightHealthBars(player, monsters));
