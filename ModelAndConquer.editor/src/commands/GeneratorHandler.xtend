@@ -508,18 +508,27 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 	
 	def mapDamageTypeToDamageModificators(Game game)'''
-	Entity entity;
 	DamageModificator damageModificator;
-	
+	«FOR DamageModificator damageModificator: game.player.damageModificators»
+		damageModificator = findDamageModificatorByName("«damageModificator.name»");
+		damageModificator.setDamageType(EDamageType.getDamageTypeByName("«damageModificator.damageType.name»"));
+	«ENDFOR»
+	«FOR Effect effect : game.effects»
+	«IF effect instanceof DamageModificatorEffect»
+		damageModificator = findDamageModificatorByName("«effect.damageModificator.name»");
+		damageModificator.setDamageType(EDamageType.getDamageTypeByName("«effect.damageModificator.damageType.name»"));
+	«ENDIF»
+	«ENDFOR»
 	«FOR Area area : game.areas»
 	«FOR INonPlayerEntity entity: area.entities»
-	entity = (Entity) findINonPlayerEntityByName("«(entity as Entity).name»");
 	«FOR DamageModificator damageModificator : (entity as Entity).damageModificators»
 		damageModificator = findDamageModificatorByName("«damageModificator.name»");
 		damageModificator.setDamageType(EDamageType.getDamageTypeByName("«damageModificator.damageType.name»"));
 	«ENDFOR»
 	«ENDFOR»
 	«ENDFOR»
+	
+
 	'''
 
 	def mapAreasAndConnections(Game game)'''
@@ -596,7 +605,6 @@ class GeneratorHandler extends AbstractHandler {
 	«IF item.onPickupEffect !== null»item.setOnPickup(findEffectByName("«item.onPickupEffect.name»")); «ENDIF»
 	«IF item.onDropEffect !== null»item.setOnDrop(findEffectByName("«item.onDropEffect.name»")); «ENDIF»
 	«IF item.damageType !== null»item.setDamageType(EDamageType.getDamageTypeByName("«item.damageType.name»"));«ENDIF»
-	
 	«ENDFOR»
 	
 	«FOR Effect effect: game.effects»
