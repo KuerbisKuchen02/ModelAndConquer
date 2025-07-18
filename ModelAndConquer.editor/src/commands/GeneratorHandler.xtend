@@ -182,6 +182,13 @@ class GeneratorHandler extends AbstractHandler {
 					}
 				}
 			}
+			for (Effect effect: this.effects) {
+				if (effect instanceof DamageModificatorEffect) {
+					if (((DamageModificatorEffect) effect).getDamageModificator().getName().equals(name)) {
+						return ((DamageModificatorEffect) effect).getDamageModificator();
+					}
+				}
+			}
 					
 			return null;
 		}
