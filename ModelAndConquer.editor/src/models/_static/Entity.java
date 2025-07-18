@@ -56,6 +56,7 @@ public abstract class Entity extends GenericElement {
                     endDamage = endDamage * damageModificator.getMultiplicator();
                 }
             }
+            System.out.println("This hit was " +  (endDamage < damage ? "not " : "") + "effective");
         }
 
         // Make sure health is never < 0:
