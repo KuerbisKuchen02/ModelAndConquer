@@ -33,7 +33,7 @@ public class Game extends GenericElement {
 
     
 
-    public void gameLoop() {
+    public void gameLoop() throws InterruptedException {
     	System.out.println("\n" + AsciiArtPrinter.convertToAsciiArt(getName()));  
     	System.out.println(getDescription());
         help();  // Initially print help messages
@@ -50,11 +50,12 @@ public class Game extends GenericElement {
                 System.out.println(e.getMessage());
             }
 
-            if(inFight && wasATurn){
+            if(isRunning && inFight && wasATurn){
                 // while in a fight, monsters turn to hit
                 ArrayList<Monster> monsters = player.getPosition().getMonsters();
                 if(!monsters.isEmpty()){
                     for(Monster monster : monsters){
+                    	Thread.sleep(2000);
                         double dmg = player.takeDamage(monster.getDamage(), monster.getDamageType(), monster.getAccuracy());
                         if(dmg != -1){
                             applyEffect(monster.getOnDamage(), monster, player);
