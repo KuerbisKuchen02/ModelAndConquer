@@ -94,7 +94,7 @@ class GeneratorHandler extends AbstractHandler {
 			// Link all Generic Elements with their Reference Attributes
 			mapPlayerReferences();
 			mapAreasAndConnections();
-			mapEffectsOfItems();
+			mapEffects();
 			mapDamageTypeToDamageModificators();
 			
 			if (!checkGame()) {
@@ -129,8 +129,8 @@ class GeneratorHandler extends AbstractHandler {
 			«mapAreasAndConnections(game)»
 		}
 		
-		private void mapEffectsOfItems() {
-			«mapEffectsOfItems(game)»
+		private void mapEffects() {
+			«mapEffects(game)»
 		}
 		
 		private void mapDamageTypeToDamageModificators() {
@@ -354,13 +354,12 @@ class GeneratorHandler extends AbstractHandler {
 	
 	«IF player.inventory !== null»
 		// Set Inventory
-		items = new ArrayList<>();
 		«generateItems(player.inventory)»
 	«ENDIF»
 	
 	«IF player.damageModificators !== null»
 		// Set DamageModificator
-		«generateDamageModificator(player.damageModificators)»
+		«generateDamageModificators(player.damageModificators)»
 	«ENDIF»
 	
 	this.player = new Player("«player.name»", "«player.description»", «player.maxHealth», damageModificators, items, «player.evasion»);
@@ -379,7 +378,6 @@ class GeneratorHandler extends AbstractHandler {
 		«generateINonPlayerEntities(area.entities)»
 		
 		// Generate Items for «area.name»
-		items = new ArrayList<>();
 		«generateItems(area.items)»
 		
 		// Add Area «area.name» to list
@@ -401,7 +399,11 @@ class GeneratorHandler extends AbstractHandler {
 	def generateEffects(EList<Effect> effects)'''
 	// Generate Effects
 	Effect effect;
+	// Variables for Spawneffects
 	ArrayList<INonPlayerEntity> spawnEffectEntities;
+	ArrayList<Item> items;
+	ArrayList<DamageModificator> damageModificators;
+	// Variables for DamageModificatorEffect
 	DamageModificator damageModificator;
 	
 	«FOR Effect effect: effects»
@@ -411,8 +413,14 @@ class GeneratorHandler extends AbstractHandler {
 		«IF effect instanceof SpawnEffect»
 		spawnEffectEntities = new ArrayList<>();
 		«FOR INonPlayerEntity entity: (effect as SpawnEffect).entities»
-		«IF entity instanceof Entity»
-		spawnEffectEntities.add(findINonPlayerEntityByName("«entity.name»"));
+		«IF entity instanceof Monster»
+		«generateItems(entity.inventory)»
+		«generateDamageModificators(entity.damageModificators)»
+		spawnEffectEntities.add(new Monster("«entity.name»", "«entity.description»", «entity.maxHealth», damageModificators, items, «entity.damage», «entity.evasion», «entity.accuracy»));
+		«ELSEIF entity instanceof DestroyableObject»
+		«generateItems(entity.inventory)»
+		«generateDamageModificators(entity.damageModificators)»
+		spawnEffectEntities.add(new DestroyableObject("«entity.name»", "«entity.description»", «entity.maxHealth», damageModificators, items, «entity.evasion»));
 		«ENDIF»
 		«ENDFOR»
 		effect = new SpawnEffect("«effect.name»", "«effect.description»", «effect.probability», spawnEffectEntities);
@@ -434,18 +442,16 @@ class GeneratorHandler extends AbstractHandler {
 		«FOR INonPlayerEntity entity: entities»
 			«IF entity instanceof Monster»
 				// Generate Inventory of Monster «entity.name»
-				items = new ArrayList<Item>();
 				«generateItems(entity.inventory)»
 				// Generate DamageModificators of Monster «entity.name»
-				«generateDamageModificator(entity.damageModificators)»
+				«generateDamageModificators(entity.damageModificators)»
 				entity = new Monster("«entity.name»", "«entity.description»", «entity.maxHealth», damageModificators, items, «entity.damage», «entity.evasion», «entity.accuracy»);
 			«ENDIF»
 			«IF entity instanceof DestroyableObject»
 				// Generate Inventory of Destroyable Object «entity.name»
-				items = new ArrayList<Item>();
 				«generateItems(entity.inventory)»
 				// Generate DamageModificators of DestroyableObject «entity.name»
-				«generateDamageModificator(entity.damageModificators)»
+				«generateDamageModificators(entity.damageModificators)»
 				entity = new DestroyableObject("«entity.name»", "«entity.description»", «entity.maxHealth», damageModificators, items, «entity.evasion»);
 			«ENDIF»
 			entities.add((INonPlayerEntity) entity);
@@ -453,12 +459,13 @@ class GeneratorHandler extends AbstractHandler {
 	'''
 	
 	def generateItems(EList<Item> items)'''
+		items = new ArrayList<Item>();
 		«FOR Item item: items»
 			items.add(new Item("«item.name»", "«item.description»", «item.damage», «item.consumable», «item.accuracy»));
 		«ENDFOR»
 	'''
 	
-	def generateDamageModificator(EList<DamageModificator> damageModificators)'''
+	def generateDamageModificators(EList<DamageModificator> damageModificators)'''
 		damageModificators = new ArrayList<>();
 		«FOR DamageModificator damageModificator: damageModificators»
 			damageModificators.add(new DamageModificator("«damageModificator.name»", "«damageModificator.description»", «damageModificator.multiplikator»));
@@ -524,6 +531,20 @@ class GeneratorHandler extends AbstractHandler {
 	«IF effect instanceof DamageModificatorEffect»
 		damageModificator = findDamageModificatorByName("«effect.damageModificator.name»");
 		damageModificator.setDamageType(EDamageType.getDamageTypeByName("«effect.damageModificator.damageType.name»"));
+	«ELSEIF effect instanceof SpawnEffect»
+		«FOR INonPlayerEntity entity : effect.entities»
+			«IF entity instanceof Monster»
+				«FOR DamageModificator damageModificator: entity.damageModificators»
+					damageModificator = findDamageModificatorByName("«damageModificator.name»");
+					damageModificator.setDamageType(EDamageType.getDamageTypeByName("«damageModificator.damageType.name»"));
+				«ENDFOR»
+			«ELSEIF entity instanceof DestroyableObject»
+				«FOR DamageModificator damageModificator: entity.damageModificators»
+					damageModificator = findDamageModificatorByName("«damageModificator.name»");
+					damageModificator.setDamageType(EDamageType.getDamageTypeByName("«damageModificator.damageType.name»"));
+				«ENDFOR»
+			«ENDIF»
+		«ENDFOR»
 	«ENDIF»
 	«ENDFOR»
 	«FOR Area area : game.areas»
@@ -543,6 +564,7 @@ class GeneratorHandler extends AbstractHandler {
 	Connection connection;
 	Area areaFrom;
 	Area areaTo;
+	SpawnEffect spawnEffect;
 	
 	«FOR Connection connection: game.connections»
 	«IF connection.name === null || connection.name.isEmpty»
@@ -598,13 +620,24 @@ class GeneratorHandler extends AbstractHandler {
 	findAreaByName("«area.name»").setOnEnter(findEffectByName("«area.onEnterEffect.name»"));
 	«ENDIF»
 	«ENDFOR»
+	
+	// Set SpawnAreas in SpawnEffects
+	«FOR Effect effect: game.effects»
+		«IF effect instanceof SpawnEffect»
+			spawnEffect = (SpawnEffect) findEffectByName("«effect.name»");
+			spawnEffect.setArea(findAreaByName("«effect.area.name»"));
+		«ENDIF»
+	«ENDFOR»
 	'''
 
-	def mapEffectsOfItems(Game game)'''
+	def mapEffects(Game game)'''
 	Item item;
+	Monster monster;
 	Effect effect;
+	ArrayList<Effect> effectlist;
 	Area spawnEffectArea;
 	
+	// Set Effects and DamageType for Items
 	«FOR Item item: getAllItems(game)»
 	// Set Effects and DamageType for Item «item.name»
 	item = findItemByName("«item.name»");
@@ -612,6 +645,45 @@ class GeneratorHandler extends AbstractHandler {
 	«IF item.onPickupEffect !== null»item.setOnPickup(findEffectByName("«item.onPickupEffect.name»")); «ENDIF»
 	«IF item.onDropEffect !== null»item.setOnDrop(findEffectByName("«item.onDropEffect.name»")); «ENDIF»
 	«IF item.damageType !== null»item.setDamageType(EDamageType.getDamageTypeByName("«item.damageType.name»"));«ENDIF»
+	«ENDFOR»
+	
+	// Set initial effects of INonPlayerEntities
+	«FOR Area area: game.areas»
+		«FOR INonPlayerEntity entity: area.entities»
+			«IF entity instanceof Entity»
+				«IF entity.effects !== null && entity.effects.length != 0»
+					effectlist = new ArrayList<>();
+					«FOR Effect effect : entity.effects»
+					effectlist.add(findEffectByName("«effect.name»"));
+					«ENDFOR»
+					((Entity) findINonPlayerEntityByName("«entity.name»")).setEffects(effectlist);
+				«ENDIF»
+			«ENDIF»
+		«ENDFOR»
+	«ENDFOR»
+	
+	// Set Monster Specific Effects
+	«FOR Area area: game.areas»
+		«FOR INonPlayerEntity entity: area.entities»
+			«IF entity instanceof Monster»
+				monster = (Monster) findINonPlayerEntityByName("«entity.name»");
+				«IF entity.onHitEffect !== null»
+					«FOR Effect effect : entity.onHitEffect»
+						monster.setOnHit(findEffectByName("«effect.name»"));
+					«ENDFOR»
+				«ENDIF»
+				«IF entity.onDamageEffect !== null»
+					«FOR Effect effect : entity.onDamageEffect»
+						monster.setOnDamage(findEffectByName("«effect.name»"));
+					«ENDFOR»
+				«ENDIF»
+				«IF entity.onKillEffect !== null»
+					«FOR Effect effect : entity.onKillEffect»
+						monster.setOnKill(findEffectByName("«effect.name»"));
+					«ENDFOR»
+				«ENDIF»
+			«ENDIF»
+		«ENDFOR»
 	«ENDFOR»
 	
 	«FOR Effect effect: game.effects»
