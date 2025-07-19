@@ -52,10 +52,6 @@ public class DamageModificatorEffect extends Effect {
         }
 
         this.duration--;
-
-        if (this.duration == 0) {
-            getTarget().getDamageModificators().remove(damageModificator);
-        }
         
         return "Got " + (damageModificator.getMultiplicator() > 1 ? "resistance" : "weakness") + "for " + damageModificator.getDamageType() + " by " + this.getName();
     }

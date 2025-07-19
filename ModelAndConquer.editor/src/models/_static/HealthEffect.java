@@ -54,10 +54,6 @@ public class HealthEffect extends Effect {
         }
 
         this.duration--;
-
-        if (duration == 0) {
-            entityTarget.getEffects().remove(this);
-        }
         
         return ((Entity) this.target).getName() + " got " + (this.amount > 0 ? "healed" : "damaged") + 
         		" by " + this.amount + " HP because of " + this.getName() + "\n" +

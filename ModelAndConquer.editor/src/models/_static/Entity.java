@@ -66,6 +66,24 @@ public abstract class Entity extends GenericElement {
     }
 
     /**
+     * Deletes all effects from the active effects list when the duration is zero.
+     */
+    public void clearEffects() {
+    	ArrayList<Effect> toDelete = new ArrayList<>();
+    	for (Effect effect : this.effects) {
+    		if (effect instanceof HealthEffect) {
+    			if (((HealthEffect) effect).getDuration() == 0) toDelete.add(effect);
+    		} else if (effect instanceof DamageModificatorEffect) {
+    			if (((DamageModificatorEffect) effect).getDuration() == 0) toDelete.add(effect);
+    		}
+    	}
+    	
+    	for (Effect effect : toDelete) {
+    		this.effects.remove(effect);
+    	}
+    }
+    
+    /**
      * Whether the entity is destroyed / dead.
      * @return boolean whether entity is alive
      */

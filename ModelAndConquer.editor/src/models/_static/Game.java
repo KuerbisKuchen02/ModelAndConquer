@@ -74,22 +74,24 @@ public class Game extends GenericElement {
                     System.out.println("You have defeated all monsters in this area");
                     inFight = false;
                 }
-            }
-
-            // Apply Effect for the Player
-            for (Effect effect : player.getEffects()) {
-                // Only apply Effects which have a duration. Currently only HealthEffects
-                if (effect instanceof HealthEffect) effect.apply();
-                if (effect instanceof DamageModificatorEffect) effect.apply();
-            }
-
-            // Apply Effects for all Monsters in the area
-            for(Monster monster : player.getPosition().getMonsters()) {
-                for(Effect effect : monster.getEffects()) {
-                    // Only apply Effects which have a duration. Currently only HealthEffects
-                    if(effect instanceof HealthEffect) effect.apply();
-                    if (effect instanceof DamageModificatorEffect) effect.apply();
+                
+                // Apply Effect for the Player
+                for (Effect effect : player.getEffects()) {
+                    // Only apply Effects which have a duration. Currently only HealthEffects and DamageModificatorEffects
+                    if (effect instanceof HealthEffect) System.out.println(effect.apply());
+                    if (effect instanceof DamageModificatorEffect) System.out.println(effect.apply());
                 }
+                player.clearEffects();
+
+                // Apply Effects for all Monsters in the area
+                for(Monster monster : player.getPosition().getMonsters()) {
+                    for(Effect effect : monster.getEffects()) {
+                        // Only apply Effects which have a duration. Currently only HealthEffects
+                        if(effect instanceof HealthEffect) System.out.println(effect.apply());
+                        if (effect instanceof DamageModificatorEffect) System.out.println(effect.apply());
+                    }
+                    monster.clearEffects();
+                }    
             }
         }
     }
