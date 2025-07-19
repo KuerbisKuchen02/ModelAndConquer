@@ -219,6 +219,16 @@ class GeneratorHandler extends AbstractHandler {
 				}
 			}
 			
+			for (Effect effect : this.effects) {
+				if (effect instanceof SpawnEffect) {
+					for (INonPlayerEntity entity : ((SpawnEffect) effect).getNonPlayerEntities()) {
+						if (((Entity) entity).getName().equals(name)) {
+							return entity;
+						}
+					}
+				}
+			}
+			
 			return null;
 		}
 		
@@ -694,6 +704,31 @@ class GeneratorHandler extends AbstractHandler {
 				«ENDIF»
 			«ENDIF»
 		«ENDFOR»
+	«ENDFOR»
+	
+	«FOR Effect effect: game.effects»
+		«IF effect instanceof SpawnEffect»
+			«FOR INonPlayerEntity entity: effect.entities»
+				«IF entity instanceof Monster»
+					monster = (Monster) findINonPlayerEntityByName("«entity.name»");
+					«IF entity.onHitEffect !== null»
+						«FOR Effect monsterEffect : entity.onHitEffect»
+							monster.setOnHit(findEffectByName("«monsterEffect.name»"));
+						«ENDFOR»
+					«ENDIF»
+					«IF entity.onDamageEffect !== null»
+						«FOR Effect monsterEffect : entity.onDamageEffect»
+							monster.setOnDamage(findEffectByName("«monsterEffect.name»"));
+						«ENDFOR»
+					«ENDIF»
+					«IF entity.onKillEffect !== null»
+						«FOR Effect monsterEffect : entity.onKillEffect»
+							monster.setOnKill(findEffectByName("«monsterEffect.name»"));
+						«ENDFOR»
+					«ENDIF»
+				«ENDIF»
+			«ENDFOR»
+		«ENDIF»
 	«ENDFOR»
 	
 	«FOR Effect effect: game.effects»
