@@ -187,6 +187,16 @@ class GeneratorHandler extends AbstractHandler {
 					if (((DamageModificatorEffect) effect).getDamageModificator().getName().equals(name)) {
 						return ((DamageModificatorEffect) effect).getDamageModificator();
 					}
+				} else if (effect instanceof SpawnEffect) {
+					for (INonPlayerEntity entity : ((SpawnEffect) effect).getNonPlayerEntities()) {
+						if (entity instanceof Entity) {
+							for (DamageModificator damageModificator : ((Entity) entity).getDamageModificators()) {
+								if (damageModificator.getName().equals(name)) {
+									return damageModificator;
+								}
+							}
+						}
+					}
 				}
 			}
 					

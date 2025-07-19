@@ -18,7 +18,6 @@ public class Connection extends GenericElement {
             return false;
         }
         else{
-            if (onTraverse != null) onTraverse.apply();
             return true;
         }
     }

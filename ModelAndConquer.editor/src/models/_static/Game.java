@@ -126,7 +126,7 @@ public class Game extends GenericElement {
         	return;
         }
         if(connection.tryTraverse()) {
-            applyEffect(connection.getOnTraverse(), player, connection);
+            applyEffect(connection.getOnTraverse(), connection, player);
         	Area newArea = connection.getAreaA() == player.getPosition() ?
                             connection.getAreaB() : connection.getAreaA();
             player.setPosition(newArea);
