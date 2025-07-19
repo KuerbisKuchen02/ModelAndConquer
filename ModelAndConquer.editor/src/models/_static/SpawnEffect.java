@@ -17,13 +17,14 @@ public class SpawnEffect extends Effect {
 
     @Override
     public String apply() {
-    	String msg = "\n**********************************************************\n" + "Spawned:\n";
+    	String msg = "\n**********************************************************\n\n" + "Spawned:\n";
         for (INonPlayerEntity entity : nonPlayerEntities) {
         	msg += entity + " ";
             area.addEntity(entity);
         }
         
         msg += "because of " + this.getName();
+        msg += "\n\n**********************************************************\n";
         return msg;
     }
 
