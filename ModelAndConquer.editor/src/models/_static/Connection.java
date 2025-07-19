@@ -14,7 +14,7 @@ public class Connection extends GenericElement {
 
     public boolean tryTraverse() {
         if (isLocked) {
-            System.out.println("You have to unlock this passage with: " + unlockedWith.toShortString());
+            System.out.println("\nYou have to unlock this passage with: " + unlockedWith.toShortString());
             return false;
         }
         else{
@@ -24,11 +24,11 @@ public class Connection extends GenericElement {
 
     public void tryUnlock(Item item) {
         if (item.equals(unlockedWith)) {
-            System.out.println("Unlocked with " + unlockedWith.toShortString());
+            System.out.println("\nUnlocked with " + unlockedWith.toShortString());
             isLocked = false;
         }
         else{
-            System.out.println("Wrong item, you need to use " + unlockedWith.toShortString());
+            System.out.println("\nWrong item, you need to use " + unlockedWith.toShortString());
         }
     }
 

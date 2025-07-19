@@ -59,7 +59,7 @@ public class Game extends GenericElement {
                         double dmg = player.takeDamage(monster.getDamage(), monster.getDamageType(), monster.getAccuracy());
                         if(dmg != -1){
                             applyEffect(monster.getOnDamage(), monster, player);
-                            System.out.println("You got hit by " + monster.getName() + " for " + dmg);
+                            System.out.println("\nYou got hit by " + monster.getName() + " for " + dmg + "\n");
                         }
 
                         if (player.getHealth() <= 0) {
@@ -72,7 +72,7 @@ public class Game extends GenericElement {
                     System.out.println(fightHealthBars(player, monsters));
                 }
                 else{
-                    System.out.println("You have defeated all monsters in this area");
+                    System.out.println("You have defeated all monsters in this area.\n");
                     inFight = false;
                 }
                 
@@ -113,19 +113,19 @@ public class Game extends GenericElement {
      */
     public void move(String directionString) {
         if (inFight){
-            System.out.println("You cannot move while you are in a fight!");
+            System.out.println("\nYou cannot move while you are in a fight!\n");
             return;
         }
 
         EDirection direction = getDirection(directionString);
         if (direction == null) {
-            System.out.println("You need to enter a valid direction!");
+            System.out.println("\nYou need to enter a valid direction!\n");
             Logger.warn(TAG, "Direction " + directionString + " not found!");
             return;
         }
         Connection connection = player.getPosition().getConnections()[direction.getValue()];
         if (connection == null) {
-        	System.out.println("You cannot go there...");
+        	System.out.println("\nYou cannot go there...\n");
         	return;
         }
         if(connection.tryTraverse()) {
@@ -134,7 +134,10 @@ public class Game extends GenericElement {
                             connection.getAreaB() : connection.getAreaA();
             player.setPosition(newArea);
         	newArea.setVisited(true);
+        	System.out.println("\n**********************************************************\n");
         	System.out.println("You have entered the area: " + newArea.getNameAndDescription());
+        	System.out.println("\n**********************************************************\n");
+
             if (newArea.getOnEnter() != null) {
                 applyEffect(newArea.getOnEnter(), player, newArea);
             }
@@ -150,18 +153,19 @@ public class Game extends GenericElement {
         Entity entity = getEntityInArea(entityString);
         Item item = itemString.isEmpty() ? new Item("Hand", "", 1.0, false, 1) : getItemFromInventory(itemString);
         if (item == null) {
-            System.out.println("You need to enter a valid item!");
+            System.out.println("\nYou need to enter a valid item!\n");
             Logger.warn(TAG, "Item " + itemString + " not found!");
             return;
         } else if (entity == null) {
-            System.out.println("You need to enter a valid entity!");
+            System.out.println("\nYou need to enter a valid entity!\n");
             Logger.warn(TAG, "Entity " +  entityString + " not found!");
             return;
         }
 
         double dmg = entity.takeDamage(item.getDamage(), item.getDamageType(), item.getAccuracy());
         if(dmg != -1) {
-        	System.out.println("You hit " + entity.getName() + " for " + dmg);
+        	System.out.println("\n**********************************************************\n");
+        	System.out.println("You hit " + entity.getName() + " for " + dmg + "\n");
         	
         	// Apply Effect from the used Item
             applyEffect(item.getOnUse(), player, entity);
@@ -177,7 +181,7 @@ public class Game extends GenericElement {
         
         if (!entity.hasHealthLeft()) {
             // Apply OnDeathEffect if the entity is a monster
-        	System.out.println(entity.getName() + " has been defeated.");
+        	System.out.println(entity.getName() + " has been defeated.\n");
             if (entity instanceof Monster) {
                 applyEffect(((Monster) entity).getOnKill(), player, entity);
             }
@@ -186,8 +190,9 @@ public class Game extends GenericElement {
             if (!entity.getInventory().isEmpty()) {
                 System.out.println(entity.getName() + " dropped the following items:");
                 for (Item droppedItem : entity.getInventory()) {
-                    System.out.println("\t" + droppedItem.toShortString());
+                    System.out.println("\t- " + droppedItem.toShortString());
                 }
+            	System.out.println("**********************************************************\n");
             }
 
             entity.dropItems(player.getPosition());
@@ -212,11 +217,11 @@ public class Game extends GenericElement {
         }
         Item item = getItemFromInventory(itemString);
         if (item == null) {
-            System.out.println("You need to enter a valid item!");
+            System.out.println("\nYou need to enter a valid item!\n");
             Logger.warn(TAG, "Item " + itemString + " not found!");
             return;
         } else if (element == null) {
-            System.out.println("You need to enter a valid element!");
+            System.out.println("\nYou need to enter a valid element!\n");
             Logger.warn(TAG, "Element " + genericElementString + " not found!");
             return;
         }
@@ -276,7 +281,7 @@ public class Game extends GenericElement {
         if (!player.isInInventory(item)) {
             player.getInventory().add(item);
             player.getPosition().removeItem(item);
-            System.out.println("Picked up " + item.getName() + ".");
+            System.out.println("\nPicked up " + item.getName() + ".\n");
         } else {
             throw new IllegalArgumentException("The Player already has this item");
         }
@@ -353,7 +358,7 @@ public class Game extends GenericElement {
                 System.out.println(genericElement);
             }
         } else {
-            System.out.println("There is nothing to inspect which has this name.");
+            System.out.println("\nThere is nothing to inspect which has this name.\n");
         }
     }
 
@@ -389,6 +394,7 @@ public class Game extends GenericElement {
                 }
             }
             case EndGameEffect a -> {
+            	System.out.println();
                 System.out.println(AsciiArtPrinter.convertToAsciiArt("Victory!"));
                 isRunning = false;
                 return;

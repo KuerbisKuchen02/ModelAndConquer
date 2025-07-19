@@ -40,7 +40,7 @@ public class GameParser {
             case "unlock" -> unlock(rest);
             case "help", "h"  -> help();
             case "Schokokuchen" -> schokoKuchen();
-            default -> System.out.println("This command does not exist!");
+            default -> System.out.println("\nThis command does not exist!\n");
         }
     }
 
@@ -72,7 +72,7 @@ public class GameParser {
         else if (parameters.length == 2) {
         	game.attack(parameters[0], parameters[1]);
         } else {
-        	throw new IllegalArgumentException("Attacking requires exactly one entity and optionally one item to attack");
+        	throw new IllegalArgumentException("\nAttacking requires exactly one entity and optionally one item to attack\n");
                  
         }
         
@@ -80,7 +80,7 @@ public class GameParser {
 
     private void take(String input){
         if (input.isEmpty()) {
-            throw new IllegalArgumentException("Taking Items must specify exactly one item to take");
+            throw new IllegalArgumentException("\nTaking Items must specify exactly one item to take\n");
         }
         game.pickUp(input);
     }
@@ -97,7 +97,7 @@ public class GameParser {
 
     private void drop(String input) {
         if (input.isEmpty()) {
-            throw new IllegalArgumentException("Dropping Items must specify exactly one item to drop");
+            throw new IllegalArgumentException("\nDropping Items must specify exactly one item to drop.\n");
         }
         game.drop(input);
     }
@@ -119,7 +119,7 @@ public class GameParser {
         String[] parameters = getNames(input);
 
         if (parameters.length != 2) {
-            throw new IllegalArgumentException("Unlocking requires exactly one item and one Connection");
+            throw new IllegalArgumentException("\nUnlocking requires exactly one item and one Connection.\n");
         }
         game.use(parameters[1], parameters[0]);
     }

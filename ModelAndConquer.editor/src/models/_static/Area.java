@@ -149,7 +149,7 @@ public class Area extends GenericElement {
     public String presentItems(){
         StringBuilder itemsString = new StringBuilder();
         for (Item item : items){
-            itemsString.append("\t").append(item.toShortString()).append("\n");
+            itemsString.append("\t- ").append(item.toShortString()).append("\n");
         }
         return itemsString.toString();
     }
@@ -185,7 +185,7 @@ public class Area extends GenericElement {
                 " .'     `.            ⣇⠈⠉⡿⢿⠉⠁⣸             |\\         \\\n" +
                 dynamicLine +
                 "  `.._..'              ⠀ ⡏⠉⢹                \\ | Objects |\n" +
-                "                                             \\|__________|\n";
+                "                                             \\|__________|\n\n";
     }
 
     /**
@@ -262,7 +262,7 @@ public class Area extends GenericElement {
     @Override
     public String toString(){
         if (visited) {
-            String roomSpecification = "==========================================================\n"
+            String roomSpecification = "**********************************************************\n\n"
                     + "> You are in " + getName() + "\n\n";
 
             roomSpecification += getDescription() + "\n\n";
@@ -282,9 +282,8 @@ public class Area extends GenericElement {
             }
 
             roomSpecification += "> Adjacent Areas: \n" + presentAdjacentAreas();
-            roomSpecification += "----------------------------------------------------------";
-            roomSpecification += "\nmap: \n" + mapString(4);
-            roomSpecification += "==========================================================";
+            roomSpecification += "\n> Map: \n" + mapString(4);
+            roomSpecification += "\n**********************************************************\n";
             return roomSpecification;
         } else {
             return "You have not visited this Area.";

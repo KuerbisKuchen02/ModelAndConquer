@@ -85,13 +85,13 @@ public class Item extends GenericElement {
 
     @Override
     public String toString() {
-        return "==========================================================\n"
+        return "\n**********************************************************\n\n"
                 + "> " + super.toString() + "\n"
                 + (isConsumable ? "> This item is consumable\n" : "")
                 + "> Damage: " + damage + "\n"
                 + (damageType != null ? ("> Damage type: " + damageType + "\n") : "")
                 + (onUse != null ? "> When used: " + onUse + "\n" : "")
-                + "==========================================================";
+                + "\n**********************************************************\n";
     }
 
     public String toShortString() {

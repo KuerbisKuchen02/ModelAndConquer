@@ -29,8 +29,8 @@ public class Player extends Entity implements IHealable {
 
     @Override
     public String toString() {
-        StringBuilder entityDescription = new StringBuilder("==========================================================\n"
-                + healthBarString(true) + "\n");
+        StringBuilder entityDescription = new StringBuilder("\n**********************************************************\n\n"
+                + healthBarString(true) + "\n\n");
 
         ArrayList<Item> inventory = getInventory();
 
@@ -64,7 +64,7 @@ public class Player extends Entity implements IHealable {
 
         entityDescription
                 .append("\n> You are in the ").append(position.getName())
-                .append("\n==========================================================");
+                .append("\n\n**********************************************************\n");
 
         return entityDescription.toString();
     }

@@ -39,12 +39,12 @@ public abstract class Entity extends GenericElement {
         Random rand = new Random();
         double randChance = rand.nextDouble();
         if(randChance > hitProbability){
-            System.out.println("Hit on " + getName() + " missed");
+            System.out.println("\nHit on " + getName() + " missed");
             return -1;
         }
 
         if (randChance > (1-evasionChance) * hitProbability) {
-            System.out.println(getName() + " dodged the hit");
+            System.out.println("\n" + getName() + " dodged the hit");
             return -1;
         }
 
@@ -56,7 +56,8 @@ public abstract class Entity extends GenericElement {
                     endDamage = endDamage * damageModificator.getMultiplicator();
                 }
             }
-            System.out.println("This hit was " +  (endDamage < damage ? "not " : "") + "effective");
+            System.out.println("\n**********************************************************");
+            System.out.println("\nThis hit was " +  (endDamage < damage ? "not " : "") + "effective");
         }
 
         // Make sure health is never < 0:
@@ -164,11 +165,10 @@ public abstract class Entity extends GenericElement {
 
     @Override
     public String toString() {
-        StringBuilder entityDescription    = new StringBuilder("==========================================================\n"
-                + healthBarString(true) + "\n");
+        StringBuilder entityDescription    = new StringBuilder("\n" + healthBarString(true) + "\n");
 
         if (!damageModificators.isEmpty()) {
-            entityDescription.append("> Damage multipliers:\n");
+            entityDescription.append("\n> Damage multipliers:\n");
             for(DamageModificator dm : damageModificators){
                 entityDescription
                         .append("\t")
@@ -178,13 +178,13 @@ public abstract class Entity extends GenericElement {
                         .append("\n");
             }
         }
+        
+        System.out.println();
 
         if (!effects.isEmpty()) {
             entityDescription.append("> Current Effects:\n");
             for(Effect e : effects) entityDescription.append("\t").append(e.toString()).append("\n");
         }
-
-        entityDescription.append("==========================================================");
         return entityDescription.toString();
     }
 }

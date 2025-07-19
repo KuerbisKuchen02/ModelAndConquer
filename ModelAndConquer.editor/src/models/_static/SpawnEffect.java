@@ -17,7 +17,7 @@ public class SpawnEffect extends Effect {
 
     @Override
     public String apply() {
-    	String msg = "Spawned ";
+    	String msg = "\n**********************************************************\n" + "Spawned:\n";
         for (INonPlayerEntity entity : nonPlayerEntities) {
         	msg += entity + " ";
             area.addEntity(entity);
