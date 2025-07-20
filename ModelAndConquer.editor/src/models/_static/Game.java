@@ -4,6 +4,7 @@ import compiler.GameParser;
 import models.generated.DungeonFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,10 +24,12 @@ public class Game extends GenericElement {
     }
 
     public static void main(String[] args) {
+        Logger.init();
         try {
             new DungeonFactory().generate().gameLoop();
         } catch (Exception e) {
             System.out.println("Game could not be started because of an error while generating: " + e.getMessage());
+            Logger.error(TAG, Arrays.toString(e.getStackTrace()));
         }
 
     }
@@ -48,6 +51,7 @@ public class Game extends GenericElement {
                 parser.parse(s);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                Logger.error(TAG, Arrays.toString(e.getStackTrace()));
             }
 
             if(isRunning && inFight && wasATurn){
@@ -92,7 +96,7 @@ public class Game extends GenericElement {
                         if (effect instanceof DamageModificatorEffect) System.out.println(effect.apply());
                     }
                     monster.clearEffects();
-                }    
+                }
             }
         }
     }
@@ -112,7 +116,9 @@ public class Game extends GenericElement {
      * @param directionString The direction to move to.
      */
     public void move(String directionString) {
+        Logger.debug(TAG, "Player tries to move to direction: " + directionString);
         if (inFight){
+            Logger.info(TAG, "Player tried to move while in a fight!");
             System.out.println("\nYou cannot move while you are in a fight!\n");
             return;
         }
@@ -126,6 +132,7 @@ public class Game extends GenericElement {
         Connection connection = player.getPosition().getConnections()[direction.getValue()];
         if (connection == null) {
         	System.out.println("\nYou cannot go there...\n");
+            Logger.warn(TAG, "Connection in direction " + direction + " not found!");
         	return;
         }
         if(connection.tryTraverse()) {
@@ -150,8 +157,10 @@ public class Game extends GenericElement {
      * @param itemString used item to attack
      */
     public void attack(String entityString, String itemString) {
+        Logger.debug(TAG, "Player tries to attack entity: " + entityString + " with item: " + itemString);
         Entity entity = getEntityInArea(entityString);
         Item item = itemString.isEmpty() ? new Item("Hand", "", 1.0, false, 1) : getItemFromInventory(itemString);
+        Logger.debug(TAG, "Entity: " + entity + ", Item: " + item);
         if (item == null) {
             System.out.println("\nYou need to enter a valid item!\n");
             Logger.warn(TAG, "Item " + itemString + " not found!");
@@ -206,6 +215,7 @@ public class Game extends GenericElement {
     }
 
     public void use(String itemString, String genericElementString) {
+        Logger.debug(TAG, "Player tries to use item: " + itemString + " on element: " + genericElementString);
         GenericElement element;
         if (genericElementString == null
                 || genericElementString.isEmpty()
@@ -229,7 +239,6 @@ public class Game extends GenericElement {
         if (!player.isInInventory(item)) {
             throw new IllegalArgumentException("You can't use an item that is not in your inventory");
         }
-
         switch(element) {
             case Connection connection:
                 connection.tryUnlock(item);
@@ -238,6 +247,7 @@ public class Game extends GenericElement {
                 applyEffect(item.getOnUse(), player, element);
                 break;
             default:
+                Logger.warn(TAG, "Element " + element.getName() + " is not usable with an item");
                 throw new IllegalStateException("How did you get here");
         }
 
@@ -252,16 +262,21 @@ public class Game extends GenericElement {
      */
     public void help() {
         System.out.println(
-        		"\n**********************************************************\n\n"
-				+ "You are able to do the following actions:\n"
-                + " - walk | go | walk (north | south | west | east | up | down)\n"
-                + " - hit | attack <Monster> [with <Item>]\n"
-                + " - use <Item> [on <Monster | Connection>]\n"
-                + " - take <Item>\n"
-                + " - drop <Item>\n"
-                + " - inspect, look area | player | item\n"
-                + " - unlock <Connection> with <Item>\n\n"
-                + "**********************************************************\n"
+                """
+                        
+                        **********************************************************
+                        
+                        You are able to do the following actions:
+                         - walk | go | move (north | south | west | east | up | down)
+                         - hit | attack <Monster> [with <Item>]
+                         - use <Item> [on <Monster | Connection>]
+                         - take <Item>
+                         - drop <Item>
+                         - inspect, look area | player | item
+                         - unlock <Connection> with <Item>
+                        
+                        **********************************************************
+                        """
         );
     }
 
@@ -271,6 +286,7 @@ public class Game extends GenericElement {
      * @param itemString The item to pickup
      */
     public void pickUp(String itemString) {
+        Logger.debug(TAG, "Player tries to pick up item: " + itemString);
         Item item = getItemFromArea(itemString);
         if (item == null) {
             System.out.println("You need to enter an item which is inside the current room!");
@@ -298,6 +314,7 @@ public class Game extends GenericElement {
      * @param itemString The item to drop
      */
     public void drop(String itemString) {
+        Logger.debug(TAG, "Player tries to drop item: " + itemString);
         Item item = getItemFromInventory(itemString);
         if (item == null) {
             System.out.println("You need to enter an item which is inside your inventory!");
@@ -330,6 +347,7 @@ public class Game extends GenericElement {
      * @param element The element to inspect.
      */
     public void inspect(String element) {
+        Logger.debug(TAG, "Player tries to inspect element: " + element);
         switch (element) {
             case "area", "room", "location", "place":
                 System.out.println(player.getPosition());
@@ -363,7 +381,10 @@ public class Game extends GenericElement {
     }
 
     public void applyEffect(Effect effect, GenericElement self, GenericElement other) throws RuntimeException {
-    	if(effect == null) return;
+        if (effect == null) {
+            return;
+        }
+    	Logger.debug(TAG, "Applying effect: " + effect.getName() + " to " + other.getName() + " from " + self.getName());
         switch (effect) {
             case HealthEffect healthEffect -> {
                 GenericElement target = healthEffect.isOnSelf() ? self : other;
