@@ -80,22 +80,22 @@ public class Game extends GenericElement {
                     inFight = false;
                 }
                 
+                player.clearEffects();
                 // Apply Effect for the Player
                 for (Effect effect : player.getEffects()) {
                     // Only apply Effects which have a duration. Currently only HealthEffects and DamageModificatorEffects
                     if (effect instanceof HealthEffect) System.out.println(effect.apply());
                     if (effect instanceof DamageModificatorEffect) System.out.println(effect.apply());
                 }
-                player.clearEffects();
 
                 // Apply Effects for all Monsters in the area
                 for(Monster monster : player.getPosition().getMonsters()) {
+                    monster.clearEffects();
                     for(Effect effect : monster.getEffects()) {
                         // Only apply Effects which have a duration. Currently only HealthEffects
                         if(effect instanceof HealthEffect) System.out.println(effect.apply());
                         if (effect instanceof DamageModificatorEffect) System.out.println(effect.apply());
                     }
-                    monster.clearEffects();
                 }
             }
         }
