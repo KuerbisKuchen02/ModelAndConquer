@@ -43,7 +43,7 @@ public abstract class Entity extends GenericElement {
             return -1;
         }
 
-        if (randChance > (1-evasionChance) * hitProbability) {
+        if (randChance < evasionChance) {
             System.out.println("\n" + getName() + " dodged the hit");
             return -1;
         }
@@ -81,6 +81,19 @@ public abstract class Entity extends GenericElement {
     	
     	for (Effect effect : toDelete) {
     		this.effects.remove(effect);
+            if (effect instanceof DamageModificatorEffect damageModificatorEffect) {
+                DamageModificator modificator = damageModificatorEffect.getDamageModificator();
+                boolean removeModificator = true;
+                for (Effect e : this.effects) {
+                    if (e instanceof DamageModificatorEffect dmgModE && dmgModE.getDamageModificator().equals(modificator)) {
+                        removeModificator = false;
+                        break;
+                    }
+                }
+                if (removeModificator) {
+                    this.damageModificators.remove(modificator);
+                }
+            }
     	}
     }
     

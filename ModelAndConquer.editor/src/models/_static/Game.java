@@ -79,7 +79,9 @@ public class Game extends GenericElement {
                     System.out.println("You have defeated all monsters in this area.\n");
                     inFight = false;
                 }
-                
+            }
+            // Apply Effects after the Player's turn
+            if (wasATurn) {
                 player.clearEffects();
                 // Apply Effect for the Player
                 for (Effect effect : player.getEffects()) {
@@ -148,6 +150,7 @@ public class Game extends GenericElement {
             if (newArea.getOnEnter() != null) {
                 applyEffect(newArea.getOnEnter(), player, newArea);
             }
+            wasATurn = true;
         }
     }
 
