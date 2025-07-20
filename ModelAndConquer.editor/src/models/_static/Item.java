@@ -77,6 +77,7 @@ public class Item extends GenericElement {
         if (!(o instanceof Item item)) return false;
         return Double.compare(damage, item.damage) == 0
                 && isConsumable == item.isConsumable
+                && Objects.equals(getName(), item.getName())
                 && Objects.equals(onDrop, item.onDrop)
                 && Objects.equals(onUse, item.onUse)
                 && Objects.equals(onPickup, item.onPickup)
