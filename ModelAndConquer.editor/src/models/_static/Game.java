@@ -31,10 +31,8 @@ public class Game extends GenericElement {
             System.out.println("Game could not be started because of an error while generating: " + e.getMessage());
             Logger.error(TAG, Arrays.toString(e.getStackTrace()));
         }
-
     }
 
-    
 
     public void gameLoop() throws InterruptedException {
     	System.out.println("\n" + AsciiArtPrinter.convertToAsciiArt(getName()));  
@@ -73,7 +71,7 @@ public class Game extends GenericElement {
                             return;
                         }
                     }
-                    System.out.println(fightHealthBars(player, monsters));
+                    System.out.println(fightHealthBars(monsters));
                 }
                 else{
                     System.out.println("You have defeated all monsters in this area.\n");
@@ -104,7 +102,12 @@ public class Game extends GenericElement {
     }
 
 
-    private String fightHealthBars(Player player, ArrayList<Monster> monsters){
+    /**
+     * String to display health bars during fight
+     * @param monsters List of monsters to display
+     * @return String containing players health bar left aligned and monster health bars right aligned
+     */
+    private String fightHealthBars(ArrayList<Monster> monsters){
         StringBuilder ret = new StringBuilder(player.healthBarString(true));
         for(Monster monster : monsters){
             ret.append("\n").append(monster.healthBarString(false));
@@ -186,11 +189,10 @@ public class Game extends GenericElement {
             if (entity instanceof Monster monster) {
                 if(!inFight) inFight = true;
                 applyEffect(monster.getOnHit(), monster, player);
-                System.out.println(fightHealthBars(player, player.getPosition().getMonsters()));
+                System.out.println(fightHealthBars(player.getPosition().getMonsters()));
             }
         }
-        
-        
+
         if (!entity.hasHealthLeft()) {
             // Apply OnDeathEffect if the entity is a monster
         	System.out.println(entity.getName() + " has been defeated.\n");
@@ -459,7 +461,6 @@ public class Game extends GenericElement {
         }
         return null;
     }
-
 
     private Item getItemFromArea(String item) {
         for (Item i : player.getPosition().getItems()) {
