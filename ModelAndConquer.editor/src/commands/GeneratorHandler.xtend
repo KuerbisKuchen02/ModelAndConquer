@@ -94,7 +94,7 @@ class GeneratorHandler extends AbstractHandler {
 			// Link all Generic Elements with their Reference Attributes
 			mapPlayerReferences();
 			mapAreasAndConnections();
-			mapEffects();
+			mapEffectsAndDamageTypes();
 			mapDamageTypeToDamageModificators();
 			
 			if (!checkGame()) {
@@ -129,8 +129,8 @@ class GeneratorHandler extends AbstractHandler {
 			«mapAreasAndConnections(game)»
 		}
 		
-		private void mapEffects() {
-			«mapEffects(game)»
+		private void mapEffectsAndDamageTypes() {
+			«mapEffectsAndDamageTypes(game)»
 		}
 		
 		private void mapDamageTypeToDamageModificators() {
@@ -650,7 +650,7 @@ class GeneratorHandler extends AbstractHandler {
 	«ENDFOR»
 	'''
 
-	def mapEffects(Game game)'''
+	def mapEffectsAndDamageTypes(Game game)'''
 	Item item;
 	Monster monster;
 	Effect effect;
@@ -682,7 +682,7 @@ class GeneratorHandler extends AbstractHandler {
 		«ENDFOR»
 	«ENDFOR»
 	
-	// Set Monster Specific Effects
+	// Set Monster Specific Effects and DamageType
 	«FOR Area area: game.areas»
 		«FOR INonPlayerEntity entity: area.entities»
 			«IF entity instanceof Monster»
@@ -701,6 +701,9 @@ class GeneratorHandler extends AbstractHandler {
 					«FOR Effect effect : entity.onKillEffect»
 						monster.setOnKill(findEffectByName("«effect.name»"));
 					«ENDFOR»
+				«ENDIF»
+				«IF entity.damageType !== null»
+					monster.setDamageType(EDamageType.getDamageTypeByName("«entity.damageType.name»"));
 				«ENDIF»
 			«ENDIF»
 		«ENDFOR»
