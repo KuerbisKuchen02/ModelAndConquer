@@ -57,7 +57,7 @@ public abstract class Entity extends GenericElement {
                 }
             }
             System.out.println("\n**********************************************************");
-            System.out.println("\nThis hit was " +  (endDamage < damage ? "not " : "") + "effective");
+            if(endDamage != damage) System.out.println("\nThis hit was " +  (endDamage < damage ? "not " : "") + "effective");
         }
 
         // Make sure health is never < 0:
